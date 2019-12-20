@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="da06e321abc646eab909bdabd93eb94b" Name="Diagram1">
+        <EntityTypeShape EntityType="Taller_SysModel.Articulo" Width="1.5" PointX="6" PointY="12.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="Taller_SysModel.Caso" Width="1.5" PointX="3" PointY="7.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="Taller_SysModel.CasoDetalle" Width="1.5" PointX="8.25" PointY="7.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="Taller_SysModel.Categoria" Width="1.5" PointX="3.75" PointY="11.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="Taller_SysModel.Cliente" Width="1.5" PointX="0.75" PointY="7.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="Taller_SysModel.Cliente_Empresa" Width="1.5" PointX="6" PointY="8" IsExpanded="true" />
+        <EntityTypeShape EntityType="Taller_SysModel.Contacto" Width="1.5" PointX="3.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="Taller_SysModel.Empresa" Width="1.5" PointX="3.75" PointY="17.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="Taller_SysModel.Estado" Width="1.5" PointX="1.5" PointY="11.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="Taller_SysModel.EstadoCaso" Width="1.5" PointX="6" PointY="5" IsExpanded="true" />
+        <EntityTypeShape EntityType="Taller_SysModel.Factura" Width="1.5" PointX="3" PointY="3.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="Taller_SysModel.Factura_Detalle" Width="1.5" PointX="10.5" PointY="6" IsExpanded="true" />
+        <EntityTypeShape EntityType="Taller_SysModel.InventarioRepuesto" Width="1.5" PointX="8.25" PointY="16.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="Taller_SysModel.Marca" Width="1.5" PointX="3.75" PointY="14.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="Taller_SysModel.Modulo" Width="1.5" PointX="4.25" PointY="20.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="Taller_SysModel.Operacion" Width="1.5" PointX="6.5" PointY="20.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="Taller_SysModel.ProveedorRepuesto" Width="1.5" PointX="6" PointY="17.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="Taller_SysModel.RepuestoUsado" Width="1.5" PointX="10.5" PointY="10.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="Taller_SysModel.Rol" Width="1.5" PointX="1.5" PointY="13.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="Taller_SysModel.Rol_Operacion" Width="1.5" PointX="8.75" PointY="13.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="Taller_SysModel.sysdiagrams" Width="1.5" PointX="8.75" PointY="2.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="Taller_SysModel.Usuario" Width="1.5" PointX="0.75" PointY="2.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="Taller_SysModel.View_Caso" Width="1.5" PointX="10.75" PointY="13.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="Taller_SysModel.View_Repuesto" Width="1.5" PointX="10.75" PointY="2.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="Taller_SysModel.View_Usuario" Width="1.5" PointX="12.75" PointY="2.375" IsExpanded="true" />
+        <AssociationConnector Association="Taller_SysModel.FK_ARTICULO_CATEGORIA" ManuallyRouted="false" />
+        <AssociationConnector Association="Taller_SysModel.FK_ARTICULO_MARCA" ManuallyRouted="false" />
+        <AssociationConnector Association="Taller_SysModel.FK_CASOREDETALLE_ARTICULO" ManuallyRouted="false" />
+        <AssociationConnector Association="Taller_SysModel.FK_CASO_CLIENTE" ManuallyRouted="false" />
+        <AssociationConnector Association="Taller_SysModel.FK_CASO_USUARIO" ManuallyRouted="false" />
+        <AssociationConnector Association="Taller_SysModel.FK_CASOREDETALLE_CASO" ManuallyRouted="false" />
+        <AssociationConnector Association="Taller_SysModel.FK_CASOREDETALLE_ESTADOCASO" ManuallyRouted="false" />
+        <AssociationConnector Association="Taller_SysModel.FK_FACTURA_DEATALLE_CASO" ManuallyRouted="false" />
+        <AssociationConnector Association="Taller_SysModel.FK_REPUESTO_CASO_DETALLE" ManuallyRouted="false" />
+        <AssociationConnector Association="Taller_SysModel.FK_CLIENTE_EMP_CLIENTE" ManuallyRouted="false" />
+        <AssociationConnector Association="Taller_SysModel.FK_FACTURA_CLIENTE" ManuallyRouted="false" />
+        <AssociationConnector Association="Taller_SysModel.FK_CLIENTE_EMP_CONTACTO" ManuallyRouted="false" />
+        <AssociationConnector Association="Taller_SysModel.FK_CLIENTE_EMP_EMPRESA" ManuallyRouted="false" />
+        <AssociationConnector Association="Taller_SysModel.FK_USUARIO_ESTADO" ManuallyRouted="false" />
+        <AssociationConnector Association="Taller_SysModel.FK_FACTURA_DEATALLE_FACTURA" ManuallyRouted="false" />
+        <AssociationConnector Association="Taller_SysModel.FK_FACTURA_USUARIO" ManuallyRouted="false" />
+        <AssociationConnector Association="Taller_SysModel.FK_PROVEEDOR_REPUESTO" ManuallyRouted="false" />
+        <AssociationConnector Association="Taller_SysModel.FK_REPUESTOUSADO_INVENTARIO" ManuallyRouted="false" />
+        <AssociationConnector Association="Taller_SysModel.FK_OPERACION_MODULO" ManuallyRouted="false" />
+        <AssociationConnector Association="Taller_SysModel.FK_ROL_OP_OPERACION" ManuallyRouted="false" />
+        <AssociationConnector Association="Taller_SysModel.FK_ROL_OP_ROL" ManuallyRouted="false" />
+        <AssociationConnector Association="Taller_SysModel.FK_USUARIO_ROL" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>
