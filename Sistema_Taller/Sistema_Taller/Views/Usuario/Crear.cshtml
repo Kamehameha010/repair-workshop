@@ -1,0 +1,92 @@
+﻿@model Sistema_Taller.Models.ViewModels.UsuarioViewModel
+@{
+    ViewBag.Title = "Crear";
+    IEnumerable<SelectListItem> estados = (IEnumerable<SelectListItem>)ViewBag.estados;
+    IEnumerable<SelectListItem> roles = (IEnumerable<SelectListItem>)ViewBag.Roles;
+}
+
+<h2>@ViewBag.Title</h2>
+
+@using (Html.BeginForm("Crear", "Usuario", FormMethod.Post))
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    <div class="row">
+        <div class="container">
+
+            <div class="row">
+                <div class="col-md-12">
+                    <br />
+                    @Html.LabelFor(d => d.nombre)
+                    @Html.LabelFor(d => d.apellidos)
+
+                    <div class="row">
+                        @Html.EditorFor(d => d.nombre, "", new { @class = "control-form" })
+                        @Html.ValidationMessageFor(d => d.nombre, "", new { @class = "text-danger" })
+                        @Html.EditorFor(d => d.apellidos, "", new { @class = "control-form" })
+                        @Html.ValidationMessageFor(d => d.apellidos, "", new { @class = "text-danger" })
+                    </div>
+
+
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <br />
+                    @Html.LabelFor(d => d.cedula)
+                    @Html.LabelFor(d => d.telefono)
+                    <div class="row">
+                        @Html.EditorFor(d => d.cedula, "", new { @class = "control-form" })
+                        @Html.ValidationMessageFor(d => d.cedula, "", new { @class = "text-danger" })
+                        @Html.EditorFor(d => d.telefono, "", new { @class = "control-form" })
+                        @Html.ValidationMessageFor(d => d.telefono, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <br />
+                    @Html.LabelFor(d => d.correo)
+                    <div class="row">
+                        @Html.EditorFor(d => d.correo, "", new { @class = "control-form" })
+                        @Html.ValidationMessageFor(d => d.correo, "", new { @class = "text-danger" })
+
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <br />
+                    @Html.LabelFor(d => d.username)
+                    @Html.LabelFor(d => d.contrasena)
+                    <div class="row">
+                        @Html.EditorFor(d => d.username, "", new { @class = "control-form" })
+                        @Html.ValidationMessageFor(d => d.username, "", new { @class = "text-danger" })
+                        @Html.PasswordFor(d => d.contrasena, new { @class = "control-form" })
+                        @Html.ValidationMessageFor(d => d.contrasena, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    @Html.LabelFor(d => d.idEstado)
+                    @Html.LabelFor(d => d.idRol)
+                    <div class="row">
+                        @Html.DropDownList("estados", estados, "Selecciona una opcion", new { @class = "control-form" })
+                        @Html.ValidationMessageFor(d => d.idEstado, "", new { @class = "text-danger" })
+                        @Html.DropDownList("roles", roles, "Selecciona una opcion", new { @class = "control-form" })
+                        @Html.ValidationMessageFor(d => d.idRol, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <input value="Guardar" type="submit" class="btn btn-primary" />
+    </div>
+
+    @section Scripts {
+        @Scripts.Render("~/bundles/jqueryval")
+    }
+}
+
+

@@ -1,0 +1,53 @@
+﻿
+@model List<Sistema_Taller.Models.View_Usuario>
+@{
+    ViewBag.Title = "Lista de Usuarios";
+}
+
+<h2>@ViewBag.Title</h2>
+
+
+<div class="row" style="text-align:right; padding:5px;">
+
+    <a class="btn btn-primary" href="~/Usuario/Crear">Crear</a>
+
+</div>
+<div class="row">
+    <div class="col-md-12">
+
+        <table class="table">
+            <tr >
+                <th>#</th>
+                <th>Nombre</th>
+                <th>Apellidos</th>
+                <th>Cédula</th>
+                <th>Teléfono</th>
+                <th>Correo</th>
+                <th>Usuario</th>
+                <th>Rol</th>
+                <th>Estado</th>
+            </tr>
+            @foreach(var oUsuario in Model)
+            {
+        <tr>
+            <td>@oUsuario.id</td>
+            <td>@oUsuario.nombre</td>
+            <td>@oUsuario.apellidos</td>
+            <td>@oUsuario.cedula</td>
+            <td>@oUsuario.telefono</td>
+            <td>@oUsuario.correo</td>
+            <td>@oUsuario.Usuario</td>
+            <td>@oUsuario.Rol</td>
+            <td>@oUsuario.Estado</td>
+
+        </tr>
+            }
+        </table>
+
+    </div>
+
+
+</div>
+
+
+

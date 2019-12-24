@@ -3,8 +3,9 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Sistema_Taller.Models.ViewModels
 {
-    public class Usuario
+    public class UsuarioViewModel
     {
+        public int idUsuario { get; set; }
         [Display(Name = "Nombre")]
         [Required]
         [StringLength(50)]
@@ -21,7 +22,7 @@ namespace Sistema_Taller.Models.ViewModels
         [DisplayFormat(DataFormatString = "{0:####-####}")]
         [StringLength(20)]
         public string telefono { get; set; }
-
+        [Display(Name ="Correo")]
         [EmailAddress]
         [StringLength(50)]
         public string correo { get; set; }
