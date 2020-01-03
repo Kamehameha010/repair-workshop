@@ -84,7 +84,7 @@
           <Property Name="nombre" Type="varchar" MaxLength="50" />
           <Property Name="cedJuridica" Type="varchar" MaxLength="30" />
           <Property Name="direccion" Type="varchar" MaxLength="150" />
-          <Property Name="telefono" Type="varchar" MaxLength="12" />
+          <Property Name="telefono" Type="varchar" MaxLength="20" />
         </EntityType>
         <EntityType Name="Estado">
           <Key>
@@ -164,7 +164,7 @@
           </Key>
           <Property Name="idProveedor" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="nombre" Type="varchar" MaxLength="50" />
-          <Property Name="telefono" Type="varchar" MaxLength="12" />
+          <Property Name="telefono" Type="varchar" MaxLength="20" />
           <Property Name="direccion" Type="varchar" MaxLength="100" />
         </EntityType>
         <EntityType Name="RepuestoUsado">
@@ -191,16 +191,6 @@
           <Property Name="idRol" Type="int" />
           <Property Name="idOperacion" Type="int" />
         </EntityType>
-        <EntityType Name="sysdiagrams">
-          <Key>
-            <PropertyRef Name="diagram_id" />
-          </Key>
-          <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
-          <Property Name="principal_id" Type="int" Nullable="false" />
-          <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="version" Type="int" />
-          <Property Name="definition" Type="varbinary(max)" />
-        </EntityType>
         <EntityType Name="Usuario">
           <Key>
             <PropertyRef Name="idUsuario" />
@@ -208,8 +198,8 @@
           <Property Name="idUsuario" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="nombre" Type="varchar" MaxLength="50" />
           <Property Name="apellidos" Type="varchar" MaxLength="50" />
-          <Property Name="cedula" Type="int" />
-          <Property Name="telefono" Type="varchar" MaxLength="10" />
+          <Property Name="cedula" Type="int" Nullable="false" />
+          <Property Name="telefono" Type="varchar" MaxLength="20" />
           <Property Name="correo" Type="varchar" MaxLength="50" />
           <Property Name="username" Type="varchar" MaxLength="30" />
           <Property Name="contrasena" Type="varchar" MaxLength="50" />
@@ -242,7 +232,7 @@ advertencia 6013: La tabla o vista 'Taller_Sys.dbo.View_Cliente' no tiene defini
           <Property Name="apellidos" Type="varchar" MaxLength="50" />
           <Property Name="telefono" Type="varchar" MaxLength="20" />
           <Property Name="empresa" Type="varchar" MaxLength="50" />
-          <Property Name="Tel_Empresa" Type="varchar" MaxLength="12" />
+          <Property Name="Tel_Empresa" Type="varchar" MaxLength="20" />
           <Property Name="contacto" Type="varchar" MaxLength="50" />
           <Property Name="Tel_Contacto" Type="varchar" MaxLength="12" />
         </EntityType>-->
@@ -264,12 +254,13 @@ advertencia 6002: La tabla o vista 'Taller_Sys.dbo.View_Usuario' no tiene defini
         <EntityType Name="View_Usuario">
           <Key>
             <PropertyRef Name="id" />
+            <PropertyRef Name="cedula" />
           </Key>
           <Property Name="id" Type="int" Nullable="false" />
           <Property Name="nombre" Type="varchar" MaxLength="50" />
           <Property Name="apellidos" Type="varchar" MaxLength="50" />
-          <Property Name="cedula" Type="int" />
-          <Property Name="telefono" Type="varchar" MaxLength="10" />
+          <Property Name="cedula" Type="int" Nullable="false" />
+          <Property Name="telefono" Type="varchar" MaxLength="20" />
           <Property Name="correo" Type="varchar" MaxLength="50" />
           <Property Name="Usuario" Type="varchar" MaxLength="30" />
           <Property Name="Rol" Type="varchar" MaxLength="30" />
@@ -560,7 +551,6 @@ advertencia 6002: La tabla o vista 'Taller_Sys.dbo.View_Usuario' no tiene defini
           <EntitySet Name="RepuestoUsado" EntityType="Self.RepuestoUsado" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Rol" EntityType="Self.Rol" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Rol_Operacion" EntityType="Self.Rol_Operacion" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Usuario" EntityType="Self.Usuario" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="View_Caso" EntityType="Self.View_Caso" store:Type="Views" store:Schema="dbo">
             <DefiningQuery>SELECT 
@@ -793,7 +783,7 @@ advertencia 6002: La tabla o vista 'Taller_Sys.dbo.View_Usuario' no tiene defini
           <Property Name="nombre" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="cedJuridica" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
           <Property Name="direccion" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
-          <Property Name="telefono" Type="String" MaxLength="12" FixedLength="false" Unicode="false" />
+          <Property Name="telefono" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="Cliente_Empresa" Relationship="Self.FK_CLIENTE_EMP_EMPRESA" FromRole="Empresa" ToRole="Cliente_Empresa" />
         </EntityType>
         <EntityType Name="Estado">
@@ -887,7 +877,7 @@ advertencia 6002: La tabla o vista 'Taller_Sys.dbo.View_Usuario' no tiene defini
           </Key>
           <Property Name="idProveedor" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="nombre" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="telefono" Type="String" MaxLength="12" FixedLength="false" Unicode="false" />
+          <Property Name="telefono" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
           <Property Name="direccion" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="InventarioRepuesto" Relationship="Self.FK_PROVEEDOR_REPUESTO" FromRole="ProveedorRepuesto" ToRole="InventarioRepuesto" />
         </EntityType>
@@ -921,16 +911,6 @@ advertencia 6002: La tabla o vista 'Taller_Sys.dbo.View_Usuario' no tiene defini
           <NavigationProperty Name="Operacion" Relationship="Self.FK_ROL_OP_OPERACION" FromRole="Rol_Operacion" ToRole="Operacion" />
           <NavigationProperty Name="Rol" Relationship="Self.FK_ROL_OP_ROL" FromRole="Rol_Operacion" ToRole="Rol" />
         </EntityType>
-        <EntityType Name="sysdiagrams">
-          <Key>
-            <PropertyRef Name="diagram_id" />
-          </Key>
-          <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="principal_id" Type="Int32" Nullable="false" />
-          <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="version" Type="Int32" />
-          <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
-        </EntityType>
         <EntityType Name="Usuario">
           <Key>
             <PropertyRef Name="idUsuario" />
@@ -938,8 +918,8 @@ advertencia 6002: La tabla o vista 'Taller_Sys.dbo.View_Usuario' no tiene defini
           <Property Name="idUsuario" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="nombre" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="apellidos" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="cedula" Type="Int32" />
-          <Property Name="telefono" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="cedula" Type="Int32" Nullable="false" />
+          <Property Name="telefono" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
           <Property Name="correo" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="username" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
           <Property Name="contrasena" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
@@ -981,12 +961,13 @@ advertencia 6002: La tabla o vista 'Taller_Sys.dbo.View_Usuario' no tiene defini
         <EntityType Name="View_Usuario">
           <Key>
             <PropertyRef Name="id" />
+            <PropertyRef Name="cedula" />
           </Key>
           <Property Name="id" Type="Int32" Nullable="false" />
           <Property Name="nombre" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="apellidos" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="cedula" Type="Int32" />
-          <Property Name="telefono" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="cedula" Type="Int32" Nullable="false" />
+          <Property Name="telefono" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
           <Property Name="correo" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="Usuario" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
           <Property Name="Rol" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
@@ -1277,7 +1258,6 @@ advertencia 6002: La tabla o vista 'Taller_Sys.dbo.View_Usuario' no tiene defini
           <EntitySet Name="RepuestoUsado" EntityType="Self.RepuestoUsado" />
           <EntitySet Name="Rol" EntityType="Self.Rol" />
           <EntitySet Name="Rol_Operacion" EntityType="Self.Rol_Operacion" />
-          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" />
           <EntitySet Name="Usuario" EntityType="Self.Usuario" />
           <EntitySet Name="View_Caso" EntityType="Self.View_Caso" />
           <EntitySet Name="View_Repuesto" EntityType="Self.View_Repuesto" />
@@ -1580,17 +1560,6 @@ advertencia 6002: La tabla o vista 'Taller_Sys.dbo.View_Usuario' no tiene defini
                 <ScalarProperty Name="idRol_Ope" ColumnName="idRol_Ope" />
                 <ScalarProperty Name="idRol" ColumnName="idRol" />
                 <ScalarProperty Name="idOperacion" ColumnName="idOperacion" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="sysdiagrams">
-            <EntityTypeMapping TypeName="Taller_SysModel.sysdiagrams">
-              <MappingFragment StoreEntitySet="sysdiagrams">
-                <ScalarProperty Name="name" ColumnName="name" />
-                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
-                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
-                <ScalarProperty Name="version" ColumnName="version" />
-                <ScalarProperty Name="definition" ColumnName="definition" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

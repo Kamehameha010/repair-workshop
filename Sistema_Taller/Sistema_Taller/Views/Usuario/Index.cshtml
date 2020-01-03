@@ -2,6 +2,7 @@
 @model List<Sistema_Taller.Models.View_Usuario>
 @{
     ViewBag.Title = "Lista de Usuarios";
+    int fila = 1;
 }
 
 <h2>@ViewBag.Title</h2>
@@ -10,13 +11,24 @@
 <div class="row" style="text-align:right; padding:5px;">
 
     <a class="btn btn-primary" href="~/Usuario/Crear">Crear</a>
-
+    <a class=" btn btn-default" onmouseover="botones()" onmouseout="ocultar()" onclick=" alert('@Url.Content("~/Usuario/Eliminar/?id")')" />g<a></a>
+    <div id="js"></div>
+    <div id="js1"></div>
 </div>
-<div class="row">
+@if (ViewBag.sms != null)
+{
     <div class="col-md-12">
+        <div class="alert-success">
+            <label>@ViewBag.sms</label>
+        </div>
+    </div>
+}
+
+<div class="row">
+    <div class="table-responsive">
 
         <table class="table">
-            <tr >
+            <tr>
                 <th>#</th>
                 <th>Nombre</th>
                 <th>Apellidos</th>
@@ -26,28 +38,85 @@
                 <th>Usuario</th>
                 <th>Rol</th>
                 <th>Estado</th>
+                <th>Editar</th>
+                <th>Eliminar</th>
             </tr>
-            @foreach(var oUsuario in Model)
+            @foreach (var oUsuario in Model)
             {
-        <tr>
-            <td>@oUsuario.id</td>
-            <td>@oUsuario.nombre</td>
-            <td>@oUsuario.apellidos</td>
-            <td>@oUsuario.cedula</td>
-            <td>@oUsuario.telefono</td>
-            <td>@oUsuario.correo</td>
-            <td>@oUsuario.Usuario</td>
-            <td>@oUsuario.Rol</td>
-            <td>@oUsuario.Estado</td>
+                <tr>
+                    <td>@fila</td>
+                    <td>@oUsuario.nombre</td>
+                    <td>@oUsuario.apellidos</td>
+                    <td>@oUsuario.cedula</td>
+                    <td>@oUsuario.telefono</td>
+                    <td>@oUsuario.correo</td>
+                    <td>@oUsuario.Usuario</td>
+                    <td>@oUsuario.Rol</td>
+                    <td>@oUsuario.Estado</td>
+                    <td><input type="button" class="btn btn-success" value="Editar" onclick="document.location.href='@Url.Content("~/Usuario/Editar/?id="+oUsuario.id)'" /></td>
+                    <td><input type="button" class="btn btn-danger" value="Eliminar" onclick="document.location.href= " \"@Url.Content("\""~ /Usuario/Eliminar/?id =\")" /></td>
+                </tr>
+                fila = fila + 1;
 
-        </tr>
             }
         </table>
 
     </div>
 
-
+    <input type="button" value="t" id="btn_clock" />
 </div>
 
+@section Scripts {
+    
+
+
+    <script type="text/javascript">
+       
+        function Eliminar(id) {
+            fetch('@Url.Content("~/Usuario/Eliminar")', {
+                method: "Post",
+                body: JSON.stringify({
+                    id: id
+                }), headers: {
+                    "Accept": "application/json",
+                    "Content-Type":"application/json"
+                }
+            }).then(response => {
+                if (response.ok)
+                    return response.text()
+                else
+                    alert("Ha ocurrido un error.Intente más tarde.")
+            }).then(data => {
+                if (data = ! "1")
+                    alert("Error al intentar eliminar registro.")
+                else {
+                    alert("Registro Eliminado ecitosamente.")
+                }
+
+            })
+        }
+
+
+        document.getElementById("btn_clock").onclick = (() => { prueba()})
+
+function prueba() {
+    var l = location.href;
+    var url = l + "/editar/";
+    alert(url)
+    fetch(url, {
+        headers: { "Content-Type": "application/json" }
+    }).then(response => {
+        if (response.ok)
+            return response.json()
+        else
+            alert("error")
+    }).then(data => {
+        console.log(data)
+    })
+
+}
+
+    </script>
+}
 
 

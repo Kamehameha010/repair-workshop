@@ -45,7 +45,6 @@ namespace Sistema_Taller.Models
         public virtual DbSet<RepuestoUsado> RepuestoUsado { get; set; }
         public virtual DbSet<Rol> Rol { get; set; }
         public virtual DbSet<Rol_Operacion> Rol_Operacion { get; set; }
-        public virtual DbSet<sysdiagrams> sysdiagrams { get; set; }
         public virtual DbSet<Usuario> Usuario { get; set; }
         public virtual DbSet<View_Caso> View_Caso { get; set; }
         public virtual DbSet<View_Repuesto> View_Repuesto { get; set; }

@@ -1,8 +1,7 @@
 ﻿@model Sistema_Taller.Models.ViewModels.UsuarioViewModel
 @{
     ViewBag.Title = "Crear";
-    IEnumerable<SelectListItem> estados = (IEnumerable<SelectListItem>)ViewBag.estados;
-    IEnumerable<SelectListItem> roles = (IEnumerable<SelectListItem>)ViewBag.Roles;
+
 }
 
 <h2>@ViewBag.Title</h2>
@@ -21,6 +20,8 @@
                     @Html.LabelFor(d => d.apellidos)
 
                     <div class="row">
+
+
                         @Html.EditorFor(d => d.nombre, "", new { @class = "control-form" })
                         @Html.ValidationMessageFor(d => d.nombre, "", new { @class = "text-danger" })
                         @Html.EditorFor(d => d.apellidos, "", new { @class = "control-form" })
@@ -38,6 +39,7 @@
                     <div class="row">
                         @Html.EditorFor(d => d.cedula, "", new { @class = "control-form" })
                         @Html.ValidationMessageFor(d => d.cedula, "", new { @class = "text-danger" })
+                        <span style="color:red" id="cedula-existe">*</span>
                         @Html.EditorFor(d => d.telefono, "", new { @class = "control-form" })
                         @Html.ValidationMessageFor(d => d.telefono, "", new { @class = "text-danger" })
                     </div>
@@ -59,12 +61,13 @@
                     <br />
                     @Html.LabelFor(d => d.username)
                     @Html.LabelFor(d => d.contrasena)
-                    <div class="row">
-                        @Html.EditorFor(d => d.username, "", new { @class = "control-form" })
-                        @Html.ValidationMessageFor(d => d.username, "", new { @class = "text-danger" })
-                        @Html.PasswordFor(d => d.contrasena, new { @class = "control-form" })
-                        @Html.ValidationMessageFor(d => d.contrasena, "", new { @class = "text-danger" })
-                    </div>
+                <div class="row">
+                    @Html.EditorFor(d => d.username, "", new { @class = "control-form" })
+                    @Html.ValidationMessageFor(d => d.username, "", new { @class = "text-danger" })
+                    <span style="color:red" id="usuario-existe">*</span>
+                    @Html.PasswordFor(d => d.contrasena, new { @class = "control-form" })
+                    @Html.ValidationMessageFor(d => d.contrasena, "", new { @class = "text-danger" })
+                </div>
                 </div>
             </div>
             <div class="row">
@@ -72,21 +75,26 @@
                     @Html.LabelFor(d => d.idEstado)
                     @Html.LabelFor(d => d.idRol)
                     <div class="row">
-                        @Html.DropDownList("estados", estados, "Selecciona una opcion", new { @class = "control-form" })
+                        @Html.DropDownListFor(x => x.idEstado, ViewBag.estados as IEnumerable<SelectListItem>, "Selecciona una opcion", new { @class = "control-form" })
                         @Html.ValidationMessageFor(d => d.idEstado, "", new { @class = "text-danger" })
-                        @Html.DropDownList("roles", roles, "Selecciona una opcion", new { @class = "control-form" })
+                        @Html.DropDownListFor(x => x.idRol, ViewBag.roles as IEnumerable<SelectListItem>, "Selecciona una opcion", new { @class = "control-form" })
                         @Html.ValidationMessageFor(d => d.idRol, "", new { @class = "text-danger" })
                     </div>
                 </div>
             </div>
         </div>
 
-        <input value="Guardar" type="submit" class="btn btn-primary" />
+        <input value="Guardar" type="submit" class="btn success btn-success" />
+        @Html.TextBoxFor(d => d.cedula, new { id = "prueba", @onkeyup = "imprimir(this.value)" })
+
+        <input type="text" value="12" id="tres" />
+        <input type="button" value="click" onclick="" />
+
+
     </div>
 
-    @section Scripts {
-        @Scripts.Render("~/bundles/jqueryval")
-    }
 }
-
-
+@section Scripts {
+    @Scripts.Render("~/bundles/jsPrueba")
+    @Scripts.Render("~/bundles/jqueryval")
+}

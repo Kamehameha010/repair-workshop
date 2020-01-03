@@ -24,7 +24,7 @@ namespace Sistema_Taller.Models
         public int idUsuario { get; set; }
         public string nombre { get; set; }
         public string apellidos { get; set; }
-        public Nullable<int> cedula { get; set; }
+        public int cedula { get; set; }
         public string telefono { get; set; }
         public string correo { get; set; }
         public string username { get; set; }

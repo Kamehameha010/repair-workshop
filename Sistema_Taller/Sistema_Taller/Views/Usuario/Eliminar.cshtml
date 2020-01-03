@@ -1,0 +1,71 @@
+﻿@model Sistema_Taller.Models.ViewModels.UsuarioViewModel
+@{
+    ViewBag.Title = "Eliminar";
+}
+
+<h2>Eliminar</h2>
+
+<div class="row">
+    <dl class="dl-horizontal">
+        @Html.HiddenFor(m => m.idUsuario)
+        <dt>@Html.DisplayNameFor(m => m.nombre)</dt>
+        <dd>@Html.DisplayFor(m => m.nombre)</dd>
+
+        <dt>@Html.DisplayNameFor(m => m.apellidos)</dt>
+        <dd>@Html.DisplayFor(m => m.apellidos)</dd>
+
+        <dt>@Html.DisplayNameFor(m => m.cedula)</dt>
+        <dd>@Html.DisplayFor(m => m.cedula)</dd>
+
+        <dt>@Html.DisplayNameFor(m => m.telefono)</dt>
+        <dd>@Html.DisplayFor(m => m.telefono)</dd>
+
+        <dt>@Html.DisplayNameFor(m => m.correo)</dt>
+        <dd>@Html.DisplayFor(m => m.correo)</dd>
+
+        <dt>@Html.DisplayNameFor(m => m.username)</dt>
+        <dd>@Html.DisplayFor(m => m.username)</dd>
+
+        <dt>@Html.DisplayNameFor(m => m.idRol)</dt>
+        <dd>@Html.DisplayFor(m => m.idRol)</dd>
+
+
+
+    </dl>
+
+</div>
+
+@Html.AntiForgeryToken()
+<input type="submit" value="Eliminar" onclick="" class="btn btn-danger"/>
+
+
+@section Scripts {
+    <script type="text/javascript">
+
+        function jsEliminar(id) {
+            fetch('@Url.Content("~/Usuario/ConfirmarEliminar")', {
+                method: "Post",
+                body: JSON.stringify({
+                    id: id
+                }), headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                }
+            }).then(response => {
+                if (response.ok)
+                    return response.text()
+                else
+                    throw new Error
+            }).then(data => {
+                if (data != '1') {
+                    alert("No se ha podido eliminar elemento")
+                } else {
+                    document.location.href = '@Url.Content("~/Usuario/")';
+                }
+            }).catch(Error => {
+                alert("Ha ocurrido un error")
+            })
+        }
+
+    </script>
+}
