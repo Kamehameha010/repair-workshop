@@ -6,13 +6,11 @@
 
 <h2>@ViewBag.Title</h2>
 
-@using (Html.BeginForm("Crear", "Usuario", FormMethod.Post))
-{
-    @Html.AntiForgeryToken()
-    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+<form id="create-form">
+    
     <div class="row">
         <div class="container">
-
+            @Html.AntiForgeryToken()
             <div class="row">
                 <div class="col-md-12">
                     <br />
@@ -22,10 +20,10 @@
                     <div class="row">
 
 
-                        @Html.EditorFor(d => d.nombre, "", new { @class = "control-form" })
-                        @Html.ValidationMessageFor(d => d.nombre, "", new { @class = "text-danger" })
-                        @Html.EditorFor(d => d.apellidos, "", new { @class = "control-form" })
-                        @Html.ValidationMessageFor(d => d.apellidos, "", new { @class = "text-danger" })
+                        @Html.EditorFor(d => d.nombre, "", new { @class = "control-form" , id ="nombre"})
+                        
+                        @Html.EditorFor(d => d.apellidos, "", new { @class = "control-form" ,id ="apellidos"})
+     
                     </div>
 
 
@@ -37,11 +35,11 @@
                     @Html.LabelFor(d => d.cedula)
                     @Html.LabelFor(d => d.telefono)
                     <div class="row">
-                        @Html.EditorFor(d => d.cedula, "", new { @class = "control-form" })
-                        @Html.ValidationMessageFor(d => d.cedula, "", new { @class = "text-danger" })
+                        @Html.EditorFor(d => d.cedula, "", new { @class = "control-form", id="cedula" })
+                        
                         <span style="color:red" id="cedula-existe">*</span>
-                        @Html.EditorFor(d => d.telefono, "", new { @class = "control-form" })
-                        @Html.ValidationMessageFor(d => d.telefono, "", new { @class = "text-danger" })
+                        @Html.EditorFor(d => d.telefono, "", new { @class = "control-form", id="telefono" })
+
                     </div>
                 </div>
             </div>
@@ -50,8 +48,8 @@
                     <br />
                     @Html.LabelFor(d => d.correo)
                     <div class="row">
-                        @Html.EditorFor(d => d.correo, "", new { @class = "control-form" })
-                        @Html.ValidationMessageFor(d => d.correo, "", new { @class = "text-danger" })
+                        @Html.EditorFor(d => d.correo, "", new { @class = "control-form", id="correo" })
+                       
 
                     </div>
                 </div>
@@ -62,11 +60,11 @@
                     @Html.LabelFor(d => d.username)
                     @Html.LabelFor(d => d.contrasena)
                 <div class="row">
-                    @Html.EditorFor(d => d.username, "", new { @class = "control-form" })
-                    @Html.ValidationMessageFor(d => d.username, "", new { @class = "text-danger" })
+                    @Html.EditorFor(d => d.username, "", new { @class = "control-form", id ="username" })
+                  
                     <span style="color:red" id="usuario-existe">*</span>
-                    @Html.PasswordFor(d => d.contrasena, new { @class = "control-form" })
-                    @Html.ValidationMessageFor(d => d.contrasena, "", new { @class = "text-danger" })
+                    @Html.PasswordFor(d => d.contrasena, new { @class = "control-form", id ="contrasena" })
+                   
                 </div>
                 </div>
             </div>
@@ -75,26 +73,63 @@
                     @Html.LabelFor(d => d.idEstado)
                     @Html.LabelFor(d => d.idRol)
                     <div class="row">
-                        @Html.DropDownListFor(x => x.idEstado, ViewBag.estados as IEnumerable<SelectListItem>, "Selecciona una opcion", new { @class = "control-form" })
-                        @Html.ValidationMessageFor(d => d.idEstado, "", new { @class = "text-danger" })
-                        @Html.DropDownListFor(x => x.idRol, ViewBag.roles as IEnumerable<SelectListItem>, "Selecciona una opcion", new { @class = "control-form" })
-                        @Html.ValidationMessageFor(d => d.idRol, "", new { @class = "text-danger" })
+                        @Html.DropDownListFor(x => x.idEstado, ViewBag.estados as IEnumerable<SelectListItem>, "Selecciona una opcion", new { @class = "control-form", id ="idEstado" })
+                       
+                        @Html.DropDownListFor(x => x.idRol, ViewBag.roles as IEnumerable<SelectListItem>, "Selecciona una opcion", new { @class = "control-form", id="idRol" })
+                        
                     </div>
                 </div>
             </div>
         </div>
 
-        <input value="Guardar" type="submit" class="btn success btn-success" />
-        @Html.TextBoxFor(d => d.cedula, new { id = "prueba", @onkeyup = "imprimir(this.value)" })
+        <input value="Guardar" type="button" onclick="enviar()" />
 
-        <input type="text" value="12" id="tres" />
-        <input type="button" value="click" onclick="" />
-
-
+        <input type="button" value="valores" onclick="correr()" />
     </div>
-
-}
-@section Scripts {
+</form>
+@section Scripts { 
+    
     @Scripts.Render("~/bundles/jsPrueba")
-    @Scripts.Render("~/bundles/jqueryval")
+
+    <script>
+
+function send() {
+    var p = {
+        nombre: document.getElementById("nombre").value,
+        apellidos: document.getElementById("apellidos").value,
+        cedula: document.getElementById("cedula").value,
+        telefono: document.getElementById("telefono").value,
+        correo: document.getElementById("correo").value,
+        username: document.getElementById("username").value,
+        contrasena: document.getElementById("contrasena").value,
+        idRol: document.getElementById("idRol").value,
+        idEstado: document.getElementById("idEstado").value
+    }
+
+   
+    let url ="/Usuario/Crear" 
+    fetch(url, {
+        method: 'POST',
+        body: JSON.stringify(p),
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+        }
+    }).then((response) => {
+        if (response.ok) {
+            return response.json()
+        } else {
+            alert(Error)
+        }
+    }).then((data) => {
+        if (data != "1") {
+            alert("Error")
+        } else {     
+            document.location.href = "/Usuario/";
+        }
+    }).catch(Error => {
+        alert(Error)
+    })
+}
+    </script>
 }

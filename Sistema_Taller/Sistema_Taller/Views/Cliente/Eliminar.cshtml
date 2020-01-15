@@ -1,0 +1,68 @@
+﻿
+@model Sistema_Taller.Models.ViewModels.ClienteViewModel
+@{
+    ViewBag.Title = "Eliminar";
+}
+
+<h2>Eliminar</h2>
+
+<div class="row">
+    <dl class="dl-horizontal">
+        <dt>@Html.DisplayNameFor(m => m.Nombre)</dt>
+        <dd>@Html.DisplayFor(m => m.Nombre)</dd>
+        <dt>@Html.DisplayNameFor(m => m.Apellidos)</dt>
+        <dd>@Html.DisplayFor(m => m.Apellidos)</dd>
+        <dt>@Html.DisplayNameFor(m => m.Cedula)</dt>
+        <dd>@Html.DisplayFor(m => m.Cedula)</dd>
+        <dt>@Html.DisplayNameFor(m => m.Telefono)</dt>
+        <dd>@Html.DisplayFor(m => m.Telefono)</dd>
+        <dt>@Html.DisplayNameFor(m => m.Correo)</dt>
+        <dd>@Html.DisplayFor(m => m.Correo)</dd>
+
+    </dl>
+
+    @using (Html.BeginForm())
+    {
+        @Html.HiddenFor(m => m.IdCliente, new { id="id"})
+
+        <input type="button" value="Eliminar" onclick="borrar()" />
+    }
+
+
+</div>
+
+
+@section Scripts {
+    <script type="text/javascript">
+        function borrar() {
+            let url = "/Cliente/Borrar"
+            let dato = {
+                id: document.getElementById("id").value
+            }
+
+            fetch(url, {
+                method: 'POST',
+                body: JSON.stringify(dato),
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                }
+            }).then(response => {
+                if (response.ok)
+                    return response.json()
+                else
+                    throw new Error("Ha ocurrido un error");
+
+            }).then(data => {
+                if (data != "1")
+                    alert("No se pudo eliminar registro")
+                else
+                    document.location.href = "/Cliente/";
+            }).catch(error => {
+                alert(error)
+            })
+
+        }
+
+    </script>
+}

@@ -1,0 +1,95 @@
+﻿@model Sistema_Taller.Models.ViewModels.ClienteViewModel
+@{
+    ViewBag.Title = "Editar";
+}
+
+<h2>Editar</h2>
+
+
+<div class="row">
+
+    @using (Html.BeginForm())
+    {
+        
+        @Html.ValidationSummary()
+        <div class="row">
+            @Html.HiddenFor(m => m.IdCliente, new { id = "IdCliente" })
+            @Html.LabelFor(m => m.Nombre)
+            @Html.EditorFor(m => m.Nombre, "", new { @class = "form-cotrol", id = "Nombre" })
+            @Html.ValidationMessageFor(m => m.Nombre, "", new { @class = "text-danger" })
+        </div>
+        <div class="row">
+            @Html.LabelFor(m => m.Apellidos)
+            @Html.EditorFor(m => m.Apellidos, "", new { @class = "form-cotrol", id = "Apellidos" })
+            @Html.ValidationMessageFor(m => m.Apellidos, "", new { @class = "text-danger" })
+        </div>
+        <div class="row">
+            @Html.LabelFor(m => m.Cedula)
+            @Html.EditorFor(m => m.Cedula, "", new { @class = "form-cotrol", id = "Cedula" })
+            @Html.ValidationMessageFor(m => m.Cedula, "", new { @class = "text-danger" })
+        </div>
+        <div class="row">
+            @Html.LabelFor(m => m.Telefono)
+            @Html.EditorFor(m => m.Telefono, "", new { @class = "form-cotrol", id = "Telefono" })
+            @Html.ValidationMessageFor(m => m.Telefono, "", new { @class = "text-danger", id = "Telefono" })
+        </div>
+        <div class="row">
+            @Html.LabelFor(m => m.Correo)
+            @Html.EditorFor(m => m.Correo, "", new { @class = "form-cotrol", id = "Correo" })
+            @Html.ValidationMessageFor(m => m.Correo, "", new { @class = "text-danger" })
+        </div>
+
+        <div class="form-group">
+            <input type="button" value="Guardar" class="btn btn-success" id="Guardar" onclick="actualizar()" />
+        </div>
+
+    }
+
+</div>
+
+@section Scripts {
+    <script type="text/javascript">
+
+        function actualizar() {
+
+            let url = "/Cliente/Update";
+
+            let datos = {
+
+                Nombre: document.getElementById("Nombre").value,
+                Apellidos: document.getElementById("Apellidos").value,
+                Cedula: document.getElementById("Cedula").value,
+                Telefono: document.getElementById("Telefono").value,
+                Correo: document.getElementById("Correo").value,
+                IdCliente: document.getElementById("IdCliente").value
+            }
+
+            fetch(url, {
+                method: 'POST',
+                body: JSON.stringify(datos),
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                }
+
+            }).then(response => {
+                if (response.ok)
+                    return response.json();
+                else
+                    throw new Error("Ha ocurrido un error");
+            }).then(data => {
+                if (data != "1")
+                    alert("Nose pudo modificar el dato")
+                else {
+                    alert("Registro Modificado")
+                    document.location.href = "/Cliente/";
+                }
+            }).catch(error => {
+                alert(error);
+            })
+
+
+        }
+    </script>
+
+}

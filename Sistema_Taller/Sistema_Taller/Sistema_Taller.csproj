@@ -132,6 +132,7 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Controllers\ClienteController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\UsuarioController.cs" />
     <Compile Include="Global.asax.cs">
@@ -227,6 +228,12 @@
     <Compile Include="Models\View_Caso.cs">
       <DependentUpon>TallerContext.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\View_Cliente.cs">
+      <DependentUpon>TallerContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\View_Negocio.cs">
+      <DependentUpon>TallerContext.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\View_Repuesto.cs">
       <DependentUpon>TallerContext.tt</DependentUpon>
     </Compile>
@@ -282,6 +289,7 @@
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
+    <Content Include="Scripts\FieldScripts\jsEliminarDatos.js" />
     <Content Include="Scripts\FieldScripts\pruebaFetch.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
     <Content Include="Scripts\jquery-3.4.1.min.js" />
@@ -311,6 +319,12 @@
     <Content Include="Views\Usuario\Crear.cshtml" />
     <Content Include="Views\Usuario\Editar.cshtml" />
     <Content Include="Views\Usuario\Eliminar.cshtml" />
+    <Content Include="Views\Usuario\Modificar.cshtml" />
+    <Content Include="Views\Cliente\Index.cshtml" />
+    <Content Include="Views\Cliente\Crear.cshtml" />
+    <Content Include="Views\Cliente\NegocioIndex.cshtml" />
+    <Content Include="Views\Cliente\Editar.cshtml" />
+    <Content Include="Views\Cliente\Eliminar.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -49,5 +49,7 @@ namespace Sistema_Taller.Models
         public virtual DbSet<View_Caso> View_Caso { get; set; }
         public virtual DbSet<View_Repuesto> View_Repuesto { get; set; }
         public virtual DbSet<View_Usuario> View_Usuario { get; set; }
+        public virtual DbSet<View_Cliente> View_Cliente { get; set; }
+        public virtual DbSet<View_Negocio> View_Negocio { get; set; }
     }
 }

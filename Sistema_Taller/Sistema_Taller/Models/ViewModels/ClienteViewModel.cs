@@ -1,69 +1,83 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Sistema_Taller.Models.ViewModels
 {
+
     public class ClienteViewModel
     {
+
+        public int IdCliente { get; set; }
         [Display(Name = "Nombre")]
         [Required]
         [StringLength(50)]
-        public string nombre { get; set; }
+        public string Nombre { get; set; }
         [Display(Name = "Apellidos")]
         [Required]
         [StringLength(50)]
-        public string apellidos { get; set; }
+        public string Apellidos { get; set; }
         [Display(Name = "Cédula")]
         [Required]
-        public Nullable<int> cedula { get; set; }
+        public Nullable<int> Cedula { get; set; }
         [Display(Name = "Teléfono")]
         [DataType(DataType.PhoneNumber)]
         [DisplayFormat(DataFormatString = "{0:####-####}")]
         [StringLength(20)]
-        public string telefono { get; set; }
+        public string Telefono { get; set; }
         [Display(Name = "Correo")]
         [Required]
         [EmailAddress]
         [StringLength(50)]
         [Index(IsUnique = true)]
-        public string correo { get; set; }
+        public string Correo { get; set; }
 
 
     }
-    public class EmpleadoViewModel
+    public class EmpresaViewModel
     {
+        public int IdEmpresa { get; set; }
 
         [Display(Name = "Empresa")]
         [StringLength(50)]
-        public string nombre { get; set; }
+        public string Nombre { get; set; }
 
         [Display(Name = "Ced. Juridica")]
         [StringLength(50)]
-        public string cedJuridica { get; set; }
+        public string CedJuridica { get; set; }
 
         [Display(Name = "Dirección")]
         [StringLength(120)]
-        public string direccion { get; set; }
+        public string Direccion { get; set; }
 
         [Display(Name = "Teléfono")]
         [DataType(DataType.PhoneNumber)]
         [DisplayFormat(DataFormatString = "{0:####-####}")]
         [StringLength(20)]
-        public string telefono { get; set; }
+        public string Telefono { get; set; }
     }
     public class ContactoViewModel
     {
+        public int IdContacto { get; set; }
         [Display(Name = "Nombre")]
         [Required]
         [StringLength(50)]
-        public string nombre { get; set; }
+        public string Nombre { get; set; }
         [Display(Name = "Teléfono")]
         [DataType(DataType.PhoneNumber)]
         [DisplayFormat(DataFormatString = "{0:####-####}")]
         [StringLength(20)]
-        public string telefono { get; set; }
+        public string Telefono { get; set; }
         [EmailAddress]
-        public string correo { get; set; }
+        public string Correo { get; set; }
+    }
+
+    public class ClienteEmpleadoViewModel
+    {
+        public int Id { get; set; }
+        public ICollection<ClienteViewModel> Cliente { get; set; }
+        public ICollection<EmpresaViewModel> Empresa { get; set; }
+        public ICollection<ContactoViewModel> Contacto { get; }
     }
 }

@@ -1,0 +1,147 @@
+﻿@model Sistema_Taller.Models.ViewModels.UsuarioViewModel
+
+@{
+    ViewBag.Title = "Modificar";
+}
+
+<h2>Modificar</h2>
+
+<form>
+
+    @Html.AntiForgeryToken()
+    <div class="row">
+        <div class="container">
+            @Html.HiddenFor(model => model.idUsuario, new { id = "idUsuario" })
+            <div class="row">
+                <div class="col-md-12">
+                    <br />
+                    @Html.LabelFor(d => d.nombre)
+                    @Html.LabelFor(d => d.apellidos)
+
+                    <div class="row">
+
+
+                        @Html.EditorFor(d => d.nombre, "", new { @class = "control-form", id = "nombre" })
+                        @Html.ValidationMessageFor(d => d.nombre, "", new { @class = "text-danger" })
+                        @Html.EditorFor(d => d.apellidos, "", new { @class = "control-form", id = "apellidos" })
+                        @Html.ValidationMessageFor(d => d.apellidos, "", new { @class = "text-danger" })
+                    </div>
+
+
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <br />
+                    @Html.LabelFor(d => d.cedula)
+                    @Html.LabelFor(d => d.telefono)
+                    <div class="row">
+                        @Html.EditorFor(d => d.cedula, "", new { @class = "control-form", id = "cedula" })
+                        @Html.ValidationMessageFor(d => d.cedula, "", new { @class = "text-danger" })
+                        <span style="color:red" id="cedula-existe">*</span>
+                        @Html.EditorFor(d => d.telefono, "", new { @class = "control-form", id = "telefono" })
+                        @Html.ValidationMessageFor(d => d.telefono, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <br />
+                    @Html.LabelFor(d => d.correo)
+                    <div class="row">
+                        @Html.EditorFor(d => d.correo, "", new { @class = "control-form", id = "correo" })
+                        @Html.ValidationMessageFor(d => d.correo, "", new { @class = "text-danger" })
+
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <br />
+                    @Html.LabelFor(d => d.username)
+                    @Html.LabelFor(d => d.contrasena)
+                    <div class="row">
+                        @Html.EditorFor(d => d.username, "", new { @class = "control-form", id = "username" })
+                        @Html.ValidationMessageFor(d => d.username, "", new { @class = "text-danger" })
+                        @Html.PasswordFor(d => d.contrasena, new { @class = "control-form", id = "contrasena" })
+                        @Html.HiddenFor(d => d.contrasena, new { id = "pass" })
+                        @Html.ValidationMessageFor(d => d.contrasena, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    @Html.LabelFor(d => d.idEstado)
+                    @Html.LabelFor(d => d.idRol)
+                    <div class="row">
+                        @Html.DropDownListFor(x => x.idEstado, ViewBag.estados as IEnumerable<SelectListItem>, "Selecciona una opcion", new { @class = "control-form", id = "idEstado" })
+                        @Html.ValidationMessageFor(d => d.idEstado, "", new { @class = "text-danger" })
+                        @Html.DropDownListFor(x => x.idRol, ViewBag.roles as IEnumerable<SelectListItem>, "Selecciona una opcion", new { @class = "control-form", id = "idRol" })
+                        @Html.ValidationMessageFor(d => d.idRol, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <input value="Guardar" type="button" class="btn btn-success" onclick="jsAct()" />
+    </div>
+</form>
+
+<script>
+
+    var url = "/Usuario/Cambio";
+    var dato = {
+        idUsuario: document.getElementById("idUsuario").value,
+        nombre: document.getElementById("nombre").value,
+        apellidos: document.getElementById("apellidos").value,
+        cedula: document.getElementById("cedula").value,
+        telefono: document.getElementById("telefono").value,
+        correo: document.getElementById("correo").value,
+        username: document.getElementById("username").value,
+        contrasena: (document.getElementById("contrasena").value != "")
+            ? document.getElementById("contrasena").value
+            : document.getElementById("pass").value,
+        idEstado: document.getElementById("idEstado").value,
+        idRol: document.getElementById("idRol").value
+        
+    }
+
+    function jsAct() {
+            var dato = {
+        idUsuario: document.getElementById("idUsuario").value,
+        nombre: document.getElementById("nombre").value,
+        apellidos: document.getElementById("apellidos").value,
+        cedula: document.getElementById("cedula").value,
+        telefono: document.getElementById("telefono").value,
+        correo: document.getElementById("correo").value,
+        username: document.getElementById("username").value,
+        contrasena: (document.getElementById("contrasena").value != "")
+            ? document.getElementById("contrasena").value
+            : document.getElementById("pass").value,
+        idEstado: document.getElementById("idEstado").value,
+        idRol: document.getElementById("idRol").value
+        
+    }
+        fetch(url, {
+            method: 'POST',
+            body: JSON.stringify(dato),
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            }
+        }).then(response => {
+            if (response.ok)
+                return response.json();
+            else
+                return alert("Error 1");
+        }).then(data => {
+            if (data != "1") {
+                alert("Error dato");
+            } else {
+                document.location.href = "/Usuario/";
+            }
+        })
+
+    }
+
+</script>

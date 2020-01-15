@@ -1,4 +1,4 @@
-﻿@model Sistema_Taller.Models.ViewModels.UsuarioViewModel
+﻿@model Sistema_Taller.Models.Usuario
 @{
     ViewBag.Title = "Eliminar";
 }
@@ -7,7 +7,7 @@
 
 <div class="row">
     <dl class="dl-horizontal">
-        @Html.HiddenFor(m => m.idUsuario)
+        
         <dt>@Html.DisplayNameFor(m => m.nombre)</dt>
         <dd>@Html.DisplayFor(m => m.nombre)</dd>
 
@@ -34,38 +34,71 @@
     </dl>
 
 </div>
+@using (Html.BeginForm())
+{ 
+    @Html.HiddenFor(m => m.idUsuario, new { id = "id" })
+    @Html.AntiForgeryToken()
+    <input type="button" value="Eliminar" onclick="borrar()" class="btn btn-danger" />
+}
 
-@Html.AntiForgeryToken()
-<input type="submit" value="Eliminar" onclick="" class="btn btn-danger"/>
-
-
-@section Scripts {
     <script type="text/javascript">
 
-        function jsEliminar(id) {
-            fetch('@Url.Content("~/Usuario/ConfirmarEliminar")', {
-                method: "Post",
-                body: JSON.stringify({
-                    id: id
-                }), headers: {
+        function borrar() {
+            let dato = { id : document.getElementById("id").value }
+            let url = "/Usuario/Borrar";
+
+            fetch(url, {
+                method: 'POST',
+                body: JSON.stringify(dato),
+                headers: {
                     'Accept': 'application/json',
-                    'Content-Type': 'application/json'
+                    'Content-Type':'application/json'
                 }
-            }).then(response => {
-                if (response.ok)
-                    return response.text()
-                else
-                    throw new Error
-            }).then(data => {
-                if (data != '1') {
-                    alert("No se ha podido eliminar elemento")
+            }).then((response) => {
+                if (response.ok) {
+                    return response.json();
                 } else {
-                    document.location.href = '@Url.Content("~/Usuario/")';
+                    throw new DOMException("Ha ocurrido un error")
                 }
-            }).catch(Error => {
-                alert("Ha ocurrido un error")
+            }).catch(error => {
+                alert(error)
+            }).then((data) => {
+                if (data != "1") {
+                    alert("Error iiiii")
+                } else {
+                    document.location.href = "/Usuario/";
+                }
             })
+
         }
 
+
+        function jsDelete() {
+            let url = '@Url.Content("~/Usuario/ConfirmarEliminar")';
+        fetch(url, {
+            method: 'POST',
+            body: JSON.stringify({
+                id: document.getElementById("id").value
+            }),
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            }
+        }).then(response => {
+            if (response.ok)
+                return response.json();
+            else
+                return alert("Error 1");
+        }).then(data => {
+            if (data != "1") {
+                alert("Error dato");
+            } else {
+                document.location.href = "/Usuario/";
+            }
+        })
+
+    }
+
+
     </script>
-}
+

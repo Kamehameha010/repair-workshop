@@ -16,6 +16,12 @@ namespace Sistema_Taller.Controllers
         // GET: Usuario
         public ActionResult Index()
         {
+            return View();
+        }
+
+
+        public JsonResult ListaUsuarios()
+        {
             List<View_Usuario> usuarios = new List<View_Usuario>();
 
             using (Taller_SysEntities db = new Taller_SysEntities())
@@ -23,9 +29,10 @@ namespace Sistema_Taller.Controllers
                 usuarios = db.View_Usuario.ToList();
 
             }
-
-            return View(usuarios);
+            return Json(usuarios, JsonRequestBehavior.AllowGet);
         }
+
+        [HttpGet]
         public ActionResult Crear()
         {
             ViewBag.estados = ListaComboBox.estados();
@@ -35,17 +42,19 @@ namespace Sistema_Taller.Controllers
 
 
         [HttpPost]
-        [Route("Usuario/Crear")]
         [ValidateAntiForgeryToken]
         public ActionResult Crear(UsuarioViewModel model)
         {
-            if (ModelState.IsValid)
-            {
 
-                using (Taller_SysEntities db = new Taller_SysEntities())
+            ViewBag.estados = ListaComboBox.estados();
+            ViewBag.roles = ListaComboBox.roles();
+            try
+            {
+                if (ModelState.IsValid && model!= null)
                 {
-                    try
+                    using (Taller_SysEntities db = new Taller_SysEntities())
                     {
+
                         Models.Usuario usuario = new Models.Usuario();
                         usuario.nombre = model.nombre;
                         usuario.apellidos = model.apellidos;
@@ -58,30 +67,19 @@ namespace Sistema_Taller.Controllers
                         usuario.idEstado = model.idEstado;
                         db.Usuario.Add(usuario);
                         db.SaveChanges();
-                        return RedirectToAction("Index");
-                    }
-                    catch (DbUpdateException e)
-                    {
-                        SqlException s = e.InnerException.InnerException as SqlException;
-                        if (s != null && s.Number == 2627)
-                        {
-                            ModelState.AddModelError(string.Empty,
-                                "Part number '" + model.cedula + "' already exists.");
-                        }
-                        else
-                        {
-                            ModelState.AddModelError(string.Empty,
-                                "An error occured - please contact your system administrator.");
-                        }
-                    }
 
+
+                    }
+                    return Content("1");
                 }
             }
-            ViewBag.estados = ListaComboBox.estados();
-            ViewBag.roles = ListaComboBox.roles();
-
+            catch (Exception e)
+            {
+                return Content(e.Message);
+            }
             return View(model);
         }
+
 
         public ActionResult Editar(int? id)
         {
@@ -107,19 +105,17 @@ namespace Sistema_Taller.Controllers
             return View(model);
         }
 
-        [HttpPost]
+        [HttpPost, ActionName("Editar")]
         [ValidateAntiForgeryToken]
         public ActionResult Editar(UsuarioViewModel model)
         {
-            SelectList roles = null;
-            SelectList estados = null;
-
-            if (ModelState.IsValid)
+            try
             {
+                ViewBag.estados = ListaComboBox.estados();
+                ViewBag.roles = ListaComboBox.roles();
                 using (Taller_SysEntities db = new Taller_SysEntities())
                 {
-                    estados = new SelectList(db.Estado.ToList(), "idEstado", "descripcion");
-                    roles = new SelectList(db.Rol.ToList(), "idRol", "nombre");
+
                     var usuario = db.Usuario.Find(model.idUsuario);
                     usuario.nombre = model.nombre;
                     usuario.apellidos = model.apellidos;
@@ -134,15 +130,18 @@ namespace Sistema_Taller.Controllers
                     db.Entry(usuario).State = System.Data.Entity.EntityState.Modified;
                     db.SaveChanges();
                 }
-                return RedirectToAction("Index");
+                return Content("1");
+            }
+            catch (Exception e)
+            {
+                return Content(e.Message); ;
             }
 
-            ViewBag.estados = estados;
-            ViewBag.roles = roles;
-            return View(model);
+
+
         }
 
-        public ActionResult Eliminar(int? id)
+        public ActionResult Eliminar(int id)
         {
             Usuario model = new Usuario();
             using (Taller_SysEntities db = new Taller_SysEntities())
@@ -153,16 +152,23 @@ namespace Sistema_Taller.Controllers
             return View(model);
         }
         [ValidateAntiForgeryToken]
-        [HttpPost, ActionName("Eliminar")]
+        [HttpPost]
         public ActionResult ConfirmarEliminar(int id)
         {
-            using (Taller_SysEntities db = new Taller_SysEntities())
+            try
             {
-                var oUsuario = db.Usuario.Find(id);
-                db.Usuario.Remove(oUsuario);
-                db.SaveChanges();
+                using (Taller_SysEntities db = new Taller_SysEntities())
+                {
+                    var oUsuario = db.Usuario.Find(id);
+                    db.Usuario.Remove(oUsuario);
+                    db.SaveChanges();
+                }
+                return Content("1");
+            }catch(Exception e)
+            {
+                return Content(e.Message);
             }
-            return View();
+            
         }
         [HttpGet]
         [Route("Usuario/ValidarCedula")]
@@ -175,7 +181,7 @@ namespace Sistema_Taller.Controllers
                 {
                     var fnd = db.Usuario.Where(s => s.cedula == cedula).Select(s => s.cedula).First();
                 }
-                return Content("Elemento Existe");
+                return Content("0");
             }
             catch (Exception)
             {
@@ -202,6 +208,76 @@ namespace Sistema_Taller.Controllers
             }
         }
 
-    }
+        public ActionResult Modificar(int id)
+        {
+            UsuarioViewModel model = new UsuarioViewModel();
 
+            using (Taller_SysEntities db = new Taller_SysEntities())
+            {
+                var objUsuario = db.Usuario.Find(id);
+                model.idUsuario = objUsuario.idUsuario;
+                model.nombre = objUsuario.nombre;
+                model.apellidos = objUsuario.apellidos;
+                model.cedula = objUsuario.cedula;
+                model.telefono = objUsuario.telefono;
+                model.username = objUsuario.username;
+                model.contrasena = objUsuario.contrasena;
+                model.correo = objUsuario.correo;
+                model.idEstado = objUsuario.idEstado;
+                model.idRol = objUsuario.idRol;
+
+            }
+            ViewBag.estados = ListaComboBox.estados();
+            ViewBag.roles = ListaComboBox.roles(); ;
+            return View(model);
+        }
+
+        [HttpPost]
+        public ActionResult Cambio(UsuarioViewModel model)
+        {
+            try
+            {
+                ViewBag.estados = ListaComboBox.estados();
+                ViewBag.roles = ListaComboBox.roles();
+                using (Taller_SysEntities db = new Taller_SysEntities())
+                {
+
+                    var usuario = db.Usuario.Find(model.idUsuario);
+                    usuario.nombre = model.nombre;
+                    usuario.apellidos = model.apellidos;
+                    usuario.cedula = model.cedula;
+                    usuario.telefono = model.telefono;
+                    usuario.username = model.username;
+                    usuario.correo = model.correo;
+                    usuario.contrasena = model.contrasena;
+                    usuario.idRol = model.idRol;
+                    usuario.idEstado = model.idEstado;
+
+                    db.Entry(usuario).State = System.Data.Entity.EntityState.Modified;
+                    db.SaveChanges();
+                }
+                return Content("1");
+            }
+            catch (Exception e)
+            {
+                return Content(e.Message); ;
+            }
+
+
+        }
+
+        [HttpPost]
+        public ActionResult Borrar(int id) {
+
+            using (Taller_SysEntities db = new Taller_SysEntities()) {
+
+                var obj = db.Usuario.Find(id);
+
+                db.Usuario.Remove(obj);
+                db.SaveChanges();
+            
+            }
+            return Content("1");
+        }
+    }
 }

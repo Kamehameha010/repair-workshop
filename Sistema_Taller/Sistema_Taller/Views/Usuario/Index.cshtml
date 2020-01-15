@@ -1,5 +1,5 @@
 ﻿
-@model List<Sistema_Taller.Models.View_Usuario>
+
 @{
     ViewBag.Title = "Lista de Usuarios";
     int fila = 1;
@@ -25,9 +25,10 @@
 }
 
 <div class="row">
-    <div class="table-responsive">
+    <input type="button" value="Refresh" onclick="ListadoUsuarios()" />
+    <div class="table-responsive" id="lista">
 
-        <table class="table">
+        <!--<table class="table">
             <tr>
                 <th>#</th>
                 <th>Nombre</th>
@@ -41,25 +42,8 @@
                 <th>Editar</th>
                 <th>Eliminar</th>
             </tr>
-            @foreach (var oUsuario in Model)
-            {
-                <tr>
-                    <td>@fila</td>
-                    <td>@oUsuario.nombre</td>
-                    <td>@oUsuario.apellidos</td>
-                    <td>@oUsuario.cedula</td>
-                    <td>@oUsuario.telefono</td>
-                    <td>@oUsuario.correo</td>
-                    <td>@oUsuario.Usuario</td>
-                    <td>@oUsuario.Rol</td>
-                    <td>@oUsuario.Estado</td>
-                    <td><input type="button" class="btn btn-success" value="Editar" onclick="document.location.href='@Url.Content("~/Usuario/Editar/?id="+oUsuario.id)'" /></td>
-                    <td><input type="button" class="btn btn-danger" value="Eliminar" onclick="document.location.href= " \"@Url.Content("\""~ /Usuario/Eliminar/?id =\")" /></td>
-                </tr>
-                fila = fila + 1;
 
-            }
-        </table>
+        </table>-->
 
     </div>
 
@@ -68,10 +52,60 @@
 
 @section Scripts {
     
-
-
     <script type="text/javascript">
-       
+        ListadoUsuarios();
+        function ListadoUsuarios() {
+            fetch("/Usuario/ListaUsuarios")
+                .then(response => {
+                    if (response.ok)
+                        return response.json()
+                    else
+                        throw new Error("Ha ocurrido un error. Intente de nuevo.");
+                }).then(data => {
+                    let res = "";
+                    let fila = 1;
+                    let urlE = "";
+                    res += "<table class='table'><tr><th>#</th><th>Nombre</th>\
+                <th>Apellidos</th><th>Cédula</th><th>Teléfono</th><th>Correo</th>\
+                <th>Usuario</th><th>Rol</th><th>Estado</th><th>Editar</th><th>Eliminar</th></tr>";
+
+                    for (var i of data) {
+                        urlE = 'document.location.href = "/Usuario/Modificar/?id=' + i.id + '"';
+                        urlD = 'document.location.href = "/Usuario/Eliminar/?id=' + i.id + '"';
+                        res += "<tr><td>" + fila + "</td>\
+                        <td>" + i.nombre + "</td>\
+                        <td>" + i.apellidos + "</td>\
+                        <td>" + i.cedula + "</td>\
+                        <td>" + i.telefono + "</td>\
+                        <td>" + i.correo + "</td>\
+                        <td>" + i.Usuario + "</td>\
+                        <td>" + i.Rol + "</td>\
+                        <td>" + i.Estado + "</td>\
+                        <td><input class='btn btn-success' type='button' value='Editar' onclick='"+ urlE +"'/></td>\
+                        <td><input class='btn btn-danger' type='button' value='Eliminar' onclick='"+ urlD +"'/></td>\
+                        </tr > "
+                        fila++;
+                    }
+                    res += "</table>"
+                    document.getElementById("lista").innerHTML = res;
+
+                })
+        }
+
+        function Usuario(id) {
+            fetch("/Usuario/Editar/id=" + id)
+                .then(response => {
+                    if (response.ok)
+                        return response.json();
+                    else
+                        throw new Error("Ha ocurrido un error. Intente de nuevo");
+                }).then(data => {
+                    console.log(data);
+                }).catch(error => {
+                    alert(error);
+                })
+        }
+
         function Eliminar(id) {
             fetch('@Url.Content("~/Usuario/Eliminar")', {
                 method: "Post",

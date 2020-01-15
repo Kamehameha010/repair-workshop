@@ -10,15 +10,15 @@ namespace Sistema_Taller.Models.ViewModels
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         [DataType(DataType.Date)]
         [Required]
-        public Nullable<System.DateTime> fecha_ingreso { get; set; }
+        public Nullable<System.DateTime> FechaIngreso { get; set; }
 
         [Display(Name = "Numero caso")]
         [Index(IsUnique = true)]
-        public Nullable<int> numero_caso { get; set; }
+        public Nullable<int> NumeroCaso { get; set; }
         [Display(Name = "Usuario")]
-        public Nullable<int> idUsuario { get; set; }
+        public Nullable<int> IdUsuario { get; set; }
         [Display(Name = "Cliente")]
-        public Nullable<int> idCliente { get; set; }
+        public Nullable<int> IdCliente { get; set; }
 
     }
 
@@ -26,17 +26,17 @@ namespace Sistema_Taller.Models.ViewModels
     {
         [Display(Name = "Detalle")]
         [StringLength(200)]
-        public string detalle { get; set; }
+        public string Detalle { get; set; }
         [Display(Name = "Diagnostico")]
         [StringLength(200)]
-        public string diagnostico { get; set; }
+        public string Diagnostico { get; set; }
         [Display(Name = "Estado")]
-        public Nullable<int> idEstadoCaso { get; set; }
+        public Nullable<int> IdEstadoCaso { get; set; }
 
         [Display(Name = "Fecha ingreso")]
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         [DataType(DataType.Date)]
-        public Nullable<System.DateTime> fecha_despacho { get; set; }
+        public Nullable<System.DateTime> FechaDespacho { get; set; }
 
     }
 

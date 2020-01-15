@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="Taller_SysModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="Taller_SysModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="Articulo">
           <Key>
             <PropertyRef Name="idArticulo" />
@@ -226,16 +226,32 @@ advertencia 6002: La tabla o vista 'Taller_Sys.dbo.View_Caso' no tiene definida 
           <Property Name="fecha_despacho" Type="datetime" />
         </EntityType>
         <!--Errores durante la generación:
-advertencia 6013: La tabla o vista 'Taller_Sys.dbo.View_Cliente' no tiene definida una clave principal y no es posible inferir ninguna clave principal válida. Esta tabla o vista se ha excluido. Para usar la entidad, necesitará revisar el esquema, agregar las claves correctas y quitar sus comentarios.
+advertencia 6002: La tabla o vista 'Taller_Sys.dbo.View_Cliente' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
         <EntityType Name="View_Cliente">
-          <Property Name="nombre" Type="varchar" MaxLength="50" />
-          <Property Name="apellidos" Type="varchar" MaxLength="50" />
-          <Property Name="telefono" Type="varchar" MaxLength="20" />
-          <Property Name="empresa" Type="varchar" MaxLength="50" />
-          <Property Name="Tel_Empresa" Type="varchar" MaxLength="20" />
-          <Property Name="contacto" Type="varchar" MaxLength="50" />
-          <Property Name="Tel_Contacto" Type="varchar" MaxLength="12" />
-        </EntityType>-->
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Nombre" Type="varchar" MaxLength="50" />
+          <Property Name="Apellidos" Type="varchar" MaxLength="50" />
+          <Property Name="Cedula" Type="int" />
+          <Property Name="Telefono" Type="varchar" MaxLength="20" />
+          <Property Name="Correo" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <!--Errores durante la generación:
+advertencia 6002: La tabla o vista 'Taller_Sys.dbo.View_Negocio' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
+        <EntityType Name="View_Negocio">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="Cliente" Type="varchar" MaxLength="101" />
+          <Property Name="Cedula" Type="int" />
+          <Property Name="Correo" Type="varchar" MaxLength="50" />
+          <Property Name="Empresa" Type="varchar" MaxLength="50" />
+          <Property Name="Telefono" Type="varchar" MaxLength="20" />
+          <Property Name="Contacto" Type="varchar" MaxLength="50" />
+        </EntityType>
         <!--Errores durante la generación:
 advertencia 6002: La tabla o vista 'Taller_Sys.dbo.View_Repuesto' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
         <EntityType Name="View_Repuesto">
@@ -568,6 +584,27 @@ advertencia 6002: La tabla o vista 'Taller_Sys.dbo.View_Usuario' no tiene defini
     [View_Caso].[fecha_despacho] AS [fecha_despacho]
     FROM [dbo].[View_Caso] AS [View_Caso]</DefiningQuery>
           </EntitySet>
+          <EntitySet Name="View_Cliente" EntityType="Self.View_Cliente" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [View_Cliente].[Id] AS [Id], 
+    [View_Cliente].[Nombre] AS [Nombre], 
+    [View_Cliente].[Apellidos] AS [Apellidos], 
+    [View_Cliente].[Cedula] AS [Cedula], 
+    [View_Cliente].[Telefono] AS [Telefono], 
+    [View_Cliente].[Correo] AS [Correo]
+    FROM [dbo].[View_Cliente] AS [View_Cliente]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="View_Negocio" EntityType="Self.View_Negocio" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [View_Negocio].[Id] AS [Id], 
+    [View_Negocio].[Cliente] AS [Cliente], 
+    [View_Negocio].[Cedula] AS [Cedula], 
+    [View_Negocio].[Correo] AS [Correo], 
+    [View_Negocio].[Empresa] AS [Empresa], 
+    [View_Negocio].[Telefono] AS [Telefono], 
+    [View_Negocio].[Contacto] AS [Contacto]
+    FROM [dbo].[View_Negocio] AS [View_Negocio]</DefiningQuery>
+          </EntitySet>
           <EntitySet Name="View_Repuesto" EntityType="Self.View_Repuesto" store:Type="Views" store:Schema="dbo">
             <DefiningQuery>SELECT 
     [View_Repuesto].[id] AS [id], 
@@ -680,8 +717,7 @@ advertencia 6002: La tabla o vista 'Taller_Sys.dbo.View_Usuario' no tiene defini
             <End Role="Usuario" EntitySet="Usuario" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="Taller_SysModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -929,49 +965,6 @@ advertencia 6002: La tabla o vista 'Taller_Sys.dbo.View_Usuario' no tiene defini
           <NavigationProperty Name="Estado" Relationship="Self.FK_USUARIO_ESTADO" FromRole="Usuario" ToRole="Estado" />
           <NavigationProperty Name="Factura" Relationship="Self.FK_FACTURA_USUARIO" FromRole="Usuario" ToRole="Factura" />
           <NavigationProperty Name="Rol" Relationship="Self.FK_USUARIO_ROL" FromRole="Usuario" ToRole="Rol" />
-        </EntityType>
-        <EntityType Name="View_Caso">
-          <Key>
-            <PropertyRef Name="id" />
-          </Key>
-          <Property Name="id" Type="Int32" Nullable="false" />
-          <Property Name="fecha_ingreso" Type="DateTime" Precision="3" />
-          <Property Name="numero_caso" Type="Int32" />
-          <Property Name="Usuario" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="Cliente" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="Articulo" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="modelo" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="serie" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="Marca" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="detalle" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
-          <Property Name="diagnostico" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
-          <Property Name="fecha_despacho" Type="DateTime" Precision="3" />
-        </EntityType>
-        <EntityType Name="View_Repuesto">
-          <Key>
-            <PropertyRef Name="id" />
-          </Key>
-          <Property Name="id" Type="Int32" Nullable="false" />
-          <Property Name="Proveedor" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="codigo" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
-          <Property Name="descripcion" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="precio" Type="Decimal" Precision="10" Scale="2" />
-          <Property Name="cantidad" Type="Int32" />
-        </EntityType>
-        <EntityType Name="View_Usuario">
-          <Key>
-            <PropertyRef Name="id" />
-            <PropertyRef Name="cedula" />
-          </Key>
-          <Property Name="id" Type="Int32" Nullable="false" />
-          <Property Name="nombre" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="apellidos" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="cedula" Type="Int32" Nullable="false" />
-          <Property Name="telefono" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
-          <Property Name="correo" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="Usuario" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
-          <Property Name="Rol" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
-          <Property Name="Estado" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
         </EntityType>
         <Association Name="FK_ARTICULO_CATEGORIA">
           <End Role="Categoria" Type="Self.Categoria" Multiplicity="0..1" />
@@ -1259,9 +1252,6 @@ advertencia 6002: La tabla o vista 'Taller_Sys.dbo.View_Usuario' no tiene defini
           <EntitySet Name="Rol" EntityType="Self.Rol" />
           <EntitySet Name="Rol_Operacion" EntityType="Self.Rol_Operacion" />
           <EntitySet Name="Usuario" EntityType="Self.Usuario" />
-          <EntitySet Name="View_Caso" EntityType="Self.View_Caso" />
-          <EntitySet Name="View_Repuesto" EntityType="Self.View_Repuesto" />
-          <EntitySet Name="View_Usuario" EntityType="Self.View_Usuario" />
           <AssociationSet Name="FK_ARTICULO_CATEGORIA" Association="Self.FK_ARTICULO_CATEGORIA">
             <End Role="Categoria" EntitySet="Categoria" />
             <End Role="Articulo" EntitySet="Articulo" />
@@ -1350,7 +1340,78 @@ advertencia 6002: La tabla o vista 'Taller_Sys.dbo.View_Usuario' no tiene defini
             <End Role="Rol" EntitySet="Rol" />
             <End Role="Usuario" EntitySet="Usuario" />
           </AssociationSet>
+          <EntitySet Name="View_Caso" EntityType="Taller_SysModel.View_Caso" />
+          <EntitySet Name="View_Repuesto" EntityType="Taller_SysModel.View_Repuesto" />
+          <EntitySet Name="View_Usuario" EntityType="Taller_SysModel.View_Usuario" />
+          <EntitySet Name="View_Cliente" EntityType="Taller_SysModel.View_Cliente" />
+          <EntitySet Name="View_Negocio" EntityType="Taller_SysModel.View_Negocio" />
         </EntityContainer>
+        <EntityType Name="View_Caso">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" />
+          <Property Name="fecha_ingreso" Type="DateTime" Precision="3" />
+          <Property Name="numero_caso" Type="Int32" />
+          <Property Name="Usuario" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Cliente" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Articulo" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="modelo" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="serie" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Marca" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="detalle" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="diagnostico" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="fecha_despacho" Type="DateTime" Precision="3" />
+        </EntityType>
+        <EntityType Name="View_Repuesto">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" />
+          <Property Name="Proveedor" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="codigo" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="descripcion" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="precio" Type="Decimal" Precision="10" Scale="2" />
+          <Property Name="cantidad" Type="Int32" />
+        </EntityType>
+        <EntityType Name="View_Usuario">
+          <Key>
+            <PropertyRef Name="id" />
+            <PropertyRef Name="cedula" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" />
+          <Property Name="nombre" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="apellidos" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="cedula" Type="Int32" Nullable="false" />
+          <Property Name="telefono" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="correo" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Usuario" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="Rol" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="Estado" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="View_Cliente">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" Type="Int32" />
+          <Property Name="Nombre" MaxLength="50" FixedLength="false" Unicode="false" Type="String" />
+          <Property Name="Apellidos" MaxLength="50" FixedLength="false" Unicode="false" Type="String" />
+          <Property Name="Cedula" Type="Int32" />
+          <Property Name="Telefono" MaxLength="20" FixedLength="false" Unicode="false" Type="String" />
+          <Property Name="Correo" MaxLength="50" FixedLength="false" Unicode="false" Type="String" />
+        </EntityType>
+        <EntityType Name="View_Negocio">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="Cliente" Type="String" MaxLength="101" FixedLength="false" Unicode="false" />
+          <Property Name="Cedula" Type="Int32" />
+          <Property Name="Correo" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Empresa" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Telefono" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="Contacto" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1582,49 +1643,74 @@ advertencia 6002: La tabla o vista 'Taller_Sys.dbo.View_Usuario' no tiene defini
           <EntitySetMapping Name="View_Caso">
             <EntityTypeMapping TypeName="Taller_SysModel.View_Caso">
               <MappingFragment StoreEntitySet="View_Caso">
-                <ScalarProperty Name="id" ColumnName="id" />
-                <ScalarProperty Name="fecha_ingreso" ColumnName="fecha_ingreso" />
-                <ScalarProperty Name="numero_caso" ColumnName="numero_caso" />
-                <ScalarProperty Name="Usuario" ColumnName="Usuario" />
-                <ScalarProperty Name="Cliente" ColumnName="Cliente" />
-                <ScalarProperty Name="Articulo" ColumnName="Articulo" />
-                <ScalarProperty Name="modelo" ColumnName="modelo" />
-                <ScalarProperty Name="serie" ColumnName="serie" />
-                <ScalarProperty Name="Marca" ColumnName="Marca" />
-                <ScalarProperty Name="detalle" ColumnName="detalle" />
-                <ScalarProperty Name="diagnostico" ColumnName="diagnostico" />
                 <ScalarProperty Name="fecha_despacho" ColumnName="fecha_despacho" />
+                <ScalarProperty Name="diagnostico" ColumnName="diagnostico" />
+                <ScalarProperty Name="detalle" ColumnName="detalle" />
+                <ScalarProperty Name="Marca" ColumnName="Marca" />
+                <ScalarProperty Name="serie" ColumnName="serie" />
+                <ScalarProperty Name="modelo" ColumnName="modelo" />
+                <ScalarProperty Name="Articulo" ColumnName="Articulo" />
+                <ScalarProperty Name="Cliente" ColumnName="Cliente" />
+                <ScalarProperty Name="Usuario" ColumnName="Usuario" />
+                <ScalarProperty Name="numero_caso" ColumnName="numero_caso" />
+                <ScalarProperty Name="fecha_ingreso" ColumnName="fecha_ingreso" />
+                <ScalarProperty Name="id" ColumnName="id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="View_Repuesto">
             <EntityTypeMapping TypeName="Taller_SysModel.View_Repuesto">
               <MappingFragment StoreEntitySet="View_Repuesto">
-                <ScalarProperty Name="id" ColumnName="id" />
-                <ScalarProperty Name="Proveedor" ColumnName="Proveedor" />
-                <ScalarProperty Name="codigo" ColumnName="codigo" />
-                <ScalarProperty Name="descripcion" ColumnName="descripcion" />
-                <ScalarProperty Name="precio" ColumnName="precio" />
                 <ScalarProperty Name="cantidad" ColumnName="cantidad" />
+                <ScalarProperty Name="precio" ColumnName="precio" />
+                <ScalarProperty Name="descripcion" ColumnName="descripcion" />
+                <ScalarProperty Name="codigo" ColumnName="codigo" />
+                <ScalarProperty Name="Proveedor" ColumnName="Proveedor" />
+                <ScalarProperty Name="id" ColumnName="id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="View_Usuario">
             <EntityTypeMapping TypeName="Taller_SysModel.View_Usuario">
               <MappingFragment StoreEntitySet="View_Usuario">
-                <ScalarProperty Name="id" ColumnName="id" />
-                <ScalarProperty Name="nombre" ColumnName="nombre" />
-                <ScalarProperty Name="apellidos" ColumnName="apellidos" />
-                <ScalarProperty Name="cedula" ColumnName="cedula" />
-                <ScalarProperty Name="telefono" ColumnName="telefono" />
-                <ScalarProperty Name="correo" ColumnName="correo" />
-                <ScalarProperty Name="Usuario" ColumnName="Usuario" />
-                <ScalarProperty Name="Rol" ColumnName="Rol" />
                 <ScalarProperty Name="Estado" ColumnName="Estado" />
+                <ScalarProperty Name="Rol" ColumnName="Rol" />
+                <ScalarProperty Name="Usuario" ColumnName="Usuario" />
+                <ScalarProperty Name="correo" ColumnName="correo" />
+                <ScalarProperty Name="telefono" ColumnName="telefono" />
+                <ScalarProperty Name="cedula" ColumnName="cedula" />
+                <ScalarProperty Name="apellidos" ColumnName="apellidos" />
+                <ScalarProperty Name="nombre" ColumnName="nombre" />
+                <ScalarProperty Name="id" ColumnName="id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-        </EntityContainerMapping>
+          <EntitySetMapping Name="View_Cliente">
+            <EntityTypeMapping TypeName="Taller_SysModel.View_Cliente">
+              <MappingFragment StoreEntitySet="View_Cliente">
+                <ScalarProperty Name="Correo" ColumnName="Correo" />
+                <ScalarProperty Name="Telefono" ColumnName="Telefono" />
+                <ScalarProperty Name="Cedula" ColumnName="Cedula" />
+                <ScalarProperty Name="Apellidos" ColumnName="Apellidos" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="View_Negocio">
+            <EntityTypeMapping TypeName="Taller_SysModel.View_Negocio">
+              <MappingFragment StoreEntitySet="View_Negocio">
+                <ScalarProperty Name="Contacto" ColumnName="Contacto" />
+                <ScalarProperty Name="Telefono" ColumnName="Telefono" />
+                <ScalarProperty Name="Empresa" ColumnName="Empresa" />
+                <ScalarProperty Name="Correo" ColumnName="Correo" />
+                <ScalarProperty Name="Cedula" ColumnName="Cedula" />
+                <ScalarProperty Name="Cliente" ColumnName="Cliente" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>
   </edmx:Runtime>

@@ -1,0 +1,89 @@
+﻿@model Sistema_Taller.Models.ViewModels.ClienteViewModel
+@{
+    ViewBag.Title = "Agregar Cliente";
+}
+
+<h2>Crear</h2>
+
+<div class="row">
+
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+        @Html.ValidationSummary()
+        <div class="row">
+            @Html.LabelFor(m => m.Nombre)
+            @Html.EditorFor(m => m.Nombre, "", new { @class = "form-cotrol", id="Nombre"})
+            @Html.ValidationMessageFor(m => m.Nombre, "", new { @class = "text-danger" })
+        </div>
+        <div class="row">
+            @Html.LabelFor(m => m.Apellidos)
+            @Html.EditorFor(m => m.Apellidos, "", new { @class = "form-cotrol" , id="Apellidos"})
+            @Html.ValidationMessageFor(m => m.Apellidos, "", new { @class = "text-danger"})
+        </div>
+        <div class="row">
+            @Html.LabelFor(m => m.Cedula)
+            @Html.EditorFor(m => m.Cedula, "", new { @class = "form-cotrol", id="Cedula"  })
+            @Html.ValidationMessageFor(m => m.Cedula, "", new { @class = "text-danger"})
+        </div>
+        <div class="row">
+            @Html.LabelFor(m => m.Telefono)
+            @Html.EditorFor(m => m.Telefono, "", new { @class = "form-cotrol" , id="Telefono" })
+            @Html.ValidationMessageFor(m => m.Telefono, "", new { @class = "text-danger", id="Telefono" })
+        </div>
+        <div class="row">
+            @Html.LabelFor(m => m.Correo)
+            @Html.EditorFor(m => m.Correo, "", new { @class = "form-cotrol" , id="Correo" })
+            @Html.ValidationMessageFor(m => m.Correo, "", new { @class = "text-danger"})
+        </div>
+
+        <div class="form-group">
+            <input type="button" value="Guardar" class="btn btn-success" id="Guardar"  onclick="Save()"/>
+        </div>
+
+    }
+
+</div>
+
+@section Scripts {
+    <script type="text/javascript">
+
+        function Save() {
+            let url = "/Cliente/Add"
+            let dictr = {
+                Nombre: document.getElementById("Nombre").value,
+                Apellidos: document.getElementById("Apellidos").value,
+                Cedula: document.getElementById("Cedula").value,
+                Telefono: document.getElementById("Telefono").value,
+                Correo: document.getElementById("Correo").value
+            }
+            for (var i in dictr) {
+                console.log(i+":"+dictr[i]);
+            }
+    fetch(url, {
+        method: 'POST',
+        body: JSON.stringify(dictr),
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+        }
+    }).then((response) => {
+        if (response.ok) {
+            return response.json()
+        } else {
+            alert(Error)
+        }
+    }).then((data) => {
+        if (data != "1") {
+            alert("Error")
+        } else {     
+            document.location.href = "/Cliente/";
+        }
+    }).catch(Error => {
+        alert(Error)
+    })
+
+        }
+
+    </script>
+}

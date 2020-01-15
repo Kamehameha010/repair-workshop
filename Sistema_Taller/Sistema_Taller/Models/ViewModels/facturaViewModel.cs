@@ -21,7 +21,7 @@ namespace Sistema_Taller.Models.ViewModels
         public Nullable<decimal> total { get; set; }
     }
 
-    public partial class Factura_DetalleViewModel
+    public partial class FacturaDetalleViewModel
     {
         [Display(Name = "Caso")]
         public Nullable<int> idcasoDetalle { get; set; }
