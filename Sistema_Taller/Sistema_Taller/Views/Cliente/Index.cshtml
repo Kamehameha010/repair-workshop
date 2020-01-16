@@ -38,6 +38,7 @@
                     for (var i of data) {
                         urlE = 'document.location.href = "/Cliente/Editar/?id=' + i.Id + '"';
                         urlD = 'document.location.href = "/Cliente/Eliminar/?id=' + i.Id + '"';
+                        urlF = 'location.assign("/Cliente/Prueba/?id=' + i.Id + '")';
                         res += "<tr><td>" + fila + "</td>\
                         <td>" + i.Nombre + "</td>\
                         <td>" + i.Apellidos + "</td>\
@@ -46,6 +47,7 @@
                         <td>" + i.Correo + "</td>\
                         <td><input class='btn btn-success' type='button' value='Editar' onclick='"+ urlE +"'/></td>\
                         <td><input class='btn btn-danger' type='button' value='Eliminar' onclick='"+ urlD +"'/></td>\
+                        <td><input class='btn btn-danger' type='button' value='Prueba' onclick='"+ urlF +"'/></td>\
                         </tr > "
                         fila++;
                     }

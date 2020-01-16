@@ -145,7 +145,8 @@ namespace Sistema_Taller.Controllers
             }
             return View(cliente);
         }
-
+        [HttpPost]
+        [ValidateAntiForgeryToken]
         public ActionResult Borrar(int id)
         {
             using (Taller_SysEntities db = new Taller_SysEntities())
@@ -157,5 +158,42 @@ namespace Sistema_Taller.Controllers
 
             return Content("1");
         }
+        [HttpPost]
+        public JsonResult dele(int id)
+        {
+            using ( Taller_SysEntities db = new Taller_SysEntities())
+            {
+                var obj = db.Cliente.Find(id);
+
+                db.Cliente.Remove(obj);
+                db.SaveChanges();
+            }
+            return Json(true);
+        }
+        
+        public ActionResult Prueba()
+        {
+            return View();
+            
+        }
+
+        [HttpPost]
+        public JsonResult Reporte(int id)
+        {
+            ClienteViewModel c = new ClienteViewModel();
+            using (Taller_SysEntities db = new Taller_SysEntities())
+            {
+                var oC = db.Cliente.Find(id);
+
+                c.IdCliente = oC.idCliente;
+                c.Nombre = oC.nombre;
+                c.Apellidos = oC.apellidos;
+                c.Cedula = oC.cedula;
+                c.Telefono = oC.telefono;
+                c.Correo = oC.correo;
+            }
+            return Json(c);
+        }
+
     }
 }
