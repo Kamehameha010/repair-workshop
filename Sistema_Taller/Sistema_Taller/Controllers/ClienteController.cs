@@ -76,9 +76,11 @@ namespace Sistema_Taller.Controllers
                             i++;
                         }
 
-                        var parametros = new SqlParameter("@Negocio", SqlDbType.Structured);
-                        parametros.Value = dt;
-                        parametros.TypeName = "dbo.Negocios";
+                        var parametros = new SqlParameter("@Negocio", SqlDbType.Structured)
+                        {
+                            Value = dt,
+                            TypeName = "dbo.Negocios"
+                        };
 
                         
                         db.Database.ExecuteSqlCommand("exec Sp_AddCliente @nombre, @apellidos,@cedula,@telefono,@correo, @Negocio"
