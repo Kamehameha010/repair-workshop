@@ -42,7 +42,7 @@ namespace Sistema_Taller.Controllers
 
 
         [HttpPost]
-        [ValidateAntiForgeryToken]
+        
         public ActionResult Crear(UsuarioViewModel model)
         {
 
@@ -55,16 +55,18 @@ namespace Sistema_Taller.Controllers
                     using (Taller_SysEntities db = new Taller_SysEntities())
                     {
 
-                        Models.Usuario usuario = new Models.Usuario();
-                        usuario.nombre = model.nombre;
-                        usuario.apellidos = model.apellidos;
-                        usuario.cedula = model.cedula;
-                        usuario.telefono = model.telefono;
-                        usuario.correo = model.correo;
-                        usuario.username = model.username;
-                        usuario.contrasena = model.contrasena;
-                        usuario.idRol = model.idRol;
-                        usuario.idEstado = model.idEstado;
+                        Models.Usuario usuario = new Models.Usuario()
+                        {
+                            nombre = model.nombre,
+                            apellidos = model.apellidos,
+                            cedula = model.cedula,
+                            telefono = model.telefono,
+                            correo = model.correo,
+                            username = model.username,
+                            contrasena = model.contrasena,
+                            idRol = model.idRol,
+                            idEstado = model.idEstado,
+                        };
                         db.Usuario.Add(usuario);
                         db.SaveChanges();
 
@@ -208,7 +210,7 @@ namespace Sistema_Taller.Controllers
             }
         }
 
-        public ActionResult Modificar(int id)
+        public ActionResult Modificar(int? id)
         {
             UsuarioViewModel model = new UsuarioViewModel();
 
@@ -239,24 +241,28 @@ namespace Sistema_Taller.Controllers
             {
                 ViewBag.estados = ListaComboBox.estados();
                 ViewBag.roles = ListaComboBox.roles();
-                using (Taller_SysEntities db = new Taller_SysEntities())
+                if (ModelState.IsValid)
                 {
+                    using (Taller_SysEntities db = new Taller_SysEntities())
+                    {
 
-                    var usuario = db.Usuario.Find(model.idUsuario);
-                    usuario.nombre = model.nombre;
-                    usuario.apellidos = model.apellidos;
-                    usuario.cedula = model.cedula;
-                    usuario.telefono = model.telefono;
-                    usuario.username = model.username;
-                    usuario.correo = model.correo;
-                    usuario.contrasena = model.contrasena;
-                    usuario.idRol = model.idRol;
-                    usuario.idEstado = model.idEstado;
+                        var usuario = db.Usuario.Find(model.idUsuario);
+                        usuario.nombre = model.nombre;
+                        usuario.apellidos = model.apellidos;
+                        usuario.cedula = model.cedula;
+                        usuario.telefono = model.telefono;
+                        usuario.username = model.username;
+                        usuario.correo = model.correo;
+                        usuario.contrasena = model.contrasena;
+                        usuario.idRol = model.idRol;
+                        usuario.idEstado = model.idEstado;
 
-                    db.Entry(usuario).State = System.Data.Entity.EntityState.Modified;
-                    db.SaveChanges();
+                        db.Entry(usuario).State = System.Data.Entity.EntityState.Modified;
+                        db.SaveChanges();
+                    }
+                    return Content("1");
                 }
-                return Content("1");
+                return View(model);
             }
             catch (Exception e)
             {

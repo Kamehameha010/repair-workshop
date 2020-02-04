@@ -12,15 +12,15 @@ namespace Sistema_Taller.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class Cliente_Empresa
+    public partial class usera
     {
-        public int idCliente_Emp { get; set; }
-        public Nullable<int> idCliente { get; set; }
-        public Nullable<int> idEmpresa { get; set; }
-        public Nullable<int> idContacto { get; set; }
-    
-        public virtual Cliente Cliente { get; set; }
-        public virtual Contacto Contacto { get; set; }
-        public virtual Empresa Empresa { get; set; }
+        public int idUsuario { get; set; }
+        public string nombre { get; set; }
+        public string apellidos { get; set; }
+        public int cedula { get; set; }
+        public string telefono { get; set; }
+        public string correo { get; set; }
+        public string username { get; set; }
+        public string contrasena { get; set; }
     }
 }

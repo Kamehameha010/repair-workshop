@@ -85,3 +85,37 @@ function enviar() {
         alert(Error)
     })
 }
+
+function listarElementos(div, url) {
+    fetch(url)
+        .then(response => {
+            if (response.ok)
+                return response.json();
+            else
+                throw new Error("Ha ocurrido un error. Intente de nuevo.");
+        }).then(data => {
+            let fila = 1;
+            let table = document.getElementById("tablaP");
+            for (let i of f) {
+                let tr = document.createElement("tr");
+                for (let j in i) {
+                    let td = document.createElement("td")
+                    td.append(i[j]);
+                    tr1.appendChild(td);
+                }
+                table.appendChild(tr1);
+            }
+
+
+            //table.appendChild(tr);
+            document.getElementById(div).appendChild(table);
+            alert("listo");
+        }).catch (error => alert(error));
+
+
+}
+
+
+
+        
+ 

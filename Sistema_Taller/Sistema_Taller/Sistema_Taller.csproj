@@ -132,9 +132,16 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Controllers\ArticuloController.cs" />
+    <Compile Include="Controllers\CasoController.cs" />
+    <Compile Include="Controllers\CategoriaController.cs" />
     <Compile Include="Controllers\ClienteController.cs" />
+    <Compile Include="Controllers\EmpresaController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\MarcaController.cs" />
+    <Compile Include="Controllers\UseraController.cs" />
     <Compile Include="Controllers\UsuarioController.cs" />
+    <Compile Include="Controllers\UsuariosController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -151,12 +158,6 @@
       <DependentUpon>TallerContext.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Cliente.cs">
-      <DependentUpon>TallerContext.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\Cliente_Empresa.cs">
-      <DependentUpon>TallerContext.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\Contacto.cs">
       <DependentUpon>TallerContext.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Empresa.cs">
@@ -213,6 +214,9 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>TallerContext.edmx</DependentUpon>
     </Compile>
+    <Compile Include="Models\usera.cs">
+      <DependentUpon>TallerContext.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\Usuario.cs">
       <DependentUpon>TallerContext.tt</DependentUpon>
     </Compile>
@@ -224,6 +228,7 @@
     <Compile Include="Models\ViewModels\ListaUsuarios.cs" />
     <Compile Include="Models\ViewModels\RepuestoViewModel.cs" />
     <Compile Include="Models\ViewModels\RolViewModel.cs" />
+    <Compile Include="Models\ViewModels\UseraViewModel.cs" />
     <Compile Include="Models\ViewModels\UsuarioViewModel.cs" />
     <Compile Include="Models\View_Caso.cs">
       <DependentUpon>TallerContext.tt</DependentUpon>
@@ -326,9 +331,21 @@
     <Content Include="Views\Cliente\Editar.cshtml" />
     <Content Include="Views\Cliente\Eliminar.cshtml" />
     <Content Include="Views\Cliente\Prueba.cshtml" />
+    <Content Include="Views\Usuarios\Create.cshtml" />
+    <Content Include="Views\Usuarios\Delete.cshtml" />
+    <Content Include="Views\Usuarios\Details.cshtml" />
+    <Content Include="Views\Usuarios\Edit.cshtml" />
+    <Content Include="Views\Usuarios\Index.cshtml" />
+    <Content Include="Views\Usera\Crear.cshtml" />
+    <Content Include="Views\Usera\Index.cshtml" />
+    <Content Include="Views\Articulo\Crear.cshtml" />
+    <Content Include="Views\Caso\Crear.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Views\Categoría\" />
+    <Folder Include="Views\Empresa\" />
+    <Folder Include="Views\Marca\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />

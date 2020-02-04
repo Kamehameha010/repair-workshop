@@ -5,6 +5,8 @@ using System.Web;
 using System.Web.Mvc;
 using Sistema_Taller.Models;
 using Sistema_Taller.Models.ViewModels;
+using System.Data.SqlClient;
+using System.Data;
 
 namespace Sistema_Taller.Controllers
 {
@@ -16,11 +18,7 @@ namespace Sistema_Taller.Controllers
             return View();
         }
 
-        public ActionResult NegocioIndex() 
-        {
 
-            return View();
-        }
         public JsonResult ListadoClientes() {
 
             List<View_Cliente> clientes = null;
@@ -46,11 +44,16 @@ namespace Sistema_Taller.Controllers
 
         public ActionResult Crear() {
 
-            return View();
-        
+            ClienteViewModel model = new ClienteViewModel()
+            {
+                Empresa = new List<EmpresaViewModel>()
+            };
+           
+            return View(model);
         }
 
         [HttpPost]
+        
         public ActionResult Add(ClienteViewModel model)
         {
             try
@@ -59,16 +62,61 @@ namespace Sistema_Taller.Controllers
                 {
                     using (Taller_SysEntities db = new Taller_SysEntities())
                     {
-                        Cliente cliente = new Cliente();
+                        var dt = new DataTable();
+                        dt.Columns.Add("nombre",typeof(string));
+                        dt.Columns.Add("cedJuridica", typeof(string));
+                        dt.Columns.Add("direccion",typeof(string));
+                        dt.Columns.Add("telefono",typeof(string));
+                        dt.Columns.Add("idCliente",typeof(int));
 
-                        cliente.nombre = model.Nombre;
-                        cliente.apellidos = model.Apellidos;
-                        cliente.cedula = model.Cedula;
-                        cliente.telefono = model.Telefono;
-                        cliente.correo = model.Correo;
+                        int i = 1;
+                        foreach (var oElement in model.Empresa)
+                        {
+                            dt.Rows.Add(oElement.Nombre, oElement.CedJuridica, oElement.Direccion, oElement.Telefono, i);
+                            i++;
+                        }
 
+                        var parametros = new SqlParameter("@Negocio", SqlDbType.Structured);
+                        parametros.Value = dt;
+                        parametros.TypeName = "dbo.Negocios";
+
+                        
+                        db.Database.ExecuteSqlCommand("exec Sp_AddCliente @nombre, @apellidos,@cedula,@telefono,@correo, @Negocio"
+                            , new SqlParameter("@nombre",model.Nombre),
+                            new SqlParameter("@apellidos",model.Apellidos),
+                            new SqlParameter("@cedula",model.Cedula),
+                            new SqlParameter("@telefono",model.Telefono),
+                            new SqlParameter("@correo",model.Correo),parametros);
+
+                        /*
+                        Cliente cliente = new Cliente()
+                        {
+
+                            nombre = model.Nombre,
+                            apellidos = model.Apellidos,
+                            cedula = model.Cedula,
+                            telefono = model.Telefono,
+                            correo = model.Correo
+                        };
                         db.Cliente.Add(cliente);
                         db.SaveChanges();
+                        if (model.Empresa != null)
+                        {
+                            foreach (var oEmpresa in model.Empresa)
+                            {
+                                Empresa empresa = new Empresa()
+                                {
+                                    nombre = oEmpresa.Nombre,
+                                    cedJuridica = oEmpresa.CedJuridica,
+                                    telefono = oEmpresa.Telefono,
+                                    direccion = oEmpresa.Direccion,
+                                    idCliente = cliente.idCliente
+                                };
+                                db.Empresa.Add(empresa);
+                            }
+
+                            db.SaveChanges();
+                        }*/
                     }
                     return Content("1");
                 }
@@ -80,6 +128,54 @@ namespace Sistema_Taller.Controllers
             return View(model);
         }
 
+        public ActionResult AddEmpresa(ClienteViewModel model)
+        {
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    using (Taller_SysEntities db = new Taller_SysEntities())
+                    {
+                        Cliente oCliente = new Cliente()
+                        {
+                            nombre = model.Nombre,
+                            apellidos = model.Apellidos,
+                            cedula = model.Cedula,
+                            telefono = model.Telefono,
+                            correo = model.Correo
+                        };
+                        db.Cliente.Add(oCliente);
+                        db.SaveChanges();
+
+                        if (model.Empresa != null)
+                        {
+                            foreach (var oEmpresa in model.Empresa)
+                            {
+                                Empresa empresa = new Empresa()
+                                {
+                                    nombre = oEmpresa.Nombre,
+                                    cedJuridica = oEmpresa.CedJuridica,
+                                    telefono = oEmpresa.Telefono,
+                                    direccion = oEmpresa.Direccion
+                                };
+                                db.Empresa.Add(empresa);
+                            }
+
+                            db.SaveChanges();
+                        }
+                    }
+                    ViewBag.message = "Registro ingresado correctamente";
+                    return Content("1");
+                }
+            }catch(Exception ex)
+            {
+                ViewBag.Error = "Ha ocurrido un problema. Intente de nuevo!";
+                return Content(ex.Message);
+            }
+            return View(model);
+        }
+
+ 
         public ActionResult Editar(int id)
         {
             ClienteViewModel cliente = new ClienteViewModel();
@@ -146,9 +242,9 @@ namespace Sistema_Taller.Controllers
             return View(cliente);
         }
         [HttpPost]
-        [ValidateAntiForgeryToken]
         public ActionResult Borrar(int id)
         {
+            
             using (Taller_SysEntities db = new Taller_SysEntities())
             {
                 var oCliente = db.Cliente.Find(id);
@@ -159,7 +255,7 @@ namespace Sistema_Taller.Controllers
             return Content("1");
         }
         [HttpPost]
-        public JsonResult dele(int id)
+        public JsonResult Dele(int id)
         {
             using ( Taller_SysEntities db = new Taller_SysEntities())
             {
@@ -171,7 +267,7 @@ namespace Sistema_Taller.Controllers
             return Json(true);
         }
         
-        public ActionResult Prueba()
+        public ActionResult Prueba() 
         {
             return View();
             

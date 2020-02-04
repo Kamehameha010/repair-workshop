@@ -10,6 +10,13 @@
         <a class="btn btn-primary" href="~/Cliente/Crear">Crear</a>
     </div>
 </div>
+<div class="row" style="text-align:center">
+    <div class="form-group">
+        <a class="btn btn-group" href="~/Cliente/ListadoClientes"></a>
+        <a class="btn btn-group" href="~/Empresa/ListadoNegocios"></a>
+    </div>
+
+</div>
 <div class="row" >
     <div class="col-md-12" id="ListaCliente">
 
@@ -31,11 +38,13 @@
                     let res = "";
                     let fila = 1;
                     let urlE = "";
+                    
                     res += "<table class='table'><tr><th>#</th><th>Nombre</th>\
                 <th>Apellidos</th><th>Cédula</th><th>Teléfono</th><th>Correo</th>\
                 <th>Editar</th><th>Eliminar</th></tr>";
 
                     for (var i of data) {
+                        
                         urlE = 'document.location.href = "/Cliente/Editar/?id=' + i.Id + '"';
                         urlD = 'document.location.href = "/Cliente/Eliminar/?id=' + i.Id + '"';
                         urlF = 'location.assign("/Cliente/Prueba/?id=' + i.Id + '")';

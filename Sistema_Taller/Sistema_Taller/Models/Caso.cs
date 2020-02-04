@@ -26,9 +26,9 @@ namespace Sistema_Taller.Models
         public Nullable<int> idUsuario { get; set; }
         public Nullable<int> idCliente { get; set; }
     
-        public virtual Cliente Cliente { get; set; }
         public virtual Usuario Usuario { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<CasoDetalle> CasoDetalle { get; set; }
+        public virtual Cliente Cliente { get; set; }
     }
 }

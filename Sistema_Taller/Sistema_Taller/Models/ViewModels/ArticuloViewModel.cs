@@ -5,54 +5,58 @@ namespace Sistema_Taller.Models.ViewModels
 {
     public class ArticuloViewModel
     {
+        public int IdArticulo { get; set; }
 
         [Display(Name = "Nombre")]
         [Required(ErrorMessage = "Campo nombre es requerido")]
         [StringLength(50)]
-        public string nombre { get; set; }
+        public string Nombre { get; set; }
 
         [Display(Name = "Código")]
         [StringLength(50)]
-        public string codigo { get; set; }
+        public string Codigo { get; set; }
 
         [Display(Name = "Modelo")]
         [StringLength(50)]
-        public string modelo { get; set; }
+        public string Modelo { get; set; }
 
         [Display(Name = "Marca")]
-        public Nullable<int> idMarca { get; set; }
+        public Nullable<int> IdMarca { get; set; }
 
         [Display(Name = "Categoría")]
         [Required(ErrorMessage = "Campo categoría es requerido")]
-        public Nullable<int> idCategoria { get; set; }
+        public Nullable<int> IdCategoria { get; set; }
 
         [Display(Name = "Serie")]
         [StringLength(50)]
-        public string serie { get; set; }
+        public string Serie { get; set; }
     }
 
     public class MarcaViewModel
     {
+
+        public int IdMarca { get; set; }
         [Display(Name = "Marca")]
         [StringLength(50)]
         [Required]
-        public String nombre { get; set; }
+        public String Nombre { get; set; }
 
         [Display(Name = "Descripción")]
         [StringLength(80)]
-        [Required]
-        public string descripcion { get; set; }
+        
+        public string Descripcion { get; set; }
     }
 
     public class CategoriaViewModel
     {
+        public int IdCategoria { get; set; }
         [Display(Name = "Categoría")]
         [StringLength(50)]
         [Required]
-        public string nombre { get; set; }
+        public string Nombre { get; set; }
         [Display(Name = "Descripción")]
         [StringLength(80)]
-        [Required]
-        public string descrip { get; set; }
+        
+        public string Descripcion { get; set; }
     }
 }

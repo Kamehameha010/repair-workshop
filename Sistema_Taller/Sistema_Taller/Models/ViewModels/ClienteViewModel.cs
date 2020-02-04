@@ -32,10 +32,10 @@ namespace Sistema_Taller.Models.ViewModels
         [StringLength(50)]
         [Index(IsUnique = true)]
         public string Correo { get; set; }
-
+        public List<EmpresaViewModel> Empresa { get; set; }
 
     }
-    public class EmpresaViewModel
+    public class EmpresaViewModel 
     {
         public int IdEmpresa { get; set; }
 
@@ -57,27 +57,6 @@ namespace Sistema_Taller.Models.ViewModels
         [StringLength(20)]
         public string Telefono { get; set; }
     }
-    public class ContactoViewModel
-    {
-        public int IdContacto { get; set; }
-        [Display(Name = "Nombre")]
-        [Required]
-        [StringLength(50)]
-        public string Nombre { get; set; }
-        [Display(Name = "Teléfono")]
-        [DataType(DataType.PhoneNumber)]
-        [DisplayFormat(DataFormatString = "{0:####-####}")]
-        [StringLength(20)]
-        public string Telefono { get; set; }
-        [EmailAddress]
-        public string Correo { get; set; }
-    }
 
-    public class ClienteEmpleadoViewModel
-    {
-        public int Id { get; set; }
-        public ICollection<ClienteViewModel> Cliente { get; set; }
-        public ICollection<EmpresaViewModel> Empresa { get; set; }
-        public ICollection<ContactoViewModel> Contacto { get; }
-    }
+
 }

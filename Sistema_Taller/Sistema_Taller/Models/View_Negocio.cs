@@ -15,11 +15,11 @@ namespace Sistema_Taller.Models
     public partial class View_Negocio
     {
         public int Id { get; set; }
-        public string Cliente { get; set; }
+        public string Nombre { get; set; }
+        public string Apellidos { get; set; }
         public Nullable<int> Cedula { get; set; }
         public string Correo { get; set; }
         public string Empresa { get; set; }
         public string Telefono { get; set; }
-        public string Contacto { get; set; }
     }
 }

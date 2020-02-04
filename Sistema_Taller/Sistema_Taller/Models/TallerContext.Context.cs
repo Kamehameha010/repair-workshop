@@ -12,6 +12,8 @@ namespace Sistema_Taller.Models
     using System;
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
+    using System.Data.Entity.Core.Objects;
+    using System.Linq;
     
     public partial class Taller_SysEntities : DbContext
     {
@@ -29,10 +31,6 @@ namespace Sistema_Taller.Models
         public virtual DbSet<Caso> Caso { get; set; }
         public virtual DbSet<CasoDetalle> CasoDetalle { get; set; }
         public virtual DbSet<Categoria> Categoria { get; set; }
-        public virtual DbSet<Cliente> Cliente { get; set; }
-        public virtual DbSet<Cliente_Empresa> Cliente_Empresa { get; set; }
-        public virtual DbSet<Contacto> Contacto { get; set; }
-        public virtual DbSet<Empresa> Empresa { get; set; }
         public virtual DbSet<Estado> Estado { get; set; }
         public virtual DbSet<EstadoCaso> EstadoCaso { get; set; }
         public virtual DbSet<Factura> Factura { get; set; }
@@ -50,6 +48,34 @@ namespace Sistema_Taller.Models
         public virtual DbSet<View_Repuesto> View_Repuesto { get; set; }
         public virtual DbSet<View_Usuario> View_Usuario { get; set; }
         public virtual DbSet<View_Cliente> View_Cliente { get; set; }
+        public virtual DbSet<Cliente> Cliente { get; set; }
+        public virtual DbSet<Empresa> Empresa { get; set; }
         public virtual DbSet<View_Negocio> View_Negocio { get; set; }
+        public virtual DbSet<usera> usera { get; set; }
+    
+        public virtual int Sp_AddCliente(string nombre, string apellidos, Nullable<int> cedula, string telefono, string correo)
+        {
+            var nombreParameter = nombre != null ?
+                new ObjectParameter("nombre", nombre) :
+                new ObjectParameter("nombre", typeof(string));
+    
+            var apellidosParameter = apellidos != null ?
+                new ObjectParameter("apellidos", apellidos) :
+                new ObjectParameter("apellidos", typeof(string));
+    
+            var cedulaParameter = cedula.HasValue ?
+                new ObjectParameter("cedula", cedula) :
+                new ObjectParameter("cedula", typeof(int));
+    
+            var telefonoParameter = telefono != null ?
+                new ObjectParameter("telefono", telefono) :
+                new ObjectParameter("telefono", typeof(string));
+    
+            var correoParameter = correo != null ?
+                new ObjectParameter("correo", correo) :
+                new ObjectParameter("correo", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("Sp_AddCliente", nombreParameter, apellidosParameter, cedulaParameter, telefonoParameter, correoParameter);
+        }
     }
 }

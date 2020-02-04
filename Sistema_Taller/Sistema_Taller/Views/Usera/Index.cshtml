@@ -1,0 +1,35 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<div class="table-responsive table-striped" id="divID">
+
+    <table class="table" id="tablaP">
+        <tr>
+            <td>#</td>
+            <td>Nombre</td>
+            <td>Apellidos</td>
+            <td>Cédula</td>
+            <td>Teléfono</td>
+            <td>Correo</td>
+            <td>Usuario</td>
+            <td>Contraseña</td>
+            <td align="center" class="btn-default"><span class="glyphicon glyphicon-edit alert-success"></span></td>
+            <td align="center" class="btn-default"><span class="btngyl glyphicon glyphicon-remove alert-danger"></span></td>
+        </tr>
+
+    </table>
+
+</div>
+
+
+@section Scripts{
+    @Scripts.Render("~/bundles/jsPrueba")
+    <script>
+        listarElementos("divID", "/Usera/Lista");
+    </script>
+}
+

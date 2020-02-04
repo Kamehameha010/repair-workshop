@@ -14,7 +14,7 @@
 
     <input type="button" value="fetch" onclick="borrar()" />
 <div class="row">
-    <div class="col-md-12">
+    <div class="col-md-12" id="form">
         <input type="hidden" id="id" />
         <div class="row">
             @Html.DisplayName("Nombre")<br />
@@ -33,24 +33,34 @@
             @Html.TextBox("Telefono")
         </div>
         <div class="row">
-                @Html.DisplayName("Correo")<br />
-                @Html.TextBox("Correo")
+            @Html.DisplayName("Correo")<br />
+            @Html.TextBox("Correo")
         </div>
-        
 
-        <input type="button" value="tete" onclick="escribir()" />
+
+       
     </div>
 </div>
 
 <div id="ress">
-
+    <input type="button" value="tete" id="btn" />
+    <input type="button" value="tete" id="btn1" />
 </div>
 
 @section Scripts{
 
 
-
+    
     <script type="text/javascript">
+        var p = true
+        $(document).ready(function () {
+
+            $("#btn").click(function () {
+
+                $("#form").slideToggle();
+            });
+        });
+        
 
 
 
@@ -113,5 +123,63 @@
             })
 
         }
+
+        function validate(event){
+
+    else if(form.nombre.value == ""){
+        event.preventDefault();
+    }
+    else if(form.apellidos.value == ""){
+            event.preventDefault();
+        }
+    else if(form.cedula.value == ""){
+            event.preventDefault();
+        }
+    else if(form.telefono.value == ""){
+            event.preventDefault();
+        }
+    else if(form.correo.value == ""){
+            event.preventDefault();
+        }
+    else if(form.username.value == ""){
+            event.preventDefault();
+        }
+    else if(form.contrasena.value == ""){
+            event.preventDefault();
+        }else{
+     let url = "/usera/Crear"
+     fetch(url,{
+        method: 'POST',
+        headers:{
+            "Accept":"application/json",
+            "Content-Type":"application/json"
+         },
+        body: {
+            nombre: form.nombre.value,
+            apellidos:form.apellidos.value,
+            cedula:form.cedula.value,
+            telefono:form.telefono.value,
+            correo:form.correo.value,
+            username:form.username.value,
+            contrasena: form.contrasena.value
+            }
+        
+    }).then(response=>{
+        if(response.ok){
+            return response.json()
+         }else
+            throw new Error("No se guardo");
+        }).then(data=>{
+        if(data!= "Listo"){
+            throw new Error("Erro al ingresar")
+            }else
+            {
+                document.location.href = "/Usera/Crear";
+              }
+    }).catch(error=>{
+        event.preventDefault();
+        })
+        }
+
     </script>
 }

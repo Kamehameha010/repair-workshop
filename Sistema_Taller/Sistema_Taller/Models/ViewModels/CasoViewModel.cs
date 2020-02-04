@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -6,6 +8,8 @@ namespace Sistema_Taller.Models.ViewModels
 {
     public class CasoViewModel
     {
+
+        public int IdCaso { get; set; }
         [Display(Name = "Fecha ingreso")]
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         [DataType(DataType.Date)]
@@ -20,12 +24,17 @@ namespace Sistema_Taller.Models.ViewModels
         [Display(Name = "Cliente")]
         public Nullable<int> IdCliente { get; set; }
 
+        public List<CasoDetalle> Detalles{ get; set; }
+
     }
 
-    public partial class CasoDetalleViewModel
+    public class CasoDetalleViewModel
     {
+        public int IdCasoDetalle { get; set; }
         [Display(Name = "Detalle")]
         [StringLength(200)]
+
+        public ArticuloViewModel Articulo { get; set; }
         public string Detalle { get; set; }
         [Display(Name = "Diagnostico")]
         [StringLength(200)]
@@ -33,19 +42,29 @@ namespace Sistema_Taller.Models.ViewModels
         [Display(Name = "Estado")]
         public Nullable<int> IdEstadoCaso { get; set; }
 
-        [Display(Name = "Fecha ingreso")]
+        [Display(Name = "Fec. Despacho")]
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         [DataType(DataType.Date)]
         public Nullable<System.DateTime> FechaDespacho { get; set; }
 
     }
 
-    public partial class RepuestoUsadoViewModel
+    public class RepuestoUsadoViewModel
     {
+        
+        public int IdRespuesto { get; set; }
         [Display(Name = "Repuesto")]
-        public Nullable<int> idInvRep { get; set; }
+        public Nullable<int> IdInvRep { get; set; }
         [Display(Name = "Cantidad")]
-        public Nullable<int> cantidad { get; set; }
+        public Nullable<int> Cantidad { get; set; }
 
     }
+
+    public class EstadoCasoViewModel {
+
+        public int IdEstadoCaso { get; set; }
+        public string Descripcion { get; set; }
+
+    }
+
 }

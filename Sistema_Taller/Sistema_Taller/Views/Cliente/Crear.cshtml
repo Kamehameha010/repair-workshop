@@ -9,79 +9,186 @@
 
     @using (Html.BeginForm())
     {
-        @Html.AntiForgeryToken()
         @Html.ValidationSummary()
         <div class="row">
             @Html.LabelFor(m => m.Nombre)
-            @Html.EditorFor(m => m.Nombre, "", new { @class = "form-cotrol", id="Nombre"})
+            @Html.EditorFor(m => m.Nombre, "", new { @class = "form-cotrol", id = "Nombre" })
             @Html.ValidationMessageFor(m => m.Nombre, "", new { @class = "text-danger" })
         </div>
         <div class="row">
             @Html.LabelFor(m => m.Apellidos)
-            @Html.EditorFor(m => m.Apellidos, "", new { @class = "form-cotrol" , id="Apellidos"})
-            @Html.ValidationMessageFor(m => m.Apellidos, "", new { @class = "text-danger"})
+            @Html.EditorFor(m => m.Apellidos, "", new { @class = "form-cotrol", id = "Apellidos" })
+            @Html.ValidationMessageFor(m => m.Apellidos, "", new { @class = "text-danger" })
         </div>
         <div class="row">
             @Html.LabelFor(m => m.Cedula)
-            @Html.EditorFor(m => m.Cedula, "", new { @class = "form-cotrol", id="Cedula"  })
-            @Html.ValidationMessageFor(m => m.Cedula, "", new { @class = "text-danger"})
+            @Html.EditorFor(m => m.Cedula, "", new { @class = "form-cotrol", id = "Cedula" })
+            @Html.ValidationMessageFor(m => m.Cedula, "", new { @class = "text-danger" })
         </div>
         <div class="row">
             @Html.LabelFor(m => m.Telefono)
-            @Html.EditorFor(m => m.Telefono, "", new { @class = "form-cotrol" , id="Telefono" })
-            @Html.ValidationMessageFor(m => m.Telefono, "", new { @class = "text-danger", id="Telefono" })
+            @Html.EditorFor(m => m.Telefono, "", new { @class = "form-cotrol", id = "Telefono" })
+            @Html.ValidationMessageFor(m => m.Telefono, "", new { @class = "text-danger", id = "Telefono" })
         </div>
         <div class="row">
             @Html.LabelFor(m => m.Correo)
-            @Html.EditorFor(m => m.Correo, "", new { @class = "form-cotrol" , id="Correo" })
-            @Html.ValidationMessageFor(m => m.Correo, "", new { @class = "text-danger"})
+            @Html.EditorFor(m => m.Correo, "", new { @class = "form-cotrol", id = "Correo" })
+            @Html.ValidationMessageFor(m => m.Correo, "", new { @class = "text-danger" })
         </div>
-
+       
         <div class="form-group">
-            <input type="button" value="Guardar" class="btn btn-success" id="Guardar"  onclick="Save()"/>
+            <input value="Agregar Empresa" type="button" id="add"/>
+        </div>
+        <div class="modal fade" id="negocioModal" role="dialog" >
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header" style="padding:40px 50px;">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4><span class="glyphicon glyphicon-floppy-save"></span> Empresa</h4>
+                    </div>
+                    <div class="modal-body" style="padding: 40px 50px">
+                        <form  id="form2" role="form">
+                            <div class="form-group">
+                                <label for="Nombre">Nombre:</label>
+                                <input type="text" id="NombreEmpresa" name="NombreEmpresa" class="form-control" />
+                            </div>
+                            <div class="form-group">
+                                <label for="CedJuridica">Ced. Juridica:</label>
+                                <input type="text" id="CedJuridica" name="CedJuridica" class="form-control" />
+                            </div>
+                            <div class="form-group">
+                                <label for="Direccion">Dirección:</label>
+                                <input type="text" id="Direccion" name="Direccion" class="form-control" />
+                            </div>
+                            <div class="form-group">
+                                <label for="Telefono">Teléfono</label>
+                                <input type="text" id="TelefonoEmp" name="TelefonoEmp" class="form-control" />
+                            </div>
+                            <div class="modal-footer">
+                                <input type="button" data-dismiss="modal" value="Agregar" id="btnAdd" />
+                                <input type="button" data-dismiss="modal" value="Agregar2" id="btnAdd2" />
+                            </div>
+                        </form>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="table-responsive">
+            <table class="table" id="tablaNegocio">
+                <tr>
+                    
+                    <th>@Html.DisplayName("Nombre")</th>
+                    <th>@Html.DisplayName("Ced.Juridica")</th>
+                    <th>@Html.DisplayName("Dirección")</th>
+                    <th>@Html.DisplayName("Teléfono")</th>
+                    </tr>
+                </table>
+        </div>
+        <div class="form-group">
+            <input type="button" value="Guardar" class="btn btn-success" id="Guardar" onclick="Save()" />
+            <input type="button" value="Ver Set" class="btn btn-success" id="btnVer"  />
         </div>
 
     }
 
 </div>
 
+
+
 @section Scripts {
+
+
+
+
     <script type="text/javascript">
+        var emp = new Array();
+        var index = 0;
+
+        function Empresa(Nombre, CedJuridica, Direccion, Telefono) {
+            this.Nombre = Nombre;
+            this.CedJuridica = CedJuridica;
+            this.Direccion = Direccion;
+            this.Telefono = Telefono;
+        }
+
+        function Cliente(Nombre, Apellidos, Cedula, Telefono, Correo, Empresa) {
+            this.Nombre = Nombre;
+            this.Apellidos = Apellidos;
+            this.Cedula = Cedula;
+            this.Telefono = Telefono;
+            this.Correo = Correo;
+            this.Empresa = Empresa;
+        }
+
+        $(document).ready(function () {
+            $("#add").click(function () {
+                $("#negocioModal").modal();
+
+            });
+
+            $("#btnAdd").click(function () {
+
+                addElements("tablaNegocio", document.getElementById("NombreEmpresa"), document.getElementById("CedJuridica"), document.getElementById("Direccion"), document.getElementById("TelefonoEmp"));
+
+            })
+
+
+        });
+
+        function addElements(tablaName, ...elements) {
+            let tabla = document.getElementById(tablaName);
+            let tr = document.createElement("tr");
+            let inputEdit = document.createElement("input");
+            inputEdit.id = "EditEmp";
+            inputEdit.value = "Editar";
+            inputEdit.type = "button";
+            let inputDelet = document.createElement("input");
+            inputDelet.id = "DeleteEmp";
+            inputDelet.value = "Eliminar";
+            inputDelet.type = "button";
+            for (let i in elements) {
+                let td = document.createElement("td");
+                td.append(elements[i].value);
+                tr.appendChild(td);
+                
+            }
+            
+            
+            let empresa = new Empresa(elements[0].value, elements[1].value, elements[2].value, elements[3].value);
+            emp.push(empresa);
+            tabla.appendChild(tr);
+        }
 
         function Save() {
             let url = "/Cliente/Add"
-            let dictr = {
-                Nombre: document.getElementById("Nombre").value,
-                Apellidos: document.getElementById("Apellidos").value,
-                Cedula: document.getElementById("Cedula").value,
-                Telefono: document.getElementById("Telefono").value,
-                Correo: document.getElementById("Correo").value
-            }
-            for (var i in dictr) {
-                console.log(i+":"+dictr[i]);
-            }
-    fetch(url, {
-        method: 'POST',
-        body: JSON.stringify(dictr),
-        headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json'
-        }
-    }).then((response) => {
-        if (response.ok) {
-            return response.json()
-        } else {
-            alert(Error)
-        }
-    }).then((data) => {
-        if (data != "1") {
-            alert("Error")
-        } else {     
-            document.location.href = "/Cliente/";
-        }
-    }).catch(Error => {
-        alert(Error)
-    })
+            var cliente = new Cliente(document.getElementById("Nombre").value, document.getElementById("Apellidos").value,
+                document.getElementById("Cedula").value, document.getElementById("Telefono").value,
+                document.getElementById("Correo").value, emp);
+
+
+            fetch(url, {
+                method: 'POST',
+                body: JSON.stringify(cliente),
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                }
+            }).then((response) => {
+                if (response.ok) {
+                    return response.json()
+                } else {
+                    alert(Error)
+                }
+            }).then((data) => {
+                if (data != "1") {
+                    alert("Error")
+                } else {
+                    document.location.href = "/Cliente/";
+                }
+            }).catch(Error => {
+                alert(Error)
+            })
 
         }
 

@@ -28,9 +28,9 @@ namespace Sistema_Taller.Models
         public Nullable<int> ConsecutivoElectronico { get; set; }
         public Nullable<decimal> total { get; set; }
     
-        public virtual Cliente Cliente { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Factura_Detalle> Factura_Detalle { get; set; }
         public virtual Usuario Usuario { get; set; }
+        public virtual Cliente Cliente { get; set; }
     }
 }

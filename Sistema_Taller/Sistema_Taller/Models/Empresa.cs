@@ -14,19 +14,13 @@ namespace Sistema_Taller.Models
     
     public partial class Empresa
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Empresa()
-        {
-            this.Cliente_Empresa = new HashSet<Cliente_Empresa>();
-        }
-    
         public int idEmpresa { get; set; }
         public string nombre { get; set; }
         public string cedJuridica { get; set; }
         public string direccion { get; set; }
         public string telefono { get; set; }
+        public Nullable<int> idCliente { get; set; }
     
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Cliente_Empresa> Cliente_Empresa { get; set; }
+        public virtual Cliente Cliente { get; set; }
     }
 }

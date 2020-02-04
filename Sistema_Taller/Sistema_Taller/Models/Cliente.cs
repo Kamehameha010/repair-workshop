@@ -18,7 +18,7 @@ namespace Sistema_Taller.Models
         public Cliente()
         {
             this.Caso = new HashSet<Caso>();
-            this.Cliente_Empresa = new HashSet<Cliente_Empresa>();
+            this.Empresa = new HashSet<Empresa>();
             this.Factura = new HashSet<Factura>();
         }
     
@@ -32,7 +32,7 @@ namespace Sistema_Taller.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Caso> Caso { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Cliente_Empresa> Cliente_Empresa { get; set; }
+        public virtual ICollection<Empresa> Empresa { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Factura> Factura { get; set; }
     }

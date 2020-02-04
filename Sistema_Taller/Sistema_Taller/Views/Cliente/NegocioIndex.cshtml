@@ -1,97 +1,34 @@
 ﻿
 @{
-    ViewBag.Title = "NegocioIndex";
+    ViewBag.Title = "Negocio";
 }
 
-<h2>NegocioIndex</h2>
+<h2>Hola</h2>
+
+<div class="form-group">
+    <input value="Negocio" class="btn dropdown" type="button" onclick="formNegocio()" />
+</div>
 
 <div class="row">
-    <div class="col-md-12" id="ListaCliente-Negocio">
-
+    <div class="col-md-12" id="Negocio">
+        
     </div>
 </div>
 
 @section Scripts {
+    <script>
 
-    <script type="text/javascript">
-        ListadoClientes();
-        function ListadoClientes() {
-            fetch("/Cliente/ListadoNegocios")
-                .then(response => {
-                    if (response.ok)
-                        return response.json()
-                    else
-                        throw new Error("Ha ocurrido un error. Intente de nuevo.");
-                }).then(data => {
-                    let res = "";
-                    let fila = 1;
-                    let urlE = "";
-                    res += "<table class='table'><tr><th>#</th><th>Cliente</th>\
-                <th>Cédula</th><th>Correo</th><th>Negocio</th><th>Télefono</th><th>Contacto</th>\
-                <th>Editar</th><th>Eliminar</th></tr>";
+        function formNegocio() {
 
-                    for (var i of data) {
-                        urlE = 'document.location.href = "/Cliente/Modificar/?id=' + i.id + '"';
-                        urlD = 'document.location.href = "/Cliente/Eliminar/?id=' + i.id + '"';
-                        res += "<tr><td>" + fila + "</td>\
-                        <td>" + i.Cliente + "</td>\
-                        <td>" + i.Cedula + "</td>\
-                        <td>" + i.Correo + "</td>\
-                        <td>" + i.Empresa + "</td>\
-                        <td>" + i.Telefono + "</td>\
-                        <td>" + i.Contacto + "</td>\
-                        <td><input class='btn btn-success' type='button' value='Editar' onclick='"+ urlE +"'/></td>\
-                        <td><input class='btn btn-danger' type='button' value='Eliminar' onclick='"+ urlD +"'/></td>\
-                        </tr > "
-                        fila++;
-                    }
-                    res += "</table>"
-                    document.getElementById("ListaCliente-Negocio").innerHTML = res;
+            
+            var form = document.createElement("form");
+            var labelNombre = document.createElement("label");
+            labelNombre.textContent="Nombre:";
+            form.appendChild(labelNombre);
+            var div = document.querySelector("#Negocio");
+            div.appendChild(form);
 
-                })
         }
-
-        function Usuario(id) {
-            fetch("/Usuario/Editar/id=" + id)
-                .then(response => {
-                    if (response.ok)
-                        return response.json();
-                    else
-                        throw new Error("Ha ocurrido un error. Intente de nuevo");
-                }).then(data => {
-                    console.log(data);
-                }).catch(error => {
-                    alert(error);
-                })
-        }
-
-        function Eliminar(id) {
-            fetch('@Url.Content("~/Usuario/Eliminar")', {
-                method: "Post",
-                body: JSON.stringify({
-                    id: id
-                }), headers: {
-                    "Accept": "application/json",
-                    "Content-Type":"application/json"
-                }
-            }).then(response => {
-                if (response.ok)
-                    return response.text()
-                else
-                    alert("Ha ocurrido un error.Intente más tarde.")
-            }).then(data => {
-                if (data = ! "1")
-                    alert("Error al intentar eliminar registro.")
-                else {
-                    alert("Registro Eliminado ecitosamente.")
-                }
-
-            })
-        }
-
-
-        document.getElementById("btn_clock").onclick = (() => { prueba()})
-
 
     </script>
 }
