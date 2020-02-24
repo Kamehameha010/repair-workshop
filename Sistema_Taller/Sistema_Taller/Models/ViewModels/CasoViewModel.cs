@@ -24,7 +24,7 @@ namespace Sistema_Taller.Models.ViewModels
         [Display(Name = "Cliente")]
         public Nullable<int> IdCliente { get; set; }
 
-        public List<CasoDetalle> Detalles{ get; set; }
+        public List<CasoDetalleViewModel> Detalles{ get; set; }
 
     }
 

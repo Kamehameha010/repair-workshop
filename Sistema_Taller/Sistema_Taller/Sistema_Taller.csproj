@@ -59,6 +59,9 @@
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Linq.Dynamic, Version=1.0.6132.35681, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Linq.Dynamic.1.0.7\lib\net40\System.Linq.Dynamic.dll</HintPath>
+    </Reference>
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Security" />
     <Reference Include="System.Web.DynamicData" />
@@ -141,7 +144,6 @@
     <Compile Include="Controllers\MarcaController.cs" />
     <Compile Include="Controllers\UseraController.cs" />
     <Compile Include="Controllers\UsuarioController.cs" />
-    <Compile Include="Controllers\UsuariosController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -221,7 +223,9 @@
       <DependentUpon>TallerContext.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\ViewModels\ArticuloViewModel.cs" />
+    <Compile Include="Models\ViewModels\BuscarViewModel\BuscarCliente.cs" />
     <Compile Include="Models\ViewModels\CasoViewModel.cs" />
+    <Compile Include="Models\ViewModels\ListaCasos.cs" />
     <Compile Include="Models\ViewModels\ClienteViewModel.cs" />
     <Compile Include="Models\ViewModels\FacturaViewModel.cs" />
     <Compile Include="Models\ViewModels\ListaComboBox.cs" />
@@ -236,7 +240,7 @@
     <Compile Include="Models\View_Cliente.cs">
       <DependentUpon>TallerContext.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\View_Negocio.cs">
+    <Compile Include="Models\View_ClienteBucar.cs">
       <DependentUpon>TallerContext.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\View_Repuesto.cs">
@@ -294,6 +298,7 @@
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
+    <Content Include="Scripts\FieldScripts\Filas.js" />
     <Content Include="Scripts\FieldScripts\jsEliminarDatos.js" />
     <Content Include="Scripts\FieldScripts\pruebaFetch.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
@@ -306,6 +311,10 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
+    <Content Include="Scripts\moment-with-locales.js" />
+    <Content Include="Scripts\moment-with-locales.min.js" />
+    <Content Include="Scripts\moment.js" />
+    <Content Include="Scripts\moment.min.js" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -331,15 +340,15 @@
     <Content Include="Views\Cliente\Editar.cshtml" />
     <Content Include="Views\Cliente\Eliminar.cshtml" />
     <Content Include="Views\Cliente\Prueba.cshtml" />
-    <Content Include="Views\Usuarios\Create.cshtml" />
-    <Content Include="Views\Usuarios\Delete.cshtml" />
-    <Content Include="Views\Usuarios\Details.cshtml" />
-    <Content Include="Views\Usuarios\Edit.cshtml" />
-    <Content Include="Views\Usuarios\Index.cshtml" />
     <Content Include="Views\Usera\Crear.cshtml" />
     <Content Include="Views\Usera\Index.cshtml" />
     <Content Include="Views\Articulo\Crear.cshtml" />
     <Content Include="Views\Caso\Crear.cshtml" />
+    <Content Include="Views\Caso\Index.cshtml" />
+    <Content Include="Views\Cliente\ListadoClientes.cshtml" />
+    <Content Include="Views\hol.cshtml" />
+    <Content Include="Views\Cliente\hola.cshtml" />
+    <Content Include="Views\Cliente\ViewPage1.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

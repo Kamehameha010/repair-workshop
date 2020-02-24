@@ -18,7 +18,9 @@ namespace Sistema_Taller.Models
         public string Nombre { get; set; }
         public string Apellidos { get; set; }
         public Nullable<int> Cedula { get; set; }
-        public string Telefono { get; set; }
         public string Correo { get; set; }
+        public string Empresa { get; set; }
+        public string cedJuridica { get; set; }
+        public string Direccion { get; set; }
     }
 }

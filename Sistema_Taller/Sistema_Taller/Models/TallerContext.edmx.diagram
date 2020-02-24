@@ -40,16 +40,16 @@
         <AssociationConnector Association="Taller_SysModel.FK_ROL_OP_ROL" ManuallyRouted="false" />
         <AssociationConnector Association="Taller_SysModel.FK_USUARIO_ROL" ManuallyRouted="false" />
         <EntityTypeShape EntityType="Taller_SysModel.View_Caso" Width="1.5" PointX="6.75" PointY="0.75" />
-        <EntityTypeShape EntityType="Taller_SysModel.View_Repuesto" Width="1.5" PointX="13.375" PointY="3.75" />
+        <EntityTypeShape EntityType="Taller_SysModel.View_Repuesto" Width="1.5" PointX="9.125" PointY="2.375" />
         <EntityTypeShape EntityType="Taller_SysModel.View_Usuario" Width="1.5" PointX="10.75" PointY="0.75" />
-        <EntityTypeShape EntityType="Taller_SysModel.View_Cliente" PointX="13.375" PointY="0.75" Width="1.5" />
         <EntityTypeShape EntityType="Taller_SysModel.Cliente" Width="1.5" PointX="0.5" PointY="8.25" />
         <EntityTypeShape EntityType="Taller_SysModel.Empresa" Width="1.5" PointX="2.75" PointY="0.5" />
         <AssociationConnector Association="Taller_SysModel.FK_CASO_CLIENTE" />
         <AssociationConnector Association="Taller_SysModel.FK_EMPRESA_CLIENTE" />
         <AssociationConnector Association="Taller_SysModel.FK_FACTURA_CLIENTE" />
-        <EntityTypeShape EntityType="Taller_SysModel.View_Negocio" Width="1.5" PointX="12.625" PointY="6.75" />
         <EntityTypeShape EntityType="Taller_SysModel.usera" Width="1.5" PointX="5.5" PointY="7.25" />
+        <EntityTypeShape EntityType="Taller_SysModel.View_Cliente" Width="1.5" PointX="13.375" PointY="0.75" />
+        <EntityTypeShape EntityType="Taller_SysModel.View_ClienteBucar" Width="1.5" PointX="13.375" PointY="4.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

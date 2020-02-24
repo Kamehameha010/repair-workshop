@@ -1,6 +1,7 @@
 ﻿@model Sistema_Taller.Models.ViewModels.CasoViewModel
 @{
     ViewBag.Title = "Crear";
+    
 }
 
 <h2>Crear</h2>
@@ -9,20 +10,125 @@
 {
     @Html.AntiForgeryToken()
 
-    <div class="form-horizontal">   
-        <h4>Actividad</h4>
-        <hr />
-        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+<div class="form-horizontal">
+    <h4>Actividad</h4>
+    <hr />
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    <div class="form-group">
+        @Html.LabelFor(model => model.FechaIngreso, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.FechaIngreso, new { htmlAttributes = new { @class = "form-control", @readonly = "true" } })
+            @Html.ValidationMessageFor(model => model.FechaIngreso, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(model => model.NumeroCaso, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.NumeroCaso, new { htmlAttributes = new { @class = "form-control", @readonly = "true" } })
+            @Html.ValidationMessageFor(model => model.NumeroCaso, "", new { @class = "text-danger" })
+        </div>
+    </div>
 
+    <div class="form-group">
+        @Html.LabelFor(model => model.IdUsuario, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.HiddenFor(model => model.IdUsuario)
+            @Html.EditorFor(model => model.IdUsuario, new { htmlAttributes = new { @class = "form-control", @readonly = "true" } })
+            @Html.ValidationMessageFor(model => model.FechaIngreso, "", new { @class = "text-danger" })
+        </div>
+    </div> 
+    <div class="form-group">
+        @Html.LabelFor(model => model.IdCliente, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.IdCliente, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.IdCliente, "", new { @class = "text-danger" })
+        </div>
+    </div>
 
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Create" class="btn btn-default" />
+    <div class="form-group">
+        <input class="btn btn-group-justified" type="button" value="Agregar Articulo"  id="add"/>
+    </div>
+    <div class="modal fade" id="ArticuloModal" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header" style="padding:40px 50px;">
+                    <button type="button" class="btn btn-danger close" data-dismiss="modal">&times;</button>
+                    <h4><span class="glyphicon glyphicon-floppy-save"></span> Articulo</h4>
+                </div>
+                <div class="modal-body" style="padding: 40px 50px">
+                    <form id="form2" role="form">
+                        <div class="form-group">
+                            <label for="Articulo"> Articulo:</label>
+                            <input type="text" id="Articulo" name="Articulo" class="form-control" />
+                        </div>
+                        <div class="form-group">
+                            <label for="Codigo"> Codigo:</label>
+                            <input type="text" id="Codigo" name="Codigo" class="form-control" />
+                        </div>
+                        <div class="form-group">
+                            <label for="Modelo"> Modelo:</label>
+                            <input type="text" id="Modelo" name="Modelo" class="form-control" />
+                        </div>
+                        <div class="form-group">
+                            <label for="Marca"> Marca</label>
+                            <input type="text" id="Marca" name="Marca" class="form-control" />
+                        </div>
+                        <div class="form-group">
+                            <label for="Categoria"> Categoria</label>
+                            <input type="text" id="Categoria" name="Categoria" class="form-control" />
+                        </div>
+                        <div class="form-group">
+                            <label for="Serie"> Serie</label>
+                            <input type="text" id="Serie" name="Serie" class="form-control" />
+                        </div>
+                        <div class="form-group">
+                            <label for="Observacion"> Observacion</label>
+                            <textarea id="Observacion" name="Observacion" class="form-control" ></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="Estado"> Estado</label>
+                            <input type="text" id="Estado" name="Estado" class="form-control" />
+                        </div>
+                        <div class="modal-footer">
+                            <input type="button" data-dismiss="modal" value="Agregar" id="btnAdd" />
+                            <input type="button" data-keyboard="modal" value="Agregar2" id="btnAdd2" />
+                        </div>
+                    </form>
+
+                </div>
             </div>
         </div>
     </div>
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input type="submit" value="Create" class="btn btn-default" />
+        </div>
+    </div>
+</div>
 }
 
 <div>
     @Html.ActionLink("Back to List", "Index")
 </div>
+
+@section Scripts{
+   
+<script>
+
+    function Caso(id, ingreso, numCaso, idUsuario, idCliente) {
+        id = idisNaN
+
+    }
+
+    $("#add").click(function () {
+        $("#ArticuloModal").modal();
+    });
+    function obtenerFecha(){}
+fetch("/Caso/Fecha")
+.then(response => response.text())
+.then(data=>{console.log(data); document.getElementById("FechaIngreso").value = data})
+.catch(error=>console.log(error))
+</script>
+
+
+}

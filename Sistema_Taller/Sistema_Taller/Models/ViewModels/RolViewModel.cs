@@ -37,9 +37,9 @@ namespace Sistema_Taller.Models.ViewModels
     public partial class Rol_Operacion
     {
         //TODO
-        public int idRol_Ope { get; set; }
-        public Nullable<int> idRol { get; set; }
-        public Nullable<int> idOperacion { get; set; }
+        public int IdRolOpe { get; set; }
+        public Nullable<int> IdRol { get; set; }
+        public Nullable<int> IdOperacion { get; set; }
 
     }
 }

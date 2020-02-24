@@ -15,16 +15,7 @@ namespace Sistema_Taller.Controllers
         {
             return View();
         }
-        [HttpPost]
-         public JsonResult ListadoClienteNegocios()
-        {
-            List<View_Negocio> negocios;
-            using (Taller_SysEntities db = new Taller_SysEntities())
-            {
-                negocios = db.View_Negocio.ToList();
-            }
-            return Json(negocios);
+        
 
-        }
     }
 }

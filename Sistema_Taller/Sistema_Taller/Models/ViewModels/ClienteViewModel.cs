@@ -6,7 +6,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace Sistema_Taller.Models.ViewModels
 {
 
-    public class ClienteViewModel
+    public class ClienteViewModel  
     {
 
         public int IdCliente { get; set; }
@@ -53,9 +53,11 @@ namespace Sistema_Taller.Models.ViewModels
 
         [Display(Name = "Teléfono")]
         [DataType(DataType.PhoneNumber)]
-        [DisplayFormat(DataFormatString = "{0:####-####}")]
+        [DisplayFormat(DataFormatString = "{0:9999-9999}")]
         [StringLength(20)]
         public string Telefono { get; set; }
+
+        public int? IdCliente { get; set; }
     }
 
 

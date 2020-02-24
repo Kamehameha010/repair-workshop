@@ -12,14 +12,18 @@ namespace Sistema_Taller.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class View_Negocio
+    public partial class View_ClienteBucar
     {
-        public int Id { get; set; }
-        public string Nombre { get; set; }
-        public string Apellidos { get; set; }
-        public Nullable<int> Cedula { get; set; }
-        public string Correo { get; set; }
+        public int idCliente { get; set; }
+        public string nombre { get; set; }
+        public string apellidos { get; set; }
+        public Nullable<int> cedula { get; set; }
+        public string telefono { get; set; }
+        public string correo { get; set; }
+        public Nullable<int> idEmpresa { get; set; }
         public string Empresa { get; set; }
-        public string Telefono { get; set; }
+        public string cedJuridica { get; set; }
+        public string direccion { get; set; }
+        public string TelEmpresa { get; set; }
     }
 }

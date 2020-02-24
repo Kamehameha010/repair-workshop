@@ -47,11 +47,28 @@ namespace Sistema_Taller.Models
         public virtual DbSet<View_Caso> View_Caso { get; set; }
         public virtual DbSet<View_Repuesto> View_Repuesto { get; set; }
         public virtual DbSet<View_Usuario> View_Usuario { get; set; }
-        public virtual DbSet<View_Cliente> View_Cliente { get; set; }
         public virtual DbSet<Cliente> Cliente { get; set; }
         public virtual DbSet<Empresa> Empresa { get; set; }
-        public virtual DbSet<View_Negocio> View_Negocio { get; set; }
         public virtual DbSet<usera> usera { get; set; }
+        public virtual DbSet<View_Cliente> View_Cliente { get; set; }
+        public virtual DbSet<View_ClienteBucar> View_ClienteBucar { get; set; }
+    
+        public virtual int Sp_AddCaso(Nullable<int> numeroCaso, Nullable<int> idUsuario, Nullable<int> idCliente)
+        {
+            var numeroCasoParameter = numeroCaso.HasValue ?
+                new ObjectParameter("numeroCaso", numeroCaso) :
+                new ObjectParameter("numeroCaso", typeof(int));
+    
+            var idUsuarioParameter = idUsuario.HasValue ?
+                new ObjectParameter("idUsuario", idUsuario) :
+                new ObjectParameter("idUsuario", typeof(int));
+    
+            var idClienteParameter = idCliente.HasValue ?
+                new ObjectParameter("idCliente", idCliente) :
+                new ObjectParameter("idCliente", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("Sp_AddCaso", numeroCasoParameter, idUsuarioParameter, idClienteParameter);
+        }
     
         public virtual int Sp_AddCliente(string nombre, string apellidos, Nullable<int> cedula, string telefono, string correo)
         {

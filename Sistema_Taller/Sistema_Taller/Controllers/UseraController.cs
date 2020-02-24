@@ -59,7 +59,7 @@ namespace Sistema_Taller.Controllers
                     throw new Exception();
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 return View(model);
             }

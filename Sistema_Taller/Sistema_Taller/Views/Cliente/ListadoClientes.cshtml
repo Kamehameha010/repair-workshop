@@ -1,0 +1,82 @@
+﻿
+@{
+    //Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>ListadoClientes</title>
+</head>
+<body>
+    <table class="table table-bordered table-hover" id="table">
+        <thead>
+            <tr>
+            </tr>
+        </thead>
+        <tbody>
+        </tbody>
+    </table>
+
+</body>
+</html>
+
+@section Scripts{
+
+    <script>
+        $(document).ready(function () {
+            listar();
+        });
+
+        function listar() {
+            let table = $("#table").DataTable({
+                "processing": true,
+                "serverSide": true,
+                "ajax": {
+                    "url": "/Cliente/ListaClientes",
+                    "type": "POST",
+                    "datatype": "json"
+                },
+                
+                "filter": true,
+                "responsivePriority": 1,
+                "data": null,
+
+                "columns": [
+                    { "data": "Nombre", "name": "Nombre" },
+                    { "data": "Apellidos", "name": "Apellidos" },
+                    { "data": "Cedula", "name": "Cedula" },
+                    { "data": "Telefono", "name": "Telefono" },
+                    { "data": "Correo", "name": "Correo" },
+                    {
+                        "defaultContent": "<a type='button' class='edit'><span class='fa fa-edit '></span></a>\
+                                               <a type='button' class='delete '><span class='fa fa-trash '></span></a>\
+                                               <a type='button' class='show '><i class= 'fa fa-eye'></i></a>",
+                        "autoWidth": true
+                    }
+                ]
+
+
+            });
+
+            rowSelect("#table tbody", table, "#MostrarModal");
+        }
+
+
+        function rowSelect(tbody, table, modal) {
+            $(tbody).on("click", ".show", function () {
+                let data = table.row($(this).parents("tr")).data();
+
+                $(modal).modal(
+                    $("#Nombre").val(data.Nomnbre),
+                    $("#Apellidos").val(data.Nomnbre),
+                    $("#Cedula").val(data.Nomnbre),
+                    $("#Telefono").val(data.Nomnbre),
+                    $("#Correo").val(data.Nomnbre),
+                );
+            });
+        }
+    </script>
+}

@@ -1,0 +1,160 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Casos</h2>
+
+<div class="table-responsive">
+    <table id="dt-casos" class="table table-bordered table-hover" cellspacing="0" width="100%">
+        <thead>
+            <tr>
+                <th>Fec.Ingreso</th>
+                <th>Caso</th>
+                <th>Usuario</th>
+                <th>Cliente</th>
+                <th>Articulo</th>
+                <th>Modelo</th>
+                <th>Marca</th>
+                <th>Serie</th>
+                <th>Acción</th>
+            </tr>
+        </thead>
+        <tbody>
+        </tbody>
+    </table>
+    <button type="button" style="border:none; font-size:medium" ><span class="fa fa-edit alert-success"></span></button><br />
+    <button type="button" style="border:none; font-size:medium" ><span class="fa fa-trash  alert-danger"></span></button>
+
+</div>
+
+<div class="modal fade" id="MostrarModal" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header" style="padding:40px 50px;">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4><span class="glyphicon glyphicon-floppy-save"></span> Empresa</h4>
+            </div>
+            <div class="modal-body" style="padding: 40px 50px">
+                <form id="form2" role="form">
+                    <div class="form-group">
+                        <label for="Ingreso"> Fec.Ingreso:</label>
+                        <input type="date" id="ingreso" name="ingreso" class="form-control" readonly/>
+                    </div>
+                    <div class="form-group">
+                        <label for="Caso"> #Caso</label>
+                        <input type="number" id="caso" name="caso" class="form-control" readonly />
+                    </div>
+                    <div class="form-group">
+                        <label for="Usuario"> Usuario:</label>
+                        <input type="text" id="usuario" name="usuario" class="form-control" readonly />
+                    </div>
+                    <div class="form-group">
+                        <label for="Cliente"> Cliente:</label>
+                        <input type="text" id="cliente" name="Cliente" class="form-control" readonly />
+                    </div>
+                    <div class="form-group">
+                        <label for="Articulo"> Articulo:</label>
+                        <input type="text" id="articulo" name="articulo" class="form-control" readonly />
+                    </div>
+                    <div class="form-group">
+                        <label for="Modelo"> Modelo:</label>
+                        <input type="text" id="modelo" name="modelo" class="form-control" readonly />
+                    </div>
+                    <div class="form-group">
+                        <label for="Marca"> Marca:</label>
+                        <input type="text" id="marca" name="marca" class="form-control" readonly />
+                    </div>
+                    <div class="modal-footer">
+                        <input type="button" data-dismiss="modal" value="Agregar" id="btnAdd" />
+                        <input type="button" data-dismiss="modal" value="Agregar2" id="btnAdd2" />
+                    </div>
+                </form>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts{
+
+    <script>
+        $(document).ready(function () {
+            listar();
+
+        });
+
+
+        
+        function convertirFecha(valor) {
+
+            let pattern = /Date\(([^)]+)/;
+            let ms = pattern.exec(valor);
+            let fecha = new Date(parseFloat(ms[1]));
+            let mes = fecha.getMonth() < 9 ? "0" + (fecha.getMonth() + 1) : fecha.getMonth();
+            let dia = fecha.getDate() < 10 ? "0" + fecha.getDate() : fecha.getDate();
+
+            return fecha.getFullYear() + "-" + mes + "-" + dia;
+
+
+        }
+
+        function listar() {
+            var table = $("#dt-casos").DataTable({
+                "processing": true,
+                "serverSide": true,
+                "ajax": {
+                    "url": "/Caso/Casos",
+                    "type": "POST",
+                    "datatype": "json"
+                },
+                "pageLength": 10,
+                "filter": true,
+                "responsivePriority": 1,
+                "data": null,
+                "columns": [
+                    {
+                        "data": "fecha_ingreso", "render": data => convertirFecha(data), "name": "fecha_ingreso"
+                    },
+                    { "data": "numero_caso", "name": "numero_caso" },
+
+                    { "data": "Usuario", "name": "Usuario"  },
+                    { "data": "Cliente", "name": "Cliente" },
+                    { "data": "Articulo", "name": "Articulo" },
+                    { "data": "modelo", "name": "modelo" },
+                    { "data": "Marca", "name": "Marca" },
+                    { "data": "serie", "name": "serie" },
+                    {
+                        "defaultContent": "<a type='button' class='edit'><span class='fa fa-edit '></span></a>\
+                                           <a type='button' class='delete '><span class='fa fa-trash '></span></a>\
+                                           <a type='button' class='show '><i class= 'fa fa-eye'></i></a>",
+                        "autoWidth": true
+                        
+                    }
+                ]
+            });
+            datos("#dt-casos tbody", table);
+        }
+
+        function datos(tbody, table) {
+            
+            $(tbody).on('click', ".show", function () {
+                
+                var data = table.row($(this).parents("tr")).data();
+                $("#MostrarModal").modal(
+                    $("#ingreso").val(convertirFecha(data.fecha_ingreso)),
+                    $("#caso").val(data.numero_caso),
+                    $("#usuario").val(data.Usuario),
+                    $("#cliente").val(data.Cliente),
+                    $("#articulo").val(data.Articulo),
+                    $("#modelo").val(data.modelo),
+                    $("#marca").val(data.Marca)
+                    
+                );
+
+               
+            });
+        }
+
+    </script>
+ }

@@ -1,6 +1,7 @@
 ﻿@model Sistema_Taller.Models.ViewModels.ClienteViewModel
 @{
     ViewBag.Title = "Agregar Cliente";
+    //Layout = null;
 }
 
 <h2>Crear</h2>
@@ -98,9 +99,6 @@
 
 @section Scripts {
 
-
-
-
     <script type="text/javascript">
         var emp = new Array();
         var index = 0;
@@ -137,16 +135,9 @@
         });
 
         function addElements(tablaName, ...elements) {
+            
             let tabla = document.getElementById(tablaName);
             let tr = document.createElement("tr");
-            let inputEdit = document.createElement("input");
-            inputEdit.id = "EditEmp";
-            inputEdit.value = "Editar";
-            inputEdit.type = "button";
-            let inputDelet = document.createElement("input");
-            inputDelet.id = "DeleteEmp";
-            inputDelet.value = "Eliminar";
-            inputDelet.type = "button";
             for (let i in elements) {
                 let td = document.createElement("td");
                 td.append(elements[i].value);

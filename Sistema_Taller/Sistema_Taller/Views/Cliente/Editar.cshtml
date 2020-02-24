@@ -1,4 +1,4 @@
-﻿@model Sistema_Taller.Models.ViewModels.ClienteViewModel
+﻿@model Sistema_Taller.Models.ViewModels.BuscarViewModel.BuscarCliente
 @{
     ViewBag.Title = "Editar";
 }
@@ -10,7 +10,7 @@
 
     @using (Html.BeginForm())
     {
-        
+
         @Html.ValidationSummary()
         <div class="row">
             @Html.HiddenFor(m => m.IdCliente, new { id = "IdCliente" })
@@ -38,17 +38,162 @@
             @Html.EditorFor(m => m.Correo, "", new { @class = "form-cotrol", id = "Correo" })
             @Html.ValidationMessageFor(m => m.Correo, "", new { @class = "text-danger" })
         </div>
-
         <div class="form-group">
+            <input value="Agregar Empresa" type="button" id="add" />
+        </div>
+        <div class="modal fade" id="negocioModal" role="dialog">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header" style="padding:40px 50px;">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4><span class="glyphicon glyphicon-floppy-save"></span> Empresa</h4>
+                    </div>
+                    <div class="modal-body" style="padding: 40px 50px">
+                        <form id="form2" role="form">
+                            <div class="form-group">
+
+                                <input type="hidden" id="idEmpresa" name="idEmpresa" />
+                                <input type="hidden" id="idClienteE" name="idClienteE" />
+                            </div>
+                            <div class="form-group">
+                                <label for="Nombre">Nombre:</label>
+                                <input type="text" id="NombreEmpresa" name="NombreEmpresa" class="form-control" />
+                            </div>
+                            <div class="form-group">
+                                <label for="CedJuridica">Ced. Juridica:</label>
+                                <input type="text" id="CedJuridica" name="CedJuridica" class="form-control" />
+                            </div>
+                            <div class="form-group">
+                                <label for="Direccion">Dirección:</label>
+                                <input type="text" id="Direccion" name="Direccion" class="form-control" />
+                            </div>
+                            <div class="form-group">
+                                <label for="Telefono">Teléfono</label>
+                                <input type="text" id="TelefonoEmp" name="TelefonoEmp" class="form-control" />
+                            </div>
+                            <div class="modal-footer">
+                                <input type="button" data-dismiss="modal" value="Agregar" id="btnAdd" />
+                                <input type="button" data-dismiss="modal" value="Agregar2" id="btnAdd2" />
+                            </div>
+                        </form>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="table-responsive">
+            <table class="table table-bordered table-hover"  id="tablaNegocio">
+                <thead>
+                    <tr>
+                        <th>@Html.DisplayName("Nombre")</th>
+                        <th>@Html.DisplayName("Ced Juridica")</th>
+                        <th>@Html.DisplayName("Dirección")</th>
+                        <th>@Html.DisplayName("Teléfono")</th>
+                        <th></th>
+                    </tr>
+
+                </thead>
+            </table>
+        </div>
+        <br />
+        <div class="form-group">
+
             <input type="button" value="Guardar" class="btn btn-success" id="Guardar" onclick="actualizar()" />
+            
+
         </div>
 
     }
 
 </div>
+<script>
 
+</script>
 @section Scripts {
+    @Scripts.Render("~/Scripts/FieldScripts/Filas.js")
     <script type="text/javascript">
+        $(document).ready(function () {
+            $("#add").click(function () { $("#negocioModal").modal() })
+            buscar();
+
+        });
+               
+       
+
+        function Empresa(idEmpresa,Nombre, CedJuridica, Direccion, Telefono, idCliente) {
+            this.idEmpresa = idEmpresa; 
+            this.Nombre = Nombre;
+            this.CedJuridica = CedJuridica;
+            this.Direccion = Direccion;
+            this.Telefono = Telefono;
+            this.IdCliente = idCliente;
+        }
+        function SelectRowEdit(e) {
+            
+            let row = e.target.parentElement.parentElement.parentElement.getElementsByTagName("td");
+            $("#negocioModal").modal(
+                $("#idEmpresa").val(row[0].innerText),
+                $("#NombreEmpresa").val(row[1].innerText),
+                $("#CedJuridica").val(row[2].innerText),
+                $("#Direccion").val(row[3].innerText),
+                $("#TelefonoEmp").val(row[4].innerText),
+                $("#idClienteE").val(row[5].innerText),
+
+            );
+        }
+        function SelectRowDelete(e) {
+
+            let row = e.target.parentElement.parentElement.parentElement;
+            row.remove();
+        }
+
+        function buscar() {
+            let id = parseInt(/\d+$/.exec(location.href));
+
+            fetch("/Cliente/BuscarCliente/?id=" + id, {
+                headers: { 'Content-Type': 'application/json' }
+            }).then(response => response.json())
+                .then(data => {
+                    $("#IdCliente").val(data.IdCliente);
+                    $("#Nombre").val(data.Nombre);
+                    $("#Apellidos").val(data.Apellidos);
+                    $("#Cedula").val(data.Cedula);
+                    $("#Telefono").val(data.Telefono);
+                    $("#Correo").val(data.Correo);
+                    
+                    let table = document.getElementById("tablaNegocio");
+                    let tbody = document.createElement("tbody");
+                    for (let i of data.Negocio) {
+                        let tr = document.createElement("tr")
+                        for (let j in i) {
+                             let td = document.createElement("td");
+                            if (j == "IdEmpresa" || j == "IdCliente") {
+                                td.style.display = 'none';
+                                td.textContent = i[j];
+                                
+                            } else {
+                                td.textContent = i[j];
+                                
+                            }
+                            tr.appendChild(td);
+                        }
+                     
+                        tr.innerHTML += "<td><button type='button' class='edit alert-success'><span class='fa fa-edit'></span></button>\
+                                             <button type='button' class='delete alert-danger'><span class='fa fa-trash'></span></button></td>"
+                        tbody.appendChild(tr);
+                        table.appendChild(tbody);
+                    }
+
+                    let btnEdit = document.getElementsByClassName("edit");
+                    let btnDelete = document.getElementsByClassName("delete");
+                    for (let i = 0; i < btnEdit.length; i++) {
+                        btnEdit[i].addEventListener("click", SelectRowEdit);
+                        btnDelete[i].addEventListener("click", SelectRowDelete);
+                    }
+
+                }).catch(error => alert(error));
+
+        }
 
         function actualizar() {
 
