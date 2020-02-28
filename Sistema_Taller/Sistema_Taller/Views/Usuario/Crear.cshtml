@@ -10,7 +10,7 @@
     
     <div class="row">
         <div class="container">
-           
+           @Html.AntiForgeryToken()
             <div class="row">
                 <div class="col-md-12">
                     <br />
@@ -114,7 +114,9 @@ function send() {
         headers: {
             'Accept': 'application/json',
             'Content-Type': 'application/json'
+            
         }
+        
     }).then((response) => {
         if (response.ok) {
             return response.json()

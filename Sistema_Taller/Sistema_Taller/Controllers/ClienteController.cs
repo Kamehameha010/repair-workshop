@@ -135,7 +135,6 @@ namespace Sistema_Taller.Controllers
                             foreach (var oElement in model.Empresa)
                             {
                                 dt.Rows.Add(i, oElement.Nombre, oElement.CedJuridica, oElement.Direccion, oElement.Telefono, i);
-                                i++;
                             }
 
                             var parametros = new SqlParameter("@Negocio", SqlDbType.Structured)
@@ -234,15 +233,58 @@ namespace Sistema_Taller.Controllers
             return View();
         }
         [HttpPost]
-        public ActionResult Editar(CasoViewModel model)
+        public ActionResult Editar(ClienteViewModel model)
         {
-
-            using (Taller_SysEntities db = new Taller_SysEntities())
+            if (ModelState.IsValid)
             {
-                
-            }
+                using (Taller_SysEntities db = new Taller_SysEntities())
+                {
+                    if (model.Empresa == null)
+                    {
+                        var oCliente = db.Cliente.Find(model.IdCliente);
+                        oCliente.nombre = model.Nombre;
+                        oCliente.apellidos = model.Apellidos;
+                        oCliente.cedula = model.Cedula;
+                        oCliente.telefono = model.Telefono;
+                        oCliente.correo = model.Correo;
+                    }
+                    else
+                    {
+                        var dt = new DataTable();
+                        dt.Columns.Add("id", typeof(int));
+                        dt.Columns.Add("nombre", typeof(string));
+                        dt.Columns.Add("cedJuridica", typeof(string));
+                        dt.Columns.Add("direccion", typeof(string));
+                        dt.Columns.Add("telefono", typeof(string));
+                        dt.Columns.Add("idCliente", typeof(int));
 
-            return View();
+                        int i = 1;
+                        foreach (var oElement in model.Empresa)
+                        {
+                            dt.Rows.Add(oElement.IdEmpresa, oElement.Nombre, oElement.CedJuridica, oElement.Direccion, oElement.Telefono, oElement.IdCliente);
+                            i++;
+                        }
+
+                        var parametros = new SqlParameter("@Negocio", SqlDbType.Structured)
+                        {
+                            Value = dt,
+                            TypeName = "dbo.typ_negocio"
+                        };
+
+
+                        db.Database.ExecuteSqlCommand("exec sp_ActCliente @idCliente, @nombre, @apellidos,@cedula,@telefono,@correo, @Negocio"
+                            , new SqlParameter("@idCliente", model.IdCliente),
+                            new SqlParameter("@nombre", model.Nombre),
+                            new SqlParameter("@apellidos", model.Apellidos),
+                            new SqlParameter("@cedula", model.Cedula),
+                            new SqlParameter("@telefono", model.Telefono),
+                            new SqlParameter("@correo", model.Correo), parametros);
+
+                    }
+                }
+                return Content("1");
+            }
+            return Content("0");
         }
 
         [HttpGet]

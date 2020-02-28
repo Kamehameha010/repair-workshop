@@ -40,9 +40,17 @@ namespace Sistema_Taller.Controllers
             return View();
         }
 
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public JsonResult Prueba(PruebaV model) 
+        {
+            ViewBag.nombre = model.nombre;
+            return Json(true);
+        }
+
 
         [HttpPost]
-        
+        [ValidateAntiForgeryToken]
         public ActionResult Crear(UsuarioViewModel model)
         {
 

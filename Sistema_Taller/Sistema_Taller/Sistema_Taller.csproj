@@ -230,6 +230,7 @@
     <Compile Include="Models\ViewModels\FacturaViewModel.cs" />
     <Compile Include="Models\ViewModels\ListaComboBox.cs" />
     <Compile Include="Models\ViewModels\ListaUsuarios.cs" />
+    <Compile Include="Models\ViewModels\PruebaV.cs" />
     <Compile Include="Models\ViewModels\RepuestoViewModel.cs" />
     <Compile Include="Models\ViewModels\RolViewModel.cs" />
     <Compile Include="Models\ViewModels\UseraViewModel.cs" />

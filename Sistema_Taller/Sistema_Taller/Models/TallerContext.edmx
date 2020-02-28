@@ -530,6 +530,14 @@ advertencia 6002: La tabla o vista 'Taller_Sys.dbo.View_Usuario' no tiene defini
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Function Name="sp_ActCliente" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="idCliente" Type="int" Mode="In" />
+          <Parameter Name="nombre" Type="varchar" Mode="In" />
+          <Parameter Name="apellidos" Type="varchar" Mode="In" />
+          <Parameter Name="cedula" Type="int" Mode="In" />
+          <Parameter Name="telefono" Type="varchar" Mode="In" />
+          <Parameter Name="correo" Type="varchar" Mode="In" />
+        </Function>
         <Function Name="Sp_AddCaso" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="numeroCaso" Type="int" Mode="In" />
           <Parameter Name="idUsuario" Type="int" Mode="In" />
@@ -1234,6 +1242,14 @@ advertencia 6002: La tabla o vista 'Taller_Sys.dbo.View_Usuario' no tiene defini
           </FunctionImport>
           <EntitySet Name="View_Cliente" EntityType="Taller_SysModel.View_Cliente" />
           <EntitySet Name="View_ClienteBucar" EntityType="Taller_SysModel.View_ClienteBucar" />
+          <FunctionImport Name="sp_ActCliente">
+            <Parameter Name="idCliente" Mode="In" Type="Int32" />
+            <Parameter Name="nombre" Mode="In" Type="String" />
+            <Parameter Name="apellidos" Mode="In" Type="String" />
+            <Parameter Name="cedula" Mode="In" Type="Int32" />
+            <Parameter Name="telefono" Mode="In" Type="String" />
+            <Parameter Name="correo" Mode="In" Type="String" />
+          </FunctionImport>
         </EntityContainer>
         <EntityType Name="View_Caso">
           <Key>
@@ -1683,6 +1699,7 @@ advertencia 6002: La tabla o vista 'Taller_Sys.dbo.View_Usuario' no tiene defini
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="sp_ActCliente" FunctionName="Taller_SysModel.Store.sp_ActCliente" />
           </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

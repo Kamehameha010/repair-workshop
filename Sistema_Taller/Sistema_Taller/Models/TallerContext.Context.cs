@@ -94,5 +94,34 @@ namespace Sistema_Taller.Models
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("Sp_AddCliente", nombreParameter, apellidosParameter, cedulaParameter, telefonoParameter, correoParameter);
         }
+    
+        public virtual int sp_ActCliente(Nullable<int> idCliente, string nombre, string apellidos, Nullable<int> cedula, string telefono, string correo)
+        {
+            var idClienteParameter = idCliente.HasValue ?
+                new ObjectParameter("idCliente", idCliente) :
+                new ObjectParameter("idCliente", typeof(int));
+    
+            var nombreParameter = nombre != null ?
+                new ObjectParameter("nombre", nombre) :
+                new ObjectParameter("nombre", typeof(string));
+    
+            var apellidosParameter = apellidos != null ?
+                new ObjectParameter("apellidos", apellidos) :
+                new ObjectParameter("apellidos", typeof(string));
+    
+            var cedulaParameter = cedula.HasValue ?
+                new ObjectParameter("cedula", cedula) :
+                new ObjectParameter("cedula", typeof(int));
+    
+            var telefonoParameter = telefono != null ?
+                new ObjectParameter("telefono", telefono) :
+                new ObjectParameter("telefono", typeof(string));
+    
+            var correoParameter = correo != null ?
+                new ObjectParameter("correo", correo) :
+                new ObjectParameter("correo", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("sp_ActCliente", idClienteParameter, nombreParameter, apellidosParameter, cedulaParameter, telefonoParameter, correoParameter);
+        }
     }
 }
