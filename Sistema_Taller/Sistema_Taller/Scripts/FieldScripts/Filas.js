@@ -23,11 +23,9 @@ function SelectRowEdit(e) {
         $("#Direccion").val(data[3].innerText),
         $("#TelefonoEmp").val(data[4].innerText),
         $("#idClienteE").val(data[5].innerText),
-        
-
     );
 
-
+ 
     $("#edit").click(function () {
         editRow(event, row);
     });

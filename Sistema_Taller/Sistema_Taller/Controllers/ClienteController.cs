@@ -144,7 +144,7 @@ namespace Sistema_Taller.Controllers
                             };
 
 
-                            db.Database.ExecuteSqlCommand("exec Sp_AddCliente @nombre, @apellidos,@cedula,@telefono,@correo, @Negocio"
+                             db.Database.ExecuteSqlCommand("exec Sp_AddCliente @nombre, @apellidos,@cedula,@telefono,@correo, @Negocio"
                                 , new SqlParameter("@nombre", model.Nombre),
                                 new SqlParameter("@apellidos", model.Apellidos),
                                 new SqlParameter("@cedula", model.Cedula),
@@ -378,14 +378,18 @@ namespace Sistema_Taller.Controllers
         [HttpPost]
         public ActionResult Eliminar(int id)
         {
-
             using (Taller_SysEntities db = new Taller_SysEntities())
             {
                 var oCliente = db.Cliente.Find(id);
-                db.Cliente.Remove(oCliente);
-                db.SaveChanges();
+                if (oCliente == null)
+                {
+                    return HttpNotFound();
+                }
+                else {
+                    db.Cliente.Remove(oCliente);
+                    db.SaveChanges();
+                }
             }
-
             return Content("1");
         }
         [HttpPost]

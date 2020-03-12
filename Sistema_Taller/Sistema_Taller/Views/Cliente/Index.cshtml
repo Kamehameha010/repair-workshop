@@ -160,7 +160,7 @@
 
             });
         }
-
+        //usar Ajax
         function rowSelectDelete(tbody, table, modal) {
             $(tbody).on("click", ".delete", function () {
                 let data = table.row($(this).parents("tr")).data();
@@ -178,8 +178,9 @@
                         body: JSON.stringify({ id: document.getElementById("idCliente").value })
                     }).then(response => response.json())
                       .then(data => {
-                            if (data === "1") {
-                                alert("aqui")
+                          if (data != "1") {
+                              alert("No se pudo eLiminar")
+                          } else {
                                 location.href= "/Cliente/";
                             }
                         })

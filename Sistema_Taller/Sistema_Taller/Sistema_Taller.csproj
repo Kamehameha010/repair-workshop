@@ -142,6 +142,7 @@
     <Compile Include="Controllers\EmpresaController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\MarcaController.cs" />
+    <Compile Include="Controllers\RepuestoController.cs" />
     <Compile Include="Controllers\UseraController.cs" />
     <Compile Include="Controllers\UsuarioController.cs" />
     <Compile Include="Global.asax.cs">
@@ -177,12 +178,15 @@
     <Compile Include="Models\Factura_Detalle.cs">
       <DependentUpon>TallerContext.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\FormViewModel\FormCasoViewModel.cs" />
     <Compile Include="Models\InventarioRepuesto.cs">
       <DependentUpon>TallerContext.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Marca.cs">
       <DependentUpon>TallerContext.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\Metadata\Metadatas.cs" />
+    <Compile Include="Models\Metadata\PartialClass.cs" />
     <Compile Include="Models\Modulo.cs">
       <DependentUpon>TallerContext.tt</DependentUpon>
     </Compile>
@@ -195,6 +199,7 @@
     <Compile Include="Models\RepuestoUsado.cs">
       <DependentUpon>TallerContext.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\Request\CasoRequest.cs" />
     <Compile Include="Models\Rol.cs">
       <DependentUpon>TallerContext.tt</DependentUpon>
     </Compile>
@@ -350,9 +355,12 @@
     <Content Include="Views\hol.cshtml" />
     <Content Include="Views\Cliente\hola.cshtml" />
     <Content Include="Views\Cliente\ViewPage1.cshtml" />
+    <Content Include="Views\Caso\Editar.cshtml" />
+    <Content Include="Views\Repuesto\Crear.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Models\Response\" />
     <Folder Include="Views\Categoría\" />
     <Folder Include="Views\Empresa\" />
     <Folder Include="Views\Marca\" />

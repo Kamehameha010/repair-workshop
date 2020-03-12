@@ -178,7 +178,7 @@
                 lstEmp.push(new Empresa(elements[0],elements[1],elements[2],elements[3],elements[4],elements[5]))
                 
                 for (let i = 0; i < elements.length; i++) {
-                    console.log(elements[i]);
+                    
                     row.insertCell(i).innerHTML = elements[i];
                 }
                 row.cells[0].hidden = true;
@@ -206,8 +206,8 @@
                     $("#Telefono").val(data.Telefono);
                     $("#Correo").val(data.Correo);
 
-                    let table = document.getElementById("tablaNegocio");
-                    let tbody = document.createElement("tbody");
+                   //let table = document.getElementById("tablaNegocio");
+                    let tbody = document.querySelector("#tablaNegocio tbody");
                     for (let i of data.Negocio) {
                         let tr = document.createElement("tr")
                         for (let j in i) {
@@ -226,7 +226,7 @@
                         tr.innerHTML += "<td><button type='button' class='edit alert-success'><span class='fa fa-edit'></span></button>\
                                                          <button type='button' class='delete alert-danger'><span class='fa fa-trash'></span></button></td>"
                         tbody.appendChild(tr);
-                        table.appendChild(tbody);
+                        //table.appendChild(tbody);
                     }
                     eventos(); 
                 }).catch(error => alert(error));

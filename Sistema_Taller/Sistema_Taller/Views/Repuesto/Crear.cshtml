@@ -1,0 +1,184 @@
+﻿@model Sistema_Taller.Models.ViewModels.RepuestoViewModel
+@{
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Crear</title>
+</head>
+<body>
+    <div class="dl-horizontal">
+        @using (Html.BeginForm("Crear", "Repuesto", FormMethod.Post))
+        {
+            @Html.AntiForgeryToken()
+            @Html.ValidationSummary(true)
+
+            <div class="form-group">
+                @Html.LabelFor(m => m.nombre, htmlAttributes: new { @class = "control-label col-md-2" })
+
+                <div class="col-md-10">
+                    @Html.EditorFor(m => m.nombre, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(m => m.nombre, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(m => m.telefono, new { @class = "control-label col-md-2" })
+
+                <div class="col-md-10">
+                    @Html.EditorFor(m => m.telefono, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(m => m.telefono, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(m => m.direccion, new { @class = "control-label col-md-2" })
+
+                <div class="col-md-10">
+                    @Html.EditorFor(m => m.direccion, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(m => m.direccion, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="form-group">
+                <a class="btn btn-default" data-toggle="modal"
+                   data-target="#RepuestoModal">Agregar Repuesto</a>
+            </div>
+            <input type="submit" class="btn btn-primary" value="Guardar" />
+
+            <div class="table-responsive">
+                <table class="table table-hover table-bordered" id="TablaRepuesto">
+                    <thead>
+                        <tr>
+                            <th>Código</th>
+                            <th>Descripcion</th>
+                            <th>Precio</th>
+                            <th>Cantidad</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
+
+            </div>
+        }
+
+    </div>
+
+    <div class="modal fade" id="RepuestoModal" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header" style="padding:40px 50px;">
+                    <button type="button" class="btn btn-danger close" data-dismiss="modal">&times;</button>
+                    <h4><span class="glyphicon glyphicon-floppy-save"></span> Articulo</h4>
+                </div>
+                <div class="modal-body" style="padding: 40px 50px">
+                    <form id="form2" role="form">
+                        @Html.HiddenFor(m=>m.Repuestos.idInvRep)
+                        <div class="form-group">
+                            @Html.LabelFor(m => m.Repuestos.codigo, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.EditorFor(m => m.Repuestos.codigo, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(m => m.Repuestos.codigo, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(m => m.Repuestos.descripcion, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.EditorFor(m => m.Repuestos.descripcion, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(m => m.Repuestos.descripcion, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(m => m.Repuestos.precio, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.EditorFor(m => m.Repuestos.precio, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(m => m.Repuestos.precio, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(m => m.Repuestos.cantidad, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.EditorFor(m => m.Repuestos.cantidad, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(m => m.Repuestos.cantidad, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="modal-footer">
+                            <input type="button" data-dismiss="modal" value="Guardar" id="add" />
+
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    
+</body>
+</html>
+
+@section Scripts{
+    @Scripts.Render("~/bundles/jqueryval")
+
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script>
+        
+       
+    </script>
+
+   <script>
+
+       document.getElementById("add").addEventListener("click", function (e) {
+           AgregarElemento(new FormData(document.forms["form2"]))
+               .then(data => {
+                   let tbody = document.querySelector("#TablaRepuesto tbody");
+                   let row = tbody.insertRow(0);
+
+                   for (let i = 1; i < data.length; i++) {
+                       row.insertCell(i - 1).innerHTML = data[i];
+                   }
+                   row.insertCell(4).innerHTML = "<td><button type='button' class='edit alert-success'><span class='fa fa-edit'></span></button>\															 <button type='button' class='delete alert-danger'><span class='fa fa-trash'></span></button></td>";
+               })
+               .catch(error => {
+                   console.log("aqui")
+                   e.preventDefault();
+                   alert(error)
+               })
+       })
+       
+
+       var cantidad = (formdata) => {
+           var count = 0;
+           formdata.forEach(x => {
+               if (x == "") {
+                   count++;
+               }
+           })
+           return count;
+       }
+       var data = (formdata) => {
+           var obj = [];
+           formdata.forEach(x => obj.push(x))
+           return obj;
+       }
+       function AgregarElemento(formElements) {
+
+           return new Promise((resolve, reject) => {
+               if (cantidad(formElements) < 4) {
+                   resolve(data(formElements));
+               } else {
+                   reject('Campos del formulario se encuentran vacios');
+               }
+
+           });
+       }
+
+       function save() {
+           fetch("", {
+
+           })
+       }
+    </script>
+}
