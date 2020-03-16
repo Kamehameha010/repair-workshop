@@ -11,11 +11,12 @@
 </head>
 <body>
     <div class="dl-horizontal">
-        @using (Html.BeginForm("Crear", "Repuesto", FormMethod.Post))
+        @using (Html.BeginForm())
         {
             @Html.AntiForgeryToken()
             @Html.ValidationSummary(true)
 
+            @Html.HiddenFor(m => m.idProveedor)
             <div class="form-group">
                 @Html.LabelFor(m => m.nombre, htmlAttributes: new { @class = "control-label col-md-2" })
 
@@ -44,38 +45,39 @@
                 <a class="btn btn-default" data-toggle="modal"
                    data-target="#RepuestoModal">Agregar Repuesto</a>
             </div>
-            <input type="submit" class="btn btn-primary" value="Guardar" />
+            <input type="button" class="btn btn-primary" value="Guardar" id="save" />
 
-            <div class="table-responsive">
-                <table class="table table-hover table-bordered" id="TablaRepuesto">
-                    <thead>
-                        <tr>
-                            <th>Código</th>
-                            <th>Descripcion</th>
-                            <th>Precio</th>
-                            <th>Cantidad</th>
-                            <th></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                    </tbody>
-                </table>
 
-            </div>
         }
 
     </div>
+    <div class="table-responsive-sm">
+        <table class="table table-hover table-bordered " id="TablaRepuesto">
+            <thead>
+                <tr>
+                    <th>Código</th>
+                    <th>Descripcion</th>
+                    <th>Precio</th>
+                    <th>Cantidad</th>
+                    <th colspan="1"></th>
+                </tr>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
 
+    </div>
     <div class="modal fade" id="RepuestoModal" role="dialog">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header" style="padding:40px 50px;">
-                    <button type="button" class="btn btn-danger close" data-dismiss="modal">&times;</button>
                     <h4><span class="glyphicon glyphicon-floppy-save"></span> Articulo</h4>
+                    <button type="button" class="btn btn-danger close" data-dismiss="modal">&times;</button>
+
                 </div>
                 <div class="modal-body" style="padding: 40px 50px">
                     <form id="form2" role="form">
-                        @Html.HiddenFor(m=>m.Repuestos.idInvRep)
+                        @Html.HiddenFor(m => m.Repuestos.idInvRep)
                         <div class="form-group">
                             @Html.LabelFor(m => m.Repuestos.codigo, htmlAttributes: new { @class = "control-label col-md-2" })
                             <div class="col-md-10">
@@ -114,8 +116,8 @@
             </div>
         </div>
     </div>
-    
-    
+
+
 </body>
 </html>
 
@@ -129,20 +131,78 @@
     </script>
 
    <script>
+       var repuestos = []
+       var items
+       class Repuesto {
 
+           constructor(id, codigo, descripcion, precio, cantidad) {
+               this.id = id || 0;
+               this.codigo = codigo;
+               this.descripcion = descripcion;
+               this.precio = precio || 0.0;
+               this.cantidad = cantidad;
+           }
+           
+           set Id(id) {
+               this.id = id;
+           }
+           get Id() {
+               return this.id;
+           }
+           set Codigo(codigo) {
+               this.codigo = codigo;
+           }
+           get Codigo() {
+               return this.codigo;
+           }         
+           set Descripcion(descripcion) {
+               this.descripcion = descripcion;
+           }
+           get Descripcion() {
+               return this.codigo
+           }
+           set Precio(precio) {
+               this.precio = precio;
+           }
+           get Precio() {
+               return this.precio;
+           }
+           set Cantidad(cantidad) {
+               this.cantidad = cantidad;
+           }
+           get Cantidad() {
+               return this.cantidad;
+           }
+
+           llenarConArreglo(...x) {
+               this.Id = x[0][0];
+               this.Codigo = x[0][1];
+               this.Descripcion = x[0][2];
+               this.Precio = x[0][3];
+               this.Cantidad = x[0][4];
+           }
+       }
+
+
+       document.getElementById("save").addEventListener("click", save);
        document.getElementById("add").addEventListener("click", function (e) {
            AgregarElemento(new FormData(document.forms["form2"]))
                .then(data => {
+                   items = data
+                   let resp = new Repuesto()
+                   resp.llenarConArreglo(data);
+                   let m = resp;
+                   repuestos.push(m);
                    let tbody = document.querySelector("#TablaRepuesto tbody");
                    let row = tbody.insertRow(0);
 
                    for (let i = 1; i < data.length; i++) {
+                       console.log(data)
                        row.insertCell(i - 1).innerHTML = data[i];
                    }
                    row.insertCell(4).innerHTML = "<td><button type='button' class='edit alert-success'><span class='fa fa-edit'></span></button>\															 <button type='button' class='delete alert-danger'><span class='fa fa-trash'></span></button></td>";
                })
-               .catch(error => {
-                   console.log("aqui")
+               .catch(error => {     
                    e.preventDefault();
                    alert(error)
                })
@@ -175,10 +235,30 @@
            });
        }
 
-       function save() {
-           fetch("", {
 
-           })
+       function save() {
+           let obj = {
+               idProveedor: $("#idProveedor").val(),
+               nombre: $("#nombre").val(),
+               telefono: $("#telefono").val(),
+               direccion: $("#direccion").val(),
+               repuesto: repuestos
+           }
+
+           fetch("/Repuesto/Crear", {
+               method: 'POST',
+               headers: {
+                   'Content-Type': 'application/json'
+               },
+               body: JSON.stringify(obj)
+           }).then(response => response.json())
+               .then(data => {
+                   if (data != "1") {
+                       location.href = "/Repuesto/";
+                   }
+               })
+               .catch(error => alert(error))
        }
     </script>
 }
+ 

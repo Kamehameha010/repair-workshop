@@ -1,0 +1,168 @@
+﻿@model Sistema_Taller.Models.ViewModels.RepuestoViewModel
+    @{
+
+    }
+
+    <!DOCTYPE html>
+
+    <html>
+    <head>
+        <meta name="viewport" content="width=device-width" />
+        <title>Crear</title>
+    </head>
+    <body onload="buscar(location.href)">
+        <div class="dl-horizontal">
+            @using (Html.BeginForm())
+            {
+                @Html.AntiForgeryToken()
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+                @Html.HiddenFor(m => m.idProveedor)
+                <div class="form-group">
+                    @Html.LabelFor(m => m.nombre, htmlAttributes: new { @class = "control-label col-md-2" })
+
+                    <div class="col-md-10">
+                        @Html.EditorFor(m => m.nombre, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(m => m.nombre, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(m => m.telefono, new { @class = "control-label col-md-2" })
+
+                    <div class="col-md-10">
+                        @Html.EditorFor(m => m.telefono, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(m => m.telefono, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(m => m.direccion, new { @class = "control-label col-md-2" })
+
+                    <div class="col-md-10">
+                        @Html.EditorFor(m => m.direccion, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(m => m.direccion, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <input type="button" class="btn btn-success" value="Editar" id="editProveedor" />
+
+
+            }
+
+        </div>
+        <div class="dl-horizontal border border-primary">
+            @using (Html.BeginForm())
+            {
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+                @Html.HiddenFor(m => m.Repuestos.idInvRep)
+            <div class="row">
+                <div class="form-group col-sm-6">
+                    @Html.LabelFor(m => m.Repuestos.codigo, htmlAttributes: new { @class = "control-label col-md-2" })
+
+                    <div class="col-md-10">
+                        @Html.EditorFor(m => m.Repuestos.codigo, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(m => m.Repuestos.codigo, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group col-sm-6">
+                    @Html.LabelFor(m => m.Repuestos.descripcion, htmlAttributes: new { @class = "control-label col-md-2" })
+
+                    <div class="col-md-10">
+                        @Html.EditorFor(m => m.Repuestos.descripcion, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(m => m.Repuestos.descripcion, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-group col-sm-6">
+                    @Html.LabelFor(m => m.Repuestos.precio, htmlAttributes: new { @class = "control-label col-md-2" })
+
+                    <div class="col-md-10">
+                        @Html.EditorFor(m => m.Repuestos.precio, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(m => m.Repuestos.precio, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-group col-sm-6">
+                    @Html.LabelFor(m => m.Repuestos.cantidad, htmlAttributes: new { @class = "control-label col-md-2" })
+
+                    <div class="col-md-10">
+                        @Html.EditorFor(m => m.Repuestos.cantidad, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(m => m.Repuestos.cantidad, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group col-auto">
+                    <input type="button" class="btn btn-success" value="Editar" id="editPiece" />
+                </div>
+
+            </div>
+            }
+
+        </div>
+
+
+</body>
+</html>
+
+@section Scripts{
+    <script>
+       
+        function buscar(url) {
+            let id = /\d+$/.exec(url);
+
+            fetch("/Repuesto/BuscarProveedorRepuesto/?id=" + id)
+                .then(response => response.json())
+                .then(data => {
+                    p = data
+                    let formProveedor = Object.fromEntries(new FormData(document.forms[0]));
+                    formProveedor.constructor(idProveedor).value = data.idProveedor
+                    formProveedor.constructor(nombre).value = data.nombre;
+                    formProveedor.constructor(telefono).value = data.telefono;
+                    formProveedor.constructor(direccion).value = data.direccion;
+                    let formRepuesto = Object.fromEntries(new FormData(document.forms[1]));
+                    formRepuesto.constructor(Repuestos_idInvRep).value = data.idInventario;
+                    formRepuesto.constructor(Repuestos_codigo).value = data.Codigo;
+                    formRepuesto.constructor(Repuestos_descripcion).value = data.Descripcion;
+                    formRepuesto.constructor(Repuestos_precio).value = data.Precio;
+                    formRepuesto.constructor(Repuestos_cantidad).value = data.Cantidad;
+                })
+                .catch(error => {
+                    alert(error)
+                })
+
+        }
+        
+        document.getElementById("editProveedor").addEventListener("click", function () {
+            let obj = {
+                idProveedor: document.getElementById("idProveedor").value,
+                nombre: document.getElementById("nombre").value,
+                telefono: document.getElementById("telefono").value,
+                direccion: document.getElementById("direccion").value
+            }
+            actualizar("/Repuesto/EditarProveedor", obj);
+        });
+        document.getElementById("editPiece").addEventListener("click", function () {
+            let obj = {
+                idProveedor: document.getElementById("idProveedor").value,
+                codigo: document.getElementById("Repuestos_codigo").value,
+                descripcion: document.getElementById("Repuestos_descripcion").value,
+                precio: document.getElementById("Repuestos_precio").value,
+                cantidad: document.getElementById("Repuestos_cantidad").value,
+                idInvRep: document.getElementById("Repuestos_idInvRep").value
+            }
+            actualizar("/Repuesto/EditarRepuesto", obj);
+        });
+
+
+        function actualizar(url,obj) {
+            fetch(url, {
+                method: 'POST',
+                headers: {
+                    'Content-Type':'application/json'
+                },
+                body: JSON.stringify(obj)
+            }).then(response => response.json())
+                .catch(error => alert(error))
+        }
+        
+    </script>
+}
