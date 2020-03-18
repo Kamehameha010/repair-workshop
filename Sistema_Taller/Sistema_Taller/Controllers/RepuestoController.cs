@@ -11,16 +11,63 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using System.Linq.Dynamic;
 
 namespace Sistema_Taller.Controllers
 {
     public class RepuestoController : Controller
     {
+
+        private string draw = "";
+        private string start = "";
+        private string length = "";
+        private string sortColumn = "";
+        private string sortColumnDir = "";
+        private string searchValue = "";
+        private int pageSize, skip, recordsTotal;
         // GET: Repuesto
         public ActionResult Inventario()
         {
             return View();
         }
+
+        [HttpPost]
+        public JsonResult Stock()
+        {
+            List<View_Repuesto> lst = new List<View_Repuesto>();
+            draw = Request.Form.GetValues("draw").FirstOrDefault();
+            start = Request.Form.GetValues("start").FirstOrDefault();
+            length = Request.Form.GetValues("length").FirstOrDefault();
+            sortColumn = Request.Form.GetValues("columns[" + Request.Form.GetValues("order[0][column]").FirstOrDefault() + "][name]").FirstOrDefault();
+            sortColumnDir = Request.Form.GetValues("order[0][dir]").FirstOrDefault();
+            searchValue = Request.Form.GetValues("search[value]").FirstOrDefault();
+
+            pageSize = length != null ? Convert.ToInt32(length) : 0;
+            skip = start != null ? Convert.ToInt32(start) : 0;
+            recordsTotal = 0;
+
+            using (Taller_SysEntities db = new Taller_SysEntities())
+            {
+                IQueryable<View_Repuesto> query = db.View_Repuesto;
+
+                if (searchValue.Length > 0)
+                {
+                    query = query.Where(x => x.codigo.Contains(searchValue) || x.descripcion.Contains(searchValue) 
+                    || x.precio.ToString().Contains(searchValue) || x.cantidad.ToString().Contains(searchValue));
+                }
+                if (!(string.IsNullOrEmpty(sortColumn) && string.IsNullOrEmpty(sortColumnDir)))
+                {
+                    query = query.OrderBy(sortColumn + " " + sortColumnDir);
+                }
+                recordsTotal = query.Count();
+
+                lst = query.Skip(skip).Take(pageSize).ToList();
+            }
+            return Json(new { draw, recordsFiltered = recordsTotal, recordsTotal, data = lst });
+        }
+
+
+
         [HttpGet]
         public JsonResult Proveedores(string nombre)
         {
