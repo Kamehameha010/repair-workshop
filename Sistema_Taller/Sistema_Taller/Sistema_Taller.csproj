@@ -144,7 +144,9 @@
     <Compile Include="Controllers\EmpresaController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\MarcaController.cs" />
+    <Compile Include="Controllers\ProveedorController.cs" />
     <Compile Include="Controllers\RepuestoController.cs" />
+    <Compile Include="Controllers\RolController.cs" />
     <Compile Include="Controllers\UseraController.cs" />
     <Compile Include="Controllers\UsuarioController.cs" />
     <Compile Include="Global.asax.cs">
@@ -203,7 +205,9 @@
     </Compile>
     <Compile Include="Models\Request\CasoRequest.cs" />
     <Compile Include="Models\Request\RespuestoRequest.cs" />
+    <Compile Include="Models\Request\RolRequest.cs" />
     <Compile Include="Models\Response\RepuestoResponse.cs" />
+    <Compile Include="Models\Response\RolResponse.cs" />
     <Compile Include="Models\Rol.cs">
       <DependentUpon>TallerContext.tt</DependentUpon>
     </Compile>
@@ -278,6 +282,24 @@
     <Content Include="Content\bootstrap-reboot.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\jq\AUTHORS.txt" />
+    <Content Include="Content\jq\external\jquery\jquery.js" />
+    <Content Include="Content\jq\images\ui-icons_444444_256x240.png" />
+    <Content Include="Content\jq\images\ui-icons_555555_256x240.png" />
+    <Content Include="Content\jq\images\ui-icons_777620_256x240.png" />
+    <Content Include="Content\jq\images\ui-icons_777777_256x240.png" />
+    <Content Include="Content\jq\images\ui-icons_cc0000_256x240.png" />
+    <Content Include="Content\jq\images\ui-icons_ffffff_256x240.png" />
+    <Content Include="Content\jq\index.html" />
+    <Content Include="Content\jq\jquery-ui.css" />
+    <Content Include="Content\jq\jquery-ui.js" />
+    <Content Include="Content\jq\jquery-ui.min.css" />
+    <Content Include="Content\jq\jquery-ui.min.js" />
+    <Content Include="Content\jq\jquery-ui.structure.css" />
+    <Content Include="Content\jq\jquery-ui.structure.min.css" />
+    <Content Include="Content\jq\jquery-ui.theme.css" />
+    <Content Include="Content\jq\jquery-ui.theme.min.css" />
+    <Content Include="Content\jq\LICENSE.txt" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
@@ -307,6 +329,7 @@
     <Content Include="Content\bootstrap-reboot.css.map" />
     <Content Include="Content\bootstrap-grid.min.css.map" />
     <Content Include="Content\bootstrap-grid.css.map" />
+    <Content Include="Content\jq\package.json" />
     <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -466,12 +489,15 @@
     <Content Include="Scripts\popper-utils.js.map" />
     <Content Include="Views\Repuesto\Editar.cshtml" />
     <Content Include="Views\Repuesto\Inventario.cshtml" />
+    <Content Include="Views\Rol\Crear.cshtml" />
+    <Content Include="Views\Rol\Editar.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Views\Categoría\" />
     <Folder Include="Views\Empresa\" />
     <Folder Include="Views\Marca\" />
+    <Folder Include="Views\Proveedor\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

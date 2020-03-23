@@ -1,60 +1,61 @@
 ﻿@model Sistema_Taller.Models.ViewModels.RepuestoViewModel
-    @{
+@{
 
-    }
+}
 
-    <!DOCTYPE html>
+<!DOCTYPE html>
 
-    <html>
-    <head>
-        <meta name="viewport" content="width=device-width" />
-        <title>Crear</title>
-    </head>
-    <body onload="buscar(location.href)">
-        <div class="dl-horizontal">
-            @using (Html.BeginForm())
-            {
-                @Html.AntiForgeryToken()
-                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Crear</title>
+    <link href="~/Content/jq/jquery-ui.css" rel="stylesheet" type="text/css" />
+</head>
+<body onload="buscar(location.href)">
+    <div class="dl-horizontal">
+        @using (Html.BeginForm())
+        {
+            @Html.AntiForgeryToken()
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
-                @Html.HiddenFor(m => m.idProveedor)
-                <div class="form-group">
-                    @Html.LabelFor(m => m.nombre, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.HiddenFor(m => m.idProveedor)
+            <div class="form-group">
+                @Html.LabelFor(m => m.nombre, htmlAttributes: new { @class = "control-label col-md-2" })
 
-                    <div class="col-md-10">
-                        @Html.EditorFor(m => m.nombre, new { htmlAttributes = new { @class = "form-control" } })
-                        @Html.ValidationMessageFor(m => m.nombre, "", new { @class = "text-danger" })
-                    </div>
+                <div class="col-md-10">
+                    @Html.EditorFor(m => m.nombre, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(m => m.nombre, "", new { @class = "text-danger" })
                 </div>
-                <div class="form-group">
-                    @Html.LabelFor(m => m.telefono, new { @class = "control-label col-md-2" })
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(m => m.telefono, new { @class = "control-label col-md-2" })
 
-                    <div class="col-md-10">
-                        @Html.EditorFor(m => m.telefono, new { htmlAttributes = new { @class = "form-control" } })
-                        @Html.ValidationMessageFor(m => m.telefono, "", new { @class = "text-danger" })
-                    </div>
+                <div class="col-md-10">
+                    @Html.EditorFor(m => m.telefono, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(m => m.telefono, "", new { @class = "text-danger" })
                 </div>
-                <div class="form-group">
-                    @Html.LabelFor(m => m.direccion, new { @class = "control-label col-md-2" })
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(m => m.direccion, new { @class = "control-label col-md-2" })
 
-                    <div class="col-md-10">
-                        @Html.EditorFor(m => m.direccion, new { htmlAttributes = new { @class = "form-control" } })
-                        @Html.ValidationMessageFor(m => m.direccion, "", new { @class = "text-danger" })
-                    </div>
+                <div class="col-md-10">
+                    @Html.EditorFor(m => m.direccion, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(m => m.direccion, "", new { @class = "text-danger" })
                 </div>
+            </div>
 
-                <input type="button" class="btn btn-success" value="Editar" id="editProveedor" />
+            <input type="button" class="btn btn-success" value="Editar" id="editProveedor" />
 
 
-            }
+        }
 
-        </div>
-        <div class="dl-horizontal border border-primary">
-            @using (Html.BeginForm())
-            {
-                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    </div>
+    <div class="dl-horizontal border border-primary">
+        @using (Html.BeginForm())
+        {
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
-                @Html.HiddenFor(m => m.Repuestos.idInvRep)
+            @Html.HiddenFor(m => m.Repuestos.idInvRep)
             <div class="row">
                 <div class="form-group col-sm-6">
                     @Html.LabelFor(m => m.Repuestos.codigo, htmlAttributes: new { @class = "control-label col-md-2" })
@@ -95,17 +96,18 @@
                 </div>
 
             </div>
-            }
+        }
 
-        </div>
+    </div>
 
 
 </body>
 </html>
 
 @section Scripts{
+    <script src="~/Content/jq/jquery-ui.js"></script>
     <script>
-       
+
         function buscar(url) {
             let id = /\d+$/.exec(url);
 
@@ -130,7 +132,7 @@
                 })
 
         }
-        
+
         document.getElementById("editProveedor").addEventListener("click", function () {
             let obj = {
                 idProveedor: document.getElementById("idProveedor").value,
@@ -138,7 +140,7 @@
                 telefono: document.getElementById("telefono").value,
                 direccion: document.getElementById("direccion").value
             }
-            actualizar("/Repuesto/EditarProveedor", obj);
+            actualizar("/Proveedor/Editar", obj);
         });
         document.getElementById("editPiece").addEventListener("click", function () {
             let obj = {
@@ -153,16 +155,53 @@
         });
 
 
-        function actualizar(url,obj) {
+        function actualizar(url, obj) {
             fetch(url, {
                 method: 'POST',
                 headers: {
-                    'Content-Type':'application/json'
+                    'Content-Type': 'application/json'
                 },
                 body: JSON.stringify(obj)
             }).then(response => response.json())
                 .catch(error => alert(error))
         }
-        
+
+        $(function () {
+            $("#nombre").autocomplete({
+
+                source:"/Proveedor/BuscarProveedo"
+            })
+        })
+
+
+      /*  $(document).ready(function () {
+            $("#nombre").autocomplete({
+                source: function (request, response) {
+                    $.ajax({
+                        url: "/Proveedor/BuscarProveedo",
+                        type: "POST",
+                        dataType: "json",
+                        data: {
+                            term: request.term
+                        },
+                        success: function (data) {
+                            response($.map(data, function (item) {
+                                return {
+                                    label: item.nombre,
+                                    value: item.nombre
+                                };
+                            }))
+                        },
+                        error: function () {
+                            alert('something went wrong !');
+                        }
+                    })
+                },
+                messages: {
+                    noResults: "",
+                    results: ""
+                }
+            });
+        })/*
     </script>
 }
