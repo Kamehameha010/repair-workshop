@@ -1,0 +1,89 @@
+﻿@using Sistema_Taller.Models
+@model Sistema_Taller.Models.Request.LoginRequest
+@{
+    Layout = null;
+  
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Login</title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+</head>
+<body>
+    <div>
+        @using (Html.BeginForm())
+        {
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            <div class="form-group">
+                @Html.LabelFor(m => m.Username, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    
+                    @Html.EditorFor(m => m.Username, null, new { @class = "formcontrol"})
+                    @Html.ValidationMessageFor(m => m.Username, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(m => m.Contrasena, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(m => m.Contrasena, null, new { @class = "formcontrol" })
+                    @Html.ValidationMessageFor(m => m.Contrasena, "", new { @class = "text-danger" })
+
+                </div>
+            </div>
+
+            <div class="form-group">
+
+
+                <div class="col-md-offset-2 col-md-10">
+                    
+                    <input type="button" class="btn btn-outline-success" value="Log in" />
+                </div>
+            </div>
+        }
+    </div>
+
+
+    @section Scripts{
+        @Scripts.Render("~/bundles/jquery")
+        @Scripts.Render("~/bundles/bootstrap")
+
+
+    }
+
+
+</body>
+</html>
+<script>
+
+    document.querySelector("input[type=button]").addEventListener("click", () => {
+       
+        DRequest("/Login/Login", {
+            method: "POST",
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                Username: document.getElementById("Username").value,
+                Contrasena: document.getElementById("Contrasena").value
+            })
+
+        }).then(res);
+    })
+
+
+    var DRequest = async (url, options = null) => {
+        return await fetch(url, options)
+            .then(response => response.json())
+            .then(data => {
+                if (data == "1") {
+                    location.replace("/Home/");
+                }
+            }).catch(error => console.error(error))
+    }
+
+</script>

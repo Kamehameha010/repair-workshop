@@ -1,4 +1,5 @@
-﻿using System.Web.Mvc;
+﻿
+using System.Web.Mvc;
 
 namespace Sistema_Taller
 {
@@ -7,6 +8,7 @@ namespace Sistema_Taller
         public static void RegisterGlobalFilters(GlobalFilterCollection filters)
         {
             filters.Add(new HandleErrorAttribute());
+            filters.Add(new Filtro.ValidatedSession());
         }
     }
 }

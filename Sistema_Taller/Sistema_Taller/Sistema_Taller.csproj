@@ -143,12 +143,15 @@
     <Compile Include="Controllers\ClienteController.cs" />
     <Compile Include="Controllers\EmpresaController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\LoginController.cs" />
     <Compile Include="Controllers\MarcaController.cs" />
     <Compile Include="Controllers\ProveedorController.cs" />
     <Compile Include="Controllers\RepuestoController.cs" />
     <Compile Include="Controllers\RolController.cs" />
     <Compile Include="Controllers\UseraController.cs" />
     <Compile Include="Controllers\UsuarioController.cs" />
+    <Compile Include="Filtro\AuthorizedUser.cs" />
+    <Compile Include="Filtro\ValidatedSession.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -204,6 +207,7 @@
       <DependentUpon>TallerContext.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Request\CasoRequest.cs" />
+    <Compile Include="Models\Request\LoginRequest.cs" />
     <Compile Include="Models\Request\RespuestoRequest.cs" />
     <Compile Include="Models\Request\RolRequest.cs" />
     <Compile Include="Models\Response\RepuestoResponse.cs" />
@@ -491,6 +495,7 @@
     <Content Include="Views\Repuesto\Inventario.cshtml" />
     <Content Include="Views\Rol\Crear.cshtml" />
     <Content Include="Views\Rol\Editar.cshtml" />
+    <Content Include="Views\Login\Login.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

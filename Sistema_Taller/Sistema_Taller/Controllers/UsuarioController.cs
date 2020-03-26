@@ -8,6 +8,8 @@ using System.Linq.Expressions;
 using System.Data.Entity.Infrastructure;
 using System.Data.SqlClient;
 using System;
+using Sistema_Taller.Filtro;
+
 namespace Sistema_Taller.Controllers
 {
     [Route("Usuario")]
@@ -33,6 +35,7 @@ namespace Sistema_Taller.Controllers
         }
 
         [HttpGet]
+        [AuthorizedUser(idOperacion:1)]
         public ActionResult Crear()
         {
             ViewBag.estados = ListaComboBox.estados();
@@ -90,7 +93,7 @@ namespace Sistema_Taller.Controllers
             return View(model);
         }
 
-
+        [AuthorizedUser(idOperacion:2)]
         public ActionResult Editar(int? id)
         {
             UsuarioViewModel model = new UsuarioViewModel();
