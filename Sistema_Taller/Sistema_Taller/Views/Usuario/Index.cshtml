@@ -1,8 +1,7 @@
-﻿
+﻿@model Sistema_Taller.Models.View_Usuario
 
 @{
     ViewBag.Title = "Lista de Usuarios";
-    int fila = 1;
 }
 
 <h2>@ViewBag.Title</h2>
@@ -11,9 +10,7 @@
 <div class="row" style="text-align:right; padding:5px;">
 
     <a class="btn btn-primary" href="~/Usuario/Crear">Crear</a>
-    <a class=" btn btn-default" onmouseover="botones()" onmouseout="ocultar()" onclick=" alert('@Url.Content("~/Usuario/Eliminar/?id")')" />g<a></a>
-    <div id="js"></div>
-    <div id="js1"></div>
+
 </div>
 @if (ViewBag.sms != null)
 {
@@ -25,132 +22,132 @@
 }
 
 <div class="row">
-    <input type="button" value="Refresh" onclick="ListadoUsuarios()" />
-    <div class="table-responsive" id="lista">
+    <div class="table-responsive">
 
-        <!--<table class="table">
-            <tr>
-                <th>#</th>
-                <th>Nombre</th>
-                <th>Apellidos</th>
-                <th>Cédula</th>
-                <th>Teléfono</th>
-                <th>Correo</th>
-                <th>Usuario</th>
-                <th>Rol</th>
-                <th>Estado</th>
-                <th>Editar</th>
-                <th>Eliminar</th>
-            </tr>
+        <table class="table table-hover table-bordered" id="tablaUsuario">
+            <thead>
+                <tr>
+                    <th>Nombre</th>
+                    <th>Apellidos</th>
+                    <th>Cédula</th>
+                    <th>Correo</th>
+                    <th>Usuario</th>
+                    <th>Rol</th>
+                    <th>Estado</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+            </tbody>
 
-        </table>-->
+        </table>
 
     </div>
 
-    <input type="button" value="t" id="btn_clock" />
 </div>
 
-@section Scripts {
-    
-    <script type="text/javascript">
-        ListadoUsuarios();
-        function ListadoUsuarios() {
-            fetch("/Usuario/ListaUsuarios")
-                .then(response => {
-                    if (response.ok)
-                        return response.json()
-                    else
-                        throw new Error("Ha ocurrido un error. Intente de nuevo.");
-                }).then(data => {
-                    let res = "";
-                    let fila = 1;
-                    let urlE = "";
-                    res += "<table class='table'><tr><th>#</th><th>Nombre</th>\
-                <th>Apellidos</th><th>Cédula</th><th>Teléfono</th><th>Correo</th>\
-                <th>Usuario</th><th>Rol</th><th>Estado</th><th>Editar</th><th>Eliminar</th></tr>";
+<div class="modal fade" id="visualizar" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4>Usuario</h4>
+                <a class="btn btn-danger close" data-dismiss="modal">&times;</a>
+            </div>
+            <div class="modal-body">
+                <dl class="dl-horizontal">
+                    <dt>
+                        @Html.DisplayNameFor(model => model.nombre)
+                    </dt>
 
-                    for (var i of data) {
-                        urlE = 'document.location.href = "/Usuario/Modificar/?id=' + i.id + '"';
-                        urlD = 'document.location.href = "/Usuario/Eliminar/?id=' + i.id + '"';
-                        res += "<tr><td>" + fila + "</td>\
-                        <td>" + i.nombre + "</td>\
-                        <td>" + i.apellidos + "</td>\
-                        <td>" + i.cedula + "</td>\
-                        <td>" + i.telefono + "</td>\
-                        <td>" + i.correo + "</td>\
-                        <td>" + i.Usuario + "</td>\
-                        <td>" + i.Rol + "</td>\
-                        <td>" + i.Estado + "</td>\
-                        <td><input class='btn btn-success' type='button' value='Editar' onclick='"+ urlE +"'/></td>\
-                        <td><input class='btn btn-danger' type='button' value='Eliminar' onclick='"+ urlD +"'/></td>\
-                        </tr > "
-                        fila++;
+                    <dd>
+                        @Html.TextBoxFor(model => model.nombre, new { @readonly = "true" })
+                    </dd>
+
+                    <dt>
+                        @Html.DisplayNameFor(model => model.apellidos)
+                    </dt>
+
+                    <dd>
+                        @Html.TextBoxFor(model => model.apellidos, new { @readonly = "true" })
+                    </dd>
+
+                    <dt>
+                        @Html.DisplayNameFor(model => model.cedula)
+                    </dt>
+
+                    <dd>
+                        @Html.TextBoxFor(model => model.cedula, new { @readonly = "true" })
+                    </dd>
+
+                    <dt>
+                        @Html.DisplayNameFor(model => model.correo)
+                    </dt>
+
+                    <dd>
+                        @Html.TextBoxFor(model => model.correo, new { @readonly = "true" })
+                    </dd>
+
+                    <dt>
+                        @Html.DisplayNameFor(model => model.Usuario)
+                    </dt>
+
+                    <dd>
+                        @Html.TextBoxFor(model => model.Usuario, new { @readonly = "true" })
+                    </dd>
+
+                    <dt>
+                        @Html.DisplayNameFor(model => model.Estado)
+                    </dt>
+
+                    <dd>
+                        @Html.TextBoxFor(model => model.Estado, new { @readonly = "true" })
+                    </dd>
+
+                    <dt>
+                        @Html.DisplayNameFor(model => model.Rol)
+                    </dt>
+
+                    <dd>
+                        @Html.TextBoxFor(model => model.Rol, new { @readonly = "true" })
+                    </dd>
+                </dl>
+
+            </div>
+            <div class="modal-footer">
+                <input class="btn btn-secondary close" type="button" data-dismiss="modal" value="Cerrar" />
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade" id="Eliminar" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4>Usuario</h4>
+                <a class="btn btn-danger close" data-dismiss="modal">&times;</a>
+            </div>
+            @using (Html.BeginForm())
+            {
+                <div class="modal-body">
+                    <h4>Desea eliminar este usuario?</h4>
+
+                    @Html.HiddenFor(model => model.id)
                     }
-                    res += "</table>"
-                    document.getElementById("lista").innerHTML = res;
 
-                })
-        }
+                </div>
+                <div class="modal-footer">
+                    <input class="btn btn-secondary close" type="button" data-dismiss="modal" value="Cerrar" />
+                    <input class="btn btn-danger " type="submit"  value="Eliminar" />
+                </div>
+            }
+        </div>
+    </div>
+</div>
+@section Scripts {
+    <script src="~/Scripts/js/Usuariojs/index.js" type="module"></script>
 
-        function Usuario(id) {
-            fetch("/Usuario/Editar/id=" + id)
-                .then(response => {
-                    if (response.ok)
-                        return response.json();
-                    else
-                        throw new Error("Ha ocurrido un error. Intente de nuevo");
-                }).then(data => {
-                    console.log(data);
-                }).catch(error => {
-                    alert(error);
-                })
-        }
-
-        function Eliminar(id) {
-            fetch('@Url.Content("~/Usuario/Eliminar")', {
-                method: "Post",
-                body: JSON.stringify({
-                    id: id
-                }), headers: {
-                    "Accept": "application/json",
-                    "Content-Type":"application/json"
-                }
-            }).then(response => {
-                if (response.ok)
-                    return response.text()
-                else
-                    alert("Ha ocurrido un error.Intente más tarde.")
-            }).then(data => {
-                if (data = ! "1")
-                    alert("Error al intentar eliminar registro.")
-                else {
-                    alert("Registro Eliminado ecitosamente.")
-                }
-
-            })
-        }
-
-
-        document.getElementById("btn_clock").onclick = (() => { prueba()})
-
-function prueba() {
-    var l = location.href;
-    var url = l + "/editar/";
-    alert(url)
-    fetch(url, {
-        headers: { "Content-Type": "application/json" }
-    }).then(response => {
-        if (response.ok)
-            return response.json()
-        else
-            alert("error")
-    }).then(data => {
-        console.log(data)
-    })
-
-}
-
-    </script>
 }
 
 

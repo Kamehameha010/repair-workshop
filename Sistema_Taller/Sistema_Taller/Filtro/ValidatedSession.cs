@@ -22,16 +22,16 @@ namespace Sistema_Taller.Filtro
 
                 if( oUsuario == null)
                 {
-                    if(filterContext.Controller is LoginController == false)
+                    if(filterContext.Controller is AccessController == false)
                     {
-                        filterContext.HttpContext.Response.Redirect("~/Login/Login");
+                        filterContext.HttpContext.Response.Redirect("~/Access/Login");
                     }
                 }
             }
             catch (Exception e)
             {
 
-                filterContext.Result = new RedirectResult("~/Login/Login");
+                filterContext.Result = new RedirectResult("~/Access/Login");
             } 
             
 

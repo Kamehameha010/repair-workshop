@@ -11,8 +11,13 @@
 <head>
     <meta name="viewport" content="width=device-width" />
     <title>Login</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @Scripts.Render("~/bundles/jqueryval")
     @Scripts.Render("~/bundles/modernizr")
+    
 </head>
 <body>
     <div>
@@ -22,15 +27,15 @@
             <div class="form-group">
                 @Html.LabelFor(m => m.Username, htmlAttributes: new { @class = "control-label col-md-2" })
                 <div class="col-md-10">
-                    
-                    @Html.EditorFor(m => m.Username, null, new { @class = "formcontrol"})
+
+                    @Html.EditorFor(m => m.Username, null, new { @class = "formcontrol" })
                     @Html.ValidationMessageFor(m => m.Username, "", new { @class = "text-danger" })
                 </div>
             </div>
             <div class="form-group">
                 @Html.LabelFor(m => m.Contrasena, htmlAttributes: new { @class = "control-label col-md-2" })
                 <div class="col-md-10">
-                    @Html.EditorFor(m => m.Contrasena, null, new { @class = "formcontrol" })
+                    @Html.PasswordFor(m => m.Contrasena, new { @class = "formcontrol" })
                     @Html.ValidationMessageFor(m => m.Contrasena, "", new { @class = "text-danger" })
 
                 </div>
@@ -40,50 +45,22 @@
 
 
                 <div class="col-md-offset-2 col-md-10">
-                    
-                    <input type="button" class="btn btn-outline-success" value="Log in" />
+
+                    <input type="submit" class="btn btn-outline-success" value="Log in" />
                 </div>
             </div>
         }
     </div>
+    <div class="no-valid alert alert-danger collapse" role="alert">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <strong>Verifique que el usuario o contraseña sean correctos</strong>
+    </div>
+    <div class=" conn-error alert alert-danger collapse" role="alert">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <strong>Error de conexión</strong>
+    </div>
 
-
-    @section Scripts{
-        @Scripts.Render("~/bundles/jquery")
-        @Scripts.Render("~/bundles/bootstrap")
-
-
-    }
-
+    <script type="module" src="~/Scripts/js/Access/jsAccess.js"></script>
 
 </body>
 </html>
-<script>
-
-    document.querySelector("input[type=button]").addEventListener("click", () => {
-       
-        DRequest("/Login/Login", {
-            method: "POST",
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                Username: document.getElementById("Username").value,
-                Contrasena: document.getElementById("Contrasena").value
-            })
-
-        }).then(res);
-    })
-
-
-    var DRequest = async (url, options = null) => {
-        return await fetch(url, options)
-            .then(response => response.json())
-            .then(data => {
-                if (data == "1") {
-                    location.replace("/Home/");
-                }
-            }).catch(error => console.error(error))
-    }
-
-</script>

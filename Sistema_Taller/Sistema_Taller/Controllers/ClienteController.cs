@@ -37,7 +37,7 @@ namespace Sistema_Taller.Controllers
          {
 
             List<View_Cliente> clientes = null;
-            List<View_Caso> lst = new List<View_Caso>();
+            
             draw = Request.Form.GetValues("draw").FirstOrDefault();
             start = Request.Form.GetValues("start").FirstOrDefault();
             length = Request.Form.GetValues("length").FirstOrDefault();

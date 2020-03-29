@@ -31,14 +31,14 @@ namespace Sistema_Taller.Filtro
 
                 if(count == 0)
                 {
-                    filterContext.Result = new RedirectResult("~/Login/Login");
+                    filterContext.Result = new RedirectResult("~/Access/Login");
                 }
 
             }
             catch (Exception)
             {
 
-                filterContext.Result = new RedirectResult("~/Login/Login");
+                filterContext.Result = new RedirectResult("~/Access/Login");
             }
             
         }

@@ -154,7 +154,7 @@
         });
 
 
-        function Parametros(data, name, autoWidth, callback = () => null) {
+        function Parametros(data=null, name=null, autoWidth=false, callback = () => null) {
             this.data = data || null;
             this.name = name || "";
             this.autoWidth = autoWidth || false;

@@ -143,12 +143,11 @@
     <Compile Include="Controllers\ClienteController.cs" />
     <Compile Include="Controllers\EmpresaController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
-    <Compile Include="Controllers\LoginController.cs" />
+    <Compile Include="Controllers\AccessController.cs" />
     <Compile Include="Controllers\MarcaController.cs" />
     <Compile Include="Controllers\ProveedorController.cs" />
     <Compile Include="Controllers\RepuestoController.cs" />
     <Compile Include="Controllers\RolController.cs" />
-    <Compile Include="Controllers\UseraController.cs" />
     <Compile Include="Controllers\UsuarioController.cs" />
     <Compile Include="Filtro\AuthorizedUser.cs" />
     <Compile Include="Filtro\ValidatedSession.cs" />
@@ -210,8 +209,10 @@
     <Compile Include="Models\Request\LoginRequest.cs" />
     <Compile Include="Models\Request\RespuestoRequest.cs" />
     <Compile Include="Models\Request\RolRequest.cs" />
+    <Compile Include="Models\Request\UsuarioRequest.cs" />
     <Compile Include="Models\Response\RepuestoResponse.cs" />
     <Compile Include="Models\Response\RolResponse.cs" />
+    <Compile Include="Models\Response\UsuarioResponse.cs" />
     <Compile Include="Models\Rol.cs">
       <DependentUpon>TallerContext.tt</DependentUpon>
     </Compile>
@@ -369,6 +370,13 @@
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
+    <Content Include="Scripts\js\Access\jsAccess.js" />
+    <Content Include="Scripts\js\funciones\actionScripts.js" />
+    <Content Include="Scripts\js\funciones\table.js" />
+    <Content Include="Scripts\js\Usuariojs\create.js" />
+    <Content Include="Scripts\js\Usuariojs\Edit.js" />
+    <Content Include="Scripts\js\funciones\XHR.js" />
+    <Content Include="Scripts\js\Usuariojs\index.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
     <Content Include="Scripts\moment-with-locales.js" />
     <Content Include="Scripts\moment-with-locales.min.js" />
@@ -462,16 +470,12 @@
     <Content Include="Views\Usuario\Index.cshtml" />
     <Content Include="Views\Usuario\Crear.cshtml" />
     <Content Include="Views\Usuario\Editar.cshtml" />
-    <Content Include="Views\Usuario\Eliminar.cshtml" />
-    <Content Include="Views\Usuario\Modificar.cshtml" />
     <Content Include="Views\Cliente\Index.cshtml" />
     <Content Include="Views\Cliente\Crear.cshtml" />
     <Content Include="Views\Cliente\NegocioIndex.cshtml" />
     <Content Include="Views\Cliente\Editar.cshtml" />
     <Content Include="Views\Cliente\Eliminar.cshtml" />
     <Content Include="Views\Cliente\Prueba.cshtml" />
-    <Content Include="Views\Usera\Crear.cshtml" />
-    <Content Include="Views\Usera\Index.cshtml" />
     <Content Include="Views\Articulo\Crear.cshtml" />
     <Content Include="Views\Caso\Crear.cshtml" />
     <Content Include="Views\Caso\Index.cshtml" />
@@ -495,7 +499,7 @@
     <Content Include="Views\Repuesto\Inventario.cshtml" />
     <Content Include="Views\Rol\Crear.cshtml" />
     <Content Include="Views\Rol\Editar.cshtml" />
-    <Content Include="Views\Login\Login.cshtml" />
+    <Content Include="Views\Access\Login.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

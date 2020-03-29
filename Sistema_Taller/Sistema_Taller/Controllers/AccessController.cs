@@ -9,7 +9,7 @@ using System.Web.Mvc;
 
 namespace Sistema_Taller.Controllers
 {
-    public class LoginController : Controller
+    public class AccessController : Controller
     {
         // GET: Login
         public ActionResult Login()
@@ -18,21 +18,17 @@ namespace Sistema_Taller.Controllers
         }
         [HttpPost]
         public ActionResult Login(LoginRequest model)
+        
         {
             using (Taller_SysEntities db = new Taller_SysEntities()) {
                 var user = db.Usuario.Where(x => x.username == model.Username &&
-                x.contrasena == model.Contrasena).FirstOrDefault();
+                x.contrasena == model.Contrasena && x.idEstado == 1).FirstOrDefault();
 
                 if (user == null) {
-                    return Json(false);
+                    return Json("0");
                 }
-               
                 Session["user"] = user;
-               
-                    
-                
                 return Json("1");
-
             }
             
         }
