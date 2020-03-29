@@ -42,31 +42,8 @@ export  function rowSelectEdit(tbody, table, url) {
 export function rowSelectDelete(tbody, table, url, modal, form) {
     $(tbody).on("click", ".delete", function () {
         let data = table.row($(this).parents("tr")).data();
-
-
         $(modal).modal();
         form.elements[0].value = Object.values(data)[0];
-
-
-        /*$("#delete").click(function () {
-            fetch(url + "Eliminar/", {
-                method: 'POST',
-                headers: {
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({ id: document.forms[0].elements[0].value })
-            }).then(response => response.json())
-                .then(data => {
-                    if (data != "1") {
-                        alert("No se pudo eLiminar")
-                    } else {
-                        location.href = "/Repuesto/Inventario";
-                    }
-                })
-                .catch(error => console.error(error))
-
-        });*/
     });
 
 }
