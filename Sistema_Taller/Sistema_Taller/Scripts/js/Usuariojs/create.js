@@ -1,9 +1,10 @@
 ﻿import { xhr } from "../funciones/XHR.js"
-import { crearUsername } from "../funciones/actionScripts.js"
+import { crearUsername, limpiar } from "../funciones/actionScripts.js"
 
 
 //btn crear
-document.forms[0].addEventListener("submit",(e) => {
+document.forms[0].addEventListener("submit", (e) => {
+    e.preventDefault();
     xhr(location.pathname, {
         method: "POST",
         headers: {
@@ -11,6 +12,7 @@ document.forms[0].addEventListener("submit",(e) => {
         },
         body: JSON.stringify(Object.fromEntries(new FormData(document.forms[0])))
     }, data => {
+        console.log(data)
         if (data == "1") {
             limpiar(document.forms[0]);
         }
@@ -50,7 +52,7 @@ document.getElementById("username").addEventListener("change", () => {
 });
 //crear username
 document.getElementById("username").addEventListener("focus", () => {
-    if (document.getElementById("username") == "") {
+    if (document.getElementById("username").value == "") {
         let n = crearUsername($("#nombre").val(), $("#apellidos").val(), $("#cedula").val())
         document.getElementById("username").value = n;
     }

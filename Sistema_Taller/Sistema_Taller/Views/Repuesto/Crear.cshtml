@@ -200,7 +200,8 @@
                        console.log(data)
                        row.insertCell(i - 1).innerHTML = data[i];
                    }
-                   row.insertCell(4).innerHTML = "<td><button type='button' class='edit alert-success'><span class='fa fa-edit'></span></button>\															 <button type='button' class='delete alert-danger'><span class='fa fa-trash'></span></button></td>";
+                   row.insertCell(4).innerHTML = "<td><button type='button' class='edit alert-success'><span class='fa fa-edit'></span></button>\
+															 <button type='button' class='delete alert-danger'><span class='fa fa-trash'></span></button></td>";
                })
                .catch(error => {     
                    e.preventDefault();
@@ -208,33 +209,6 @@
                })
        })
        
-
-       var cantidad = (formdata) => {
-           var count = 0;
-           formdata.forEach(x => {
-               if (x == "") {
-                   count++;
-               }
-           })
-           return count;
-       }
-       var data = (formdata) => {
-           var obj = [];
-           formdata.forEach(x => obj.push(x))
-           return obj;
-       }
-       function AgregarElemento(formElements) {
-
-           return new Promise((resolve, reject) => {
-               if (cantidad(formElements) < 4) {
-                   resolve(data(formElements));
-               } else {
-                   reject('Campos del formulario se encuentran vacios');
-               }
-
-           });
-       }
-
 
        function save() {
            let obj = {

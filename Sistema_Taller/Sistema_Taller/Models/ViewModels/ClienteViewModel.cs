@@ -8,7 +8,6 @@ namespace Sistema_Taller.Models.ViewModels
 
     public class ClienteViewModel  
     {
-
         public int IdCliente { get; set; }
         [Display(Name = "Nombre")]
         [Required]
@@ -20,6 +19,7 @@ namespace Sistema_Taller.Models.ViewModels
         public string Apellidos { get; set; }
         [Display(Name = "Cédula")]
         [Required]
+        [Index(IsUnique = true)]
         public Nullable<int> Cedula { get; set; }
         [Display(Name = "Teléfono")]
         [DataType(DataType.PhoneNumber)]
@@ -30,9 +30,9 @@ namespace Sistema_Taller.Models.ViewModels
         [Required]
         [EmailAddress]
         [StringLength(50)]
-        [Index(IsUnique = true)]
+        
         public string Correo { get; set; }
-        public List<EmpresaViewModel> Empresa { get; set; }
+        public EmpresaViewModel Empresa { get; set; }
 
     }
     public class EmpresaViewModel 
@@ -41,7 +41,8 @@ namespace Sistema_Taller.Models.ViewModels
 
         [Display(Name = "Empresa")]
         [StringLength(50)]
-        public string Nombre { get; set; }
+        [Required]
+        public string NombreEmpresa { get; set; }
 
         [Display(Name = "Ced. Juridica")]
         [StringLength(50)]
@@ -55,7 +56,7 @@ namespace Sistema_Taller.Models.ViewModels
         [DataType(DataType.PhoneNumber)]
         [DisplayFormat(DataFormatString = "{0:9999-9999}")]
         [StringLength(20)]
-        public string Telefono { get; set; }
+        public string TelEmpresa { get; set; }
 
         public int? IdCliente { get; set; }
     }

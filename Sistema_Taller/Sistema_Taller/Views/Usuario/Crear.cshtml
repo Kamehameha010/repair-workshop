@@ -19,8 +19,6 @@
                     @Html.LabelFor(d => d.apellidos)
 
                     <div class="row">
-
-
                         @Html.EditorFor(d => d.nombre, "", new { @class = "control-form", id = "nombre" })
                         @Html.ValidationMessageFor(m => m.nombre, "", new { @class = "text-danger" })
                         @Html.EditorFor(d => d.apellidos, "", new { @class = "control-form", id = "apellidos" })

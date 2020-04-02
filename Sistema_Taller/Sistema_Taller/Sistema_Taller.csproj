@@ -206,6 +206,8 @@
       <DependentUpon>TallerContext.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Request\CasoRequest.cs" />
+    <Compile Include="Models\Request\ClienteRequest.cs" />
+    <Compile Include="Models\Request\EmpresaRequest.cs" />
     <Compile Include="Models\Request\LoginRequest.cs" />
     <Compile Include="Models\Request\RespuestoRequest.cs" />
     <Compile Include="Models\Request\RolRequest.cs" />
@@ -371,6 +373,8 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\js\Access\jsAccess.js" />
+    <Content Include="Scripts\js\Clientejs\create.js" />
+    <Content Include="Scripts\js\Clientejs\edit.js" />
     <Content Include="Scripts\js\funciones\actionScripts.js" />
     <Content Include="Scripts\js\funciones\table.js" />
     <Content Include="Scripts\js\Usuariojs\create.js" />
@@ -475,14 +479,12 @@
     <Content Include="Views\Cliente\NegocioIndex.cshtml" />
     <Content Include="Views\Cliente\Editar.cshtml" />
     <Content Include="Views\Cliente\Eliminar.cshtml" />
-    <Content Include="Views\Cliente\Prueba.cshtml" />
     <Content Include="Views\Articulo\Crear.cshtml" />
     <Content Include="Views\Caso\Crear.cshtml" />
     <Content Include="Views\Caso\Index.cshtml" />
     <Content Include="Views\Cliente\ListadoClientes.cshtml" />
     <Content Include="Views\hol.cshtml" />
     <Content Include="Views\Cliente\hola.cshtml" />
-    <Content Include="Views\Cliente\ViewPage1.cshtml" />
     <Content Include="Views\Caso\Editar.cshtml" />
     <Content Include="Views\Repuesto\Crear.cshtml" />
     <Content Include="Scripts\umd\popper.min.js.map" />

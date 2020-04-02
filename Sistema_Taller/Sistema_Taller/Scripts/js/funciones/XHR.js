@@ -8,3 +8,12 @@ export const xhr = async (url, options, callback) => {
         throw new Error("Error de conexion")
     }
 }
+
+export const objRequest = (obj, array) => {
+    
+    if (array == undefined) {
+        return obj;
+    }
+    obj.Empresa = JSON.parse(array)
+    return obj;
+}

@@ -50,7 +50,7 @@ crearTabla("#tablaUsuario", "/Usuario/ListaUsuarios", "/Usuario/",
         });
         rowSelect(data[0] + " tbody", table, "#visualizar");
         rowSelectEdit(data[0] + " tbody", table, data[2]);
-        rowSelectDelete(data[0] + " tbody", table, data[2], "#Eliminar", document.forms[0])
+        
 
     });
 
