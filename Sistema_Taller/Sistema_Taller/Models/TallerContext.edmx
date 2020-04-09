@@ -174,19 +174,6 @@
           <Property Name="idRol" Type="int" />
           <Property Name="idOperacion" Type="int" />
         </EntityType>
-        <EntityType Name="usera">
-          <Key>
-            <PropertyRef Name="idUsuario" />
-          </Key>
-          <Property Name="idUsuario" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="nombre" Type="varchar" MaxLength="50" />
-          <Property Name="apellidos" Type="varchar" MaxLength="50" />
-          <Property Name="cedula" Type="int" Nullable="false" />
-          <Property Name="telefono" Type="varchar" MaxLength="20" />
-          <Property Name="correo" Type="varchar" MaxLength="50" />
-          <Property Name="username" Type="varchar" MaxLength="30" />
-          <Property Name="contrasena" Type="varchar" MaxLength="50" />
-        </EntityType>
         <EntityType Name="Usuario">
           <Key>
             <PropertyRef Name="idUsuario" />
@@ -235,24 +222,6 @@ advertencia 6002: La tabla o vista 'Taller_Sys.dbo.View_Cliente' no tiene defini
           <Property Name="Empresa" Type="varchar" MaxLength="50" />
           <Property Name="cedJuridica" Type="varchar" MaxLength="30" />
           <Property Name="Direccion" Type="varchar" MaxLength="150" />
-        </EntityType>
-        <!--Errores durante la generación:
-advertencia 6002: La tabla o vista 'Taller_Sys.dbo.View_ClienteBucar' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
-        <EntityType Name="View_ClienteBucar">
-          <Key>
-            <PropertyRef Name="idCliente" />
-          </Key>
-          <Property Name="idCliente" Type="int" Nullable="false" />
-          <Property Name="nombre" Type="varchar" MaxLength="50" />
-          <Property Name="apellidos" Type="varchar" MaxLength="50" />
-          <Property Name="cedula" Type="int" />
-          <Property Name="telefono" Type="varchar" MaxLength="20" />
-          <Property Name="correo" Type="varchar" MaxLength="50" />
-          <Property Name="idEmpresa" Type="int" />
-          <Property Name="Empresa" Type="varchar" MaxLength="50" />
-          <Property Name="cedJuridica" Type="varchar" MaxLength="30" />
-          <Property Name="direccion" Type="varchar" MaxLength="150" />
-          <Property Name="TelEmpresa" Type="varchar" MaxLength="20" />
         </EntityType>
         <!--Errores durante la generación:
 advertencia 6002: La tabla o vista 'Taller_Sys.dbo.View_Repuesto' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
@@ -569,7 +538,6 @@ advertencia 6002: La tabla o vista 'Taller_Sys.dbo.View_Usuario' no tiene defini
           <EntitySet Name="RepuestoUsado" EntityType="Self.RepuestoUsado" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Rol" EntityType="Self.Rol" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Rol_Operacion" EntityType="Self.Rol_Operacion" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="usera" EntityType="Self.usera" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Usuario" EntityType="Self.Usuario" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="View_Caso" EntityType="Self.View_Caso" store:Type="Views" store:Schema="dbo">
             <DefiningQuery>SELECT 
@@ -598,21 +566,6 @@ advertencia 6002: La tabla o vista 'Taller_Sys.dbo.View_Usuario' no tiene defini
     [View_Cliente].[cedJuridica] AS [cedJuridica], 
     [View_Cliente].[Direccion] AS [Direccion]
     FROM [dbo].[View_Cliente] AS [View_Cliente]</DefiningQuery>
-          </EntitySet>
-          <EntitySet Name="View_ClienteBucar" EntityType="Self.View_ClienteBucar" store:Type="Views" store:Schema="dbo">
-            <DefiningQuery>SELECT 
-    [View_ClienteBucar].[idCliente] AS [idCliente], 
-    [View_ClienteBucar].[nombre] AS [nombre], 
-    [View_ClienteBucar].[apellidos] AS [apellidos], 
-    [View_ClienteBucar].[cedula] AS [cedula], 
-    [View_ClienteBucar].[telefono] AS [telefono], 
-    [View_ClienteBucar].[correo] AS [correo], 
-    [View_ClienteBucar].[idEmpresa] AS [idEmpresa], 
-    [View_ClienteBucar].[Empresa] AS [Empresa], 
-    [View_ClienteBucar].[cedJuridica] AS [cedJuridica], 
-    [View_ClienteBucar].[direccion] AS [direccion], 
-    [View_ClienteBucar].[TelEmpresa] AS [TelEmpresa]
-    FROM [dbo].[View_ClienteBucar] AS [View_ClienteBucar]</DefiningQuery>
           </EntitySet>
           <EntitySet Name="View_Repuesto" EntityType="Self.View_Repuesto" store:Type="Views" store:Schema="dbo">
             <DefiningQuery>SELECT 
@@ -1227,7 +1180,6 @@ advertencia 6002: La tabla o vista 'Taller_Sys.dbo.View_Usuario' no tiene defini
             <End Role="Cliente" EntitySet="Cliente" />
             <End Role="Factura" EntitySet="Factura" />
           </AssociationSet>
-          <EntitySet Name="usera" EntityType="Taller_SysModel.usera" />
           <FunctionImport Name="Sp_AddCaso">
             <Parameter Name="numeroCaso" Mode="In" Type="Int32" />
             <Parameter Name="idUsuario" Mode="In" Type="Int32" />
@@ -1240,8 +1192,6 @@ advertencia 6002: La tabla o vista 'Taller_Sys.dbo.View_Usuario' no tiene defini
             <Parameter Name="telefono" Mode="In" Type="String" />
             <Parameter Name="correo" Mode="In" Type="String" />
           </FunctionImport>
-          <EntitySet Name="View_Cliente" EntityType="Taller_SysModel.View_Cliente" />
-          <EntitySet Name="View_ClienteBucar" EntityType="Taller_SysModel.View_ClienteBucar" />
           <FunctionImport Name="sp_ActCliente">
             <Parameter Name="idCliente" Mode="In" Type="Int32" />
             <Parameter Name="nombre" Mode="In" Type="String" />
@@ -1250,6 +1200,7 @@ advertencia 6002: La tabla o vista 'Taller_Sys.dbo.View_Usuario' no tiene defini
             <Parameter Name="telefono" Mode="In" Type="String" />
             <Parameter Name="correo" Mode="In" Type="String" />
           </FunctionImport>
+          <EntitySet Name="View_Cliente" EntityType="Taller_SysModel.View_Cliente" />
         </EntityContainer>
         <EntityType Name="View_Caso">
           <Key>
@@ -1356,19 +1307,6 @@ advertencia 6002: La tabla o vista 'Taller_Sys.dbo.View_Usuario' no tiene defini
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityType Name="usera">
-          <Key>
-            <PropertyRef Name="idUsuario" />
-          </Key>
-          <Property Name="idUsuario" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="nombre" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="apellidos" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="cedula" Type="Int32" Nullable="false" />
-          <Property Name="telefono" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
-          <Property Name="correo" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="username" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
-          <Property Name="contrasena" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-        </EntityType>
         <EntityType Name="View_Cliente">
           <Key>
             <PropertyRef Name="Id" />
@@ -1381,22 +1319,6 @@ advertencia 6002: La tabla o vista 'Taller_Sys.dbo.View_Usuario' no tiene defini
           <Property Name="Empresa" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="cedJuridica" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
           <Property Name="Direccion" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
-        </EntityType>
-        <EntityType Name="View_ClienteBucar">
-          <Key>
-            <PropertyRef Name="idCliente" />
-          </Key>
-          <Property Name="idCliente" Type="Int32" Nullable="false" />
-          <Property Name="nombre" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="apellidos" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="cedula" Type="Int32" />
-          <Property Name="telefono" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
-          <Property Name="correo" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="idEmpresa" Type="Int32" />
-          <Property Name="Empresa" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="cedJuridica" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
-          <Property Name="direccion" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
-          <Property Name="TelEmpresa" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
         </EntityType>
       </Schema>
     </edmx:ConceptualModels>
@@ -1652,22 +1574,9 @@ advertencia 6002: La tabla o vista 'Taller_Sys.dbo.View_Usuario' no tiene defini
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="usera">
-            <EntityTypeMapping TypeName="Taller_SysModel.usera">
-              <MappingFragment StoreEntitySet="usera">
-                <ScalarProperty Name="contrasena" ColumnName="contrasena" />
-                <ScalarProperty Name="username" ColumnName="username" />
-                <ScalarProperty Name="correo" ColumnName="correo" />
-                <ScalarProperty Name="telefono" ColumnName="telefono" />
-                <ScalarProperty Name="cedula" ColumnName="cedula" />
-                <ScalarProperty Name="apellidos" ColumnName="apellidos" />
-                <ScalarProperty Name="nombre" ColumnName="nombre" />
-                <ScalarProperty Name="idUsuario" ColumnName="idUsuario" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <FunctionImportMapping FunctionImportName="Sp_AddCaso" FunctionName="Taller_SysModel.Store.Sp_AddCaso" />
           <FunctionImportMapping FunctionImportName="Sp_AddCliente" FunctionName="Taller_SysModel.Store.Sp_AddCliente" />
+          <FunctionImportMapping FunctionImportName="sp_ActCliente" FunctionName="Taller_SysModel.Store.sp_ActCliente" />
           <EntitySetMapping Name="View_Cliente">
             <EntityTypeMapping TypeName="Taller_SysModel.View_Cliente">
               <MappingFragment StoreEntitySet="View_Cliente">
@@ -1682,24 +1591,6 @@ advertencia 6002: La tabla o vista 'Taller_Sys.dbo.View_Usuario' no tiene defini
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="View_ClienteBucar">
-            <EntityTypeMapping TypeName="Taller_SysModel.View_ClienteBucar">
-              <MappingFragment StoreEntitySet="View_ClienteBucar">
-                <ScalarProperty Name="TelEmpresa" ColumnName="TelEmpresa" />
-                <ScalarProperty Name="direccion" ColumnName="direccion" />
-                <ScalarProperty Name="cedJuridica" ColumnName="cedJuridica" />
-                <ScalarProperty Name="Empresa" ColumnName="Empresa" />
-                <ScalarProperty Name="idEmpresa" ColumnName="idEmpresa" />
-                <ScalarProperty Name="correo" ColumnName="correo" />
-                <ScalarProperty Name="telefono" ColumnName="telefono" />
-                <ScalarProperty Name="cedula" ColumnName="cedula" />
-                <ScalarProperty Name="apellidos" ColumnName="apellidos" />
-                <ScalarProperty Name="nombre" ColumnName="nombre" />
-                <ScalarProperty Name="idCliente" ColumnName="idCliente" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <FunctionImportMapping FunctionImportName="sp_ActCliente" FunctionName="Taller_SysModel.Store.sp_ActCliente" />
           </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

@@ -1,4 +1,4 @@
-﻿@model Sistema_Taller.Models.ViewModels.ClienteViewModel
+﻿@model Sistema_Taller.Models.Response.ClienteResponse
 @{
     ViewBag.Title = "Editar";
 }
@@ -43,191 +43,96 @@
                data-target="#negocioModal">Agregar negocio</a>
         </div>
         <div class="form-group">
-            <input type="button" value="Guardar" class="btn btn-success" id="Guardar" onclick="actualizar()" />
+            <input type="submit" value="Guardar" class="btn btn-success" id="Guardar" />
         </div>
 
     }
 
 </div>
-<div class="modal fade" id="negocioModal" role="dialog">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header" style="padding:40px 50px;">
-                <button type="button" class="close" data-dismiss="modal">&times;</button>
-                <h4><span class="glyphicon glyphicon-floppy-save"></span> Empresa</h4>
-            </div>
 
-            <div class="modal-body" style="padding: 40px 50px">
-                @using (Html.BeginForm())
-                {
-                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-                    <div class="form-group">
-                        @Html.LabelFor(m => m.Empresa.NombreEmpresa)
-                        @Html.TextBoxFor(m => m.Empresa.NombreEmpresa, "", new { @class = "form-control", id = "NombreEmpresa" })
-                        @Html.ValidationMessageFor(m => m.Empresa.NombreEmpresa, "", new { @class = "text-danger" })
-                    </div>
-                    <div class="form-group">
-                        @Html.LabelFor(m => m.Empresa.CedJuridica)
-                        @Html.TextBoxFor(m => m.Empresa.CedJuridica, "", new { @class = "form-control", id = "CedJuridica" })
-                        @Html.ValidationMessageFor(m => m.Empresa.CedJuridica, "", new { @class = "text-danger" })
-                    </div>
-                    <div class="form-group">
-                        @Html.LabelFor(m => m.Empresa.Direccion)
-                        @Html.TextBoxFor(m => m.Empresa.Direccion, "", new { @class = "form-control", id = "Direccion" })
-                        @Html.ValidationMessageFor(m => m.Empresa.Direccion, "", new { @class = "text-danger" })
-                    </div>
-                    <div class="form-group">
-                        @Html.LabelFor(m => m.Empresa.TelEmpresa)
-                        @Html.TextBoxFor(m => m.Empresa.TelEmpresa, "", new { @class = "form-control", id = "TelEmpresa" })
-                        @Html.ValidationMessageFor(m => m.Empresa.TelEmpresa, "", new { @class = "text-danger" })
-                    </div>
-                    <div class="modal-footer">
+@*
+    <div class="modal fade" id="negocioModal" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header" style="padding:40px 50px;">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4><span class="glyphicon glyphicon-floppy-save"></span> Empresa</h4>
+                </div>
 
-                        <input type="submit" class="btn btn-outline-success" value="Agregar" id="btnAdd" />
-                    </div>
-                }
+                <div class="modal-body" style="padding: 40px 50px">
+                    @using (Html.BeginForm())
+                    {
+                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                        <div class="form-group">
+                            @Html.LabelFor(m => m.Empresa.NombreEmpresa)
+                            @Html.TextBoxFor(m => m.Empresa.NombreEmpresa, "", new { @class = "form-control", id = "NombreEmpresa" })
+                            @Html.ValidationMessageFor(m => m.Empresa.NombreEmpresa, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(m => m.Empresa.CedJuridica)
+                            @Html.TextBoxFor(m => m.Empresa.CedJuridica, "", new { @class = "form-control", id = "CedJuridica" })
+                            @Html.ValidationMessageFor(m => m.Empresa.CedJuridica, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(m => m.Empresa.Direccion)
+                            @Html.TextBoxFor(m => m.Empresa.Direccion, "", new { @class = "form-control", id = "Direccion" })
+                            @Html.ValidationMessageFor(m => m.Empresa.Direccion, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(m => m.Empresa.TelEmpresa)
+                            @Html.TextBoxFor(m => m.Empresa.TelEmpresa, "", new { @class = "form-control", id = "TelEmpresa" })
+                            @Html.ValidationMessageFor(m => m.Empresa.TelEmpresa, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="modal-footer">
+                            <input type="submit" class="btn btn-outline-success" value="Agregar" id="btnAdd" />
+                        </div>
+                    }
+                </div>
             </div>
         </div>
     </div>
-</div>
-<div class="table-responsive">
-    <table class="table table-hover table-bordered" id="tablaNegocio">
-        <thead>
-            <tr>
-                <th>@Html.DisplayName("Nombre")</th>
-                <th>@Html.DisplayName("Ced.Juridica")</th>
-                <th>@Html.DisplayName("Dirección")</th>
-                <th>@Html.DisplayName("Teléfono")</th>
-                <th></th>
-            </tr>
-        </thead>
-        <tbody>
-        </tbody>
+    <div class="modal fade" id="eliminar" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header" style="padding:40px 50px;">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4><span class="glyphicon glyphicon-floppy-save"></span> Empresa</h4>
+                </div>
 
-    </table>
-</div>
+                <div class="modal-body" style="padding: 40px 50px">
+                    @using (Html.BeginForm())
+                    {
+
+                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                        <div class="form-group">
+                            <h4>Desea eliminar este negocio?</h4>
+                            @Html.HiddenFor(m=>m.Empresa.IdEmpresa, new {id="id" })
+                        </div>
+                        <div class="modal-footer">
+                            <input type="button" data-dismiss="modal" value="Cerrar" class="btn btn-secondary"/>
+                            <input type="submit" class="btn btn-danger" value="Eliminar" id="btnEliminar" />
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="table-responsive">
+        <table class="table table-hover table-bordered" id="tablaNegocio">
+            <thead>
+                <tr>
+                    <th>@Html.DisplayName("Nombre")</th>
+                    <th>@Html.DisplayName("Ced.Juridica")</th>
+                    <th>@Html.DisplayName("Dirección")</th>
+                    <th>@Html.DisplayName("Teléfono")</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+            </tbody>
+
+        </table>
+    </div>*@
 @section Scripts {
     <script src="~/Scripts/js/Clientejs/edit.js" type="module"></script>
-    <script type="text/javascript">
-
-
-        function nuevoNegocio(e) {
-            if (document.getElementById("NombreEmpresa").value === "") {
-                e.preventDefault();
-            }
-            else if (document.getElementById("Apellidos").value === "") {
-                e.preventDefault();
-            }
-            else if (document.getElementById("CedJuridica").value === "") {
-                e.preventDefault();
-            }
-            else {
-
-                let tbody = document.querySelector("#tablaNegocio tbody");
-
-                let row = tbody.insertRow(0);
-
-                let elements = [$("#idEmpresa").val(), $("#NombreEmpresa").val(), $("#CedJuridica").val(), $("#Direccion").val(), $("#TelefonoEmp").val(), $("#IdCliente").val()];
-
-                lstEmp.push(new Empresa(elements[0], elements[1], elements[2], elements[3], elements[4], elements[5]))
-
-                for (let i = 0; i < elements.length; i++) {
-
-                    row.insertCell(i).innerHTML = elements[i];
-                }
-                row.cells[0].hidden = true;
-                row.cells[5].hidden = true;
-                row.insertCell(6).innerHTML = "<td><button type='button' class='edit alert-success'><span class='fa fa-edit'></span></button>\
-                                                             <button type='button' class='delete alert-danger'><span class='fa fa-trash'></span></button></td>";
-                fila++;
-
-                eventos();
-            }
-        }
-
-
-        function buscar() {
-            let id = parseInt(/\d+$/.exec(location.href));
-
-            fetch("/Cliente/BuscarCliente/?id=" + id, {
-                headers: { 'Content-Type': 'application/json' }
-            }).then(response => response.json())
-                .then(data => {
-                    $("#IdCliente").val(data.IdCliente);
-                    $("#Nombre").val(data.Nombre);
-                    $("#Apellidos").val(data.Apellidos);
-                    $("#Cedula").val(data.Cedula);
-                    $("#Telefono").val(data.Telefono);
-                    $("#Correo").val(data.Correo);
-
-                    //let table = document.getElementById("tablaNegocio");
-                    let tbody = document.querySelector("#tablaNegocio tbody");
-                    for (let i of data.Negocio) {
-                        let tr = document.createElement("tr")
-                        for (let j in i) {
-                            let td = document.createElement("td");
-                            if (j == "IdEmpresa" || j == "IdCliente") {
-                                td.hidden = true;
-                                td.textContent = i[j];
-
-                            } else {
-                                td.textContent = i[j];
-
-                            }
-                            tr.appendChild(td);
-                        }
-
-                        tr.innerHTML += "<td><button type='button' class='edit alert-success'><span class='fa fa-edit'></span></button>\
-                                                                 <button type='button' class='delete alert-danger'><span class='fa fa-trash'></span></button></td>"
-                        tbody.appendChild(tr);
-                        //table.appendChild(tbody);
-                    }
-                    eventos();
-                }).catch(error => alert(error));
-        }
-
-        function actualizar() {
-
-            let url = "/Cliente/Editar";
-            cliente = new Cliente($("#Nombre").val(), $("#Apellidos").val(), $("#Cedula").val(),
-                $("#Telefono").val(), $("#Correo").val(), lstEmp);
-            cliente.idCliente = $("#IdCliente").val();
-            let datos = {
-
-                Nombre: document.getElementById("Nombre").value,
-                Apellidos: document.getElementById("Apellidos").value,
-                Cedula: document.getElementById("Cedula").value,
-                Telefono: document.getElementById("Telefono").value,
-                Correo: document.getElementById("Correo").value,
-                IdCliente: document.getElementById("IdCliente").value
-            }
-
-            fetch(url, {
-                method: 'POST',
-                body: JSON.stringify(cliente),
-                headers: {
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json'
-                }
-
-            }).then(response => {
-                if (response.ok)
-                    return response.json();
-                else
-                    throw new Error("Ha ocurrido un error");
-            }).then(data => {
-                if (data != "1")
-                    alert("Nose pudo modificar el dato")
-                else {
-                    alert("Registro Modificado")
-                    document.location.href = "/Cliente/";
-                }
-            }).catch(error => {
-                alert(error);
-            })
-
-
-        }
-    </script>
-
 }

@@ -212,6 +212,8 @@
     <Compile Include="Models\Request\RespuestoRequest.cs" />
     <Compile Include="Models\Request\RolRequest.cs" />
     <Compile Include="Models\Request\UsuarioRequest.cs" />
+    <Compile Include="Models\Response\ClienteResponse.cs" />
+    <Compile Include="Models\Response\EmpresaResponse.cs" />
     <Compile Include="Models\Response\RepuestoResponse.cs" />
     <Compile Include="Models\Response\RolResponse.cs" />
     <Compile Include="Models\Response\UsuarioResponse.cs" />
@@ -236,9 +238,6 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>TallerContext.edmx</DependentUpon>
     </Compile>
-    <Compile Include="Models\usera.cs">
-      <DependentUpon>TallerContext.tt</DependentUpon>
-    </Compile>
     <Compile Include="Models\Usuario.cs">
       <DependentUpon>TallerContext.tt</DependentUpon>
     </Compile>
@@ -253,15 +252,11 @@
     <Compile Include="Models\ViewModels\PruebaV.cs" />
     <Compile Include="Models\ViewModels\RepuestoViewModel.cs" />
     <Compile Include="Models\ViewModels\RolViewModel.cs" />
-    <Compile Include="Models\ViewModels\UseraViewModel.cs" />
     <Compile Include="Models\ViewModels\UsuarioViewModel.cs" />
     <Compile Include="Models\View_Caso.cs">
       <DependentUpon>TallerContext.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\View_Cliente.cs">
-      <DependentUpon>TallerContext.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\View_ClienteBucar.cs">
       <DependentUpon>TallerContext.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\View_Repuesto.cs">
@@ -360,9 +355,6 @@
     <Content Include="Scripts\bootstrap.bundle.min.js.map" />
     <Content Include="Scripts\bootstrap.bundle.js.map" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
-    <Content Include="Scripts\FieldScripts\Filas.js" />
-    <Content Include="Scripts\FieldScripts\jsEliminarDatos.js" />
-    <Content Include="Scripts\FieldScripts\pruebaFetch.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
     <Content Include="Scripts\jquery-3.4.1.min.js" />
     <Content Include="Scripts\jquery-3.4.1.slim.js" />
@@ -373,8 +365,11 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\js\Access\jsAccess.js" />
+    <Content Include="Scripts\js\Casojs\create.js" />
     <Content Include="Scripts\js\Clientejs\create.js" />
     <Content Include="Scripts\js\Clientejs\edit.js" />
+    <Content Include="Scripts\js\Clientejs\index.js" />
+    <Content Include="Scripts\js\Empresajs\edit.js" />
     <Content Include="Scripts\js\funciones\actionScripts.js" />
     <Content Include="Scripts\js\funciones\table.js" />
     <Content Include="Scripts\js\Usuariojs\create.js" />
@@ -476,15 +471,11 @@
     <Content Include="Views\Usuario\Editar.cshtml" />
     <Content Include="Views\Cliente\Index.cshtml" />
     <Content Include="Views\Cliente\Crear.cshtml" />
-    <Content Include="Views\Cliente\NegocioIndex.cshtml" />
     <Content Include="Views\Cliente\Editar.cshtml" />
-    <Content Include="Views\Cliente\Eliminar.cshtml" />
     <Content Include="Views\Articulo\Crear.cshtml" />
     <Content Include="Views\Caso\Crear.cshtml" />
     <Content Include="Views\Caso\Index.cshtml" />
-    <Content Include="Views\Cliente\ListadoClientes.cshtml" />
     <Content Include="Views\hol.cshtml" />
-    <Content Include="Views\Cliente\hola.cshtml" />
     <Content Include="Views\Caso\Editar.cshtml" />
     <Content Include="Views\Repuesto\Crear.cshtml" />
     <Content Include="Scripts\umd\popper.min.js.map" />
@@ -502,11 +493,12 @@
     <Content Include="Views\Rol\Crear.cshtml" />
     <Content Include="Views\Rol\Editar.cshtml" />
     <Content Include="Views\Access\Login.cshtml" />
+    <Content Include="Views\Empresa\Index.cshtml" />
+    <Content Include="Views\Empresa\Editar.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Views\Categoría\" />
-    <Folder Include="Views\Empresa\" />
     <Folder Include="Views\Marca\" />
     <Folder Include="Views\Proveedor\" />
   </ItemGroup>

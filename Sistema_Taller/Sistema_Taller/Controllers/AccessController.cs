@@ -17,7 +17,8 @@ namespace Sistema_Taller.Controllers
             return View();
         }
         [HttpPost]
-        public ActionResult Login(LoginRequest model)
+       
+        public JsonResult Login(LoginRequest model)
         
         {
             using (Taller_SysEntities db = new Taller_SysEntities()) {

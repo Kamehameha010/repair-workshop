@@ -6,12 +6,11 @@ document.forms[0].addEventListener("submit", (e) => {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(Object.fromEntries(new FormData(document.forms[0])))
-    }, data => {
+    }).then(data => {
         if (data == "1") {
             location.replace("/Home/")
         } else {
             $(".no-valid").fadeIn("slow", 0)
         }
-    }).catch(error => { $(".conn-error").fadeIn("slow", 0) });
-    
-});
+    }).catch(error => { $(".conn-error").fadeIn("slow", 0) })
+})

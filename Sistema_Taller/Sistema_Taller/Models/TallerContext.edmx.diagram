@@ -47,9 +47,7 @@
         <AssociationConnector Association="Taller_SysModel.FK_CASO_CLIENTE" />
         <AssociationConnector Association="Taller_SysModel.FK_EMPRESA_CLIENTE" />
         <AssociationConnector Association="Taller_SysModel.FK_FACTURA_CLIENTE" />
-        <EntityTypeShape EntityType="Taller_SysModel.usera" Width="1.5" PointX="5.5" PointY="7.25" />
         <EntityTypeShape EntityType="Taller_SysModel.View_Cliente" Width="1.5" PointX="13.375" PointY="0.75" />
-        <EntityTypeShape EntityType="Taller_SysModel.View_ClienteBucar" Width="1.5" PointX="13.375" PointY="4.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

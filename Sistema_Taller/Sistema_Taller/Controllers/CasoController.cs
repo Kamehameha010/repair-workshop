@@ -166,7 +166,6 @@ namespace Sistema_Taller.Controllers
         [HttpPost]
         public JsonResult Editar(CasoRequest model)
         {
-            List<CasoDetalle> detalles = new List<CasoDetalle>();
             try
             {
                 using (Taller_SysEntities db = new Taller_SysEntities())

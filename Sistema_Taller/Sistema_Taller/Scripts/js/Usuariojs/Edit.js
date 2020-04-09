@@ -2,11 +2,10 @@
 import { crearUsername, obtenerId, llenarForm, limpiar } from "../funciones/actionScripts.js"
 
 
-onload = xhr("/Usuario/BuscarUsuario/?id=" + obtenerId(location.href), null,
-    data => {
+onload = xhr("/Usuario/BuscarUsuario/?id=" + obtenerId(location.href))
+    .then(data => {
         sessionStorage.obj = JSON.stringify(data)
         llenarForm(document.forms[0], data)
-
     });
 document.getElementById("username").addEventListener("change", () => {
 
@@ -14,7 +13,8 @@ document.getElementById("username").addEventListener("change", () => {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ usuario: document.getElementById("username").value })
-    }, (x) => {
+    }).then(x => {
+        console.log(x)
         if (x == "0") {
             $("#usuario-existe").fadeIn("slow", 0)
         } else {

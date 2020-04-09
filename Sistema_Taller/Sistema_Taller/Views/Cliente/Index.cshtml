@@ -1,20 +1,36 @@
-﻿ 
+﻿
 @{
+    //cliente
     ViewBag.Title = "Index";
 }
 
 <h2>Index</h2>
 
 
-<div class="row" style="text-align:center">
-    <div class="form-group">
-    </div>
+<div class="form-row">
+    <a id="lstCliente" class="btn btn-outline-primary" href="#">Cliente</a>
+    <a id="lstEmpresa" class="btn btn-outline-warning" href="#">Empresa</a>
 </div>
+
 <div class="table-responsive" id="lista">
 
+        <table class="table table-bordered table-hover" id="tablaCliente">
+            <thead>
+                <tr>
+                    <th>Nombre</th>
+                    <th>Apellidos</th>
+                    <th>Cédula</th>
+                    <th>Teléfono</th>
+                    <th>Correo</th>
+                    <th></th>
+                </tr>
+            </thead>
+
+        </table>
+    
 </div>
 
-<div class="modal fade" id="MostrarModal" role="dialog">
+<div class="modal fade" id="visualizar" role="dialog">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header" style="padding:40px 50px;">
@@ -45,7 +61,7 @@
                     </div>
                     <div class="form-group">
                         <label for="CedJuridica"> Ced.Juridica:</label>
-                        <input type="text" id="CedJuridica" name="CedJuridica" class="form-control" readonly />
+                        <input type="text" id="cedJuridica" name="CedJuridica" class="form-control" readonly />
                     </div>
                     <div class="form-group">
                         <label for="Direccion"> Direccion:</label>
@@ -62,7 +78,7 @@
         </div>
     </div>
 </div>
-<div class="modal fade" id="EliminarModal" role="dialog">
+<div class="modal fade" id="Eliminar" role="dialog">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header" style="padding:40px 50px;">
@@ -72,7 +88,7 @@
             <div class="modal-body" style="padding: 40px 50px">
                 <form id="form1" role="form">
                     <div class="form-group">
-                        <input type="hidden" id="idCliente" name="idCliente" class="form-control" readonly />
+                        <input type="hidden" id="id" name="id" class="form-control" />
                     </div>
                     <div class="form-group">
                         <<input type="button" class="btn btn-danger" data-dismiss="modal" value="Eliminar" id="Eliminar" />
@@ -86,133 +102,9 @@
     </div>
 </div>
 
+
+
 @section Scripts {
-
-    <script>
-        
-    </script>
-
-    <script type="text/javascript">
-   
-        $(document).ready(function () {
-            datosClientes();
-
-        });
-
-        function datosClientes() {
-            crearTabla("lista", "Nombre", "Apellidos", "Cedula", "Correo", "Empresa", "Accion");
-            let table = $("#tablaClientes").DataTable({
-                "processing": true,
-                "serverSide": true,
-                "ajax": {
-                    "url": "/Cliente/ListaClientes",
-                    "type": "POST",
-                    "datatype": "json"
-                },
-                "pageLength": 10,
-                "filter": true,
-                "responsivePriority": 1,
-                "data": null,
-                "columns": [
-                    { "data": "Nombre", "name": "Nombre" },
-                    { "data": "Apellidos", "name": "Apellidos" },
-                    { "data": "Cedula", "name": "Cedula" },
-                    { "data": "Correo", "name": "Correo" },
-                    { "data": "Empresa", "name": "Empresa" }, 
-                    {
-                        "defaultContent": "<a type='button' class='edit'><span class='fa fa-edit '></span></a>\
-                                               <a type='button' class='delete '><span class='fa fa-trash '></span></a>\
-                                               <a type='button' class='show '><i class= 'fa fa-eye'></i></a>",
-                        "autoWidth": true
-                    }
-                ]
-
-
-            });
-
-            rowSelect("#tablaClientes tbody", table, "#MostrarModal");
-            rowSelectEdit("#tablaClientes tbody", table);
-            rowSelectDelete("#tablaClientes tbody", table, "#EliminarModal");
-        }
-
-
-        function rowSelect(tbody, table, modal) {
-            $(tbody).on("click", ".show", function () {
-                let data = table.row($(this).parents("tr")).data();
-
-                $(modal).modal(
-                    $("#Nombre").val(data.Nombre),
-                    $("#Apellidos").val(data.Apellidos),
-                    $("#Cedula").val(data.Cedula),
-                    $("#Correo").val(data.Correo),
-                    $("#Empresa").val(data.Empresa),
-                    $("#CedJuridica").val(data.cedJuridica),
-                    $("#Direccion").val(data.Direccion),
-                );
-            });
-        }
-
-        function rowSelectEdit(tbody, table) {
-            $(tbody).on("click", ".edit", function () {
-                let data = table.row($(this).parents("tr")).data();                
-                location.href = "/Cliente/Editar/?id=" + data.Id;
-                   
-
-            });
-        }
-        //usar Ajax
-        function rowSelectDelete(tbody, table, modal) {
-            $(tbody).on("click", ".delete", function () {
-                let data = table.row($(this).parents("tr")).data();
-                $(modal).modal(
-                    $("#idCliente").val(data.Id),
-                );
-                $("#Eliminar").click(function () {
-
-                    fetch("/Cliente/Eliminar/", {
-                        method: 'POST',
-                        headers: {
-                            'Accept': 'application/json',
-                            'Content-Type': 'application/json'
-                        },
-                        body: JSON.stringify({ id: document.getElementById("idCliente").value })
-                    }).then(response => response.json())
-                      .then(data => {
-                          if (data != "1") {
-                              alert("No se pudo eLiminar")
-                          } else {
-                                location.href= "/Cliente/";
-                            }
-                        })
-                        .catch(error => console.error(error))
- 
-                });
-            });
-
-        }
-
-
-        function crearTabla(div, ...parametros) {
-
-            let table = document.createElement("table");
-            table.id = "tablaClientes";
-            table.className = "table table-bordered table-hover";
-            let thead = document.createElement("thead");
-            let tr = document.createElement("tr");
-
-            for (let oElements in parametros) {
-                let th = document.createElement("th");
-                th.textContent = parametros[oElements];
-                tr.appendChild(th);
-                thead.appendChild(tr);
-            }
-
-            table.appendChild(thead);
-
-            document.getElementById(div).appendChild(table);
-
-        }
-        
-    </script>
+    <script type="module" src="~/Scripts/js/Clientejs/index.js"></script>
 
 }

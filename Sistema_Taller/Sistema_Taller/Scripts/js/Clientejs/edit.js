@@ -1,35 +1,31 @@
 ﻿
 import { xhr } from "../funciones/XHR.js"
 import { obtenerId, llenarForm } from "../funciones/actionScripts.js"
-import { crearTabla, Parametros, rowSelect } from "../funciones/table.js"
+//import { crearTabla, Parametros, rowEvent } from "../funciones/table.js"
 
 
 var table;
-onload = () => {
-    xhr("/Cliente/BuscarCliente/?id=" + obtenerId(location.href), null,
-        (data) => {
-            llenarForm(document.forms[0], data)
+xhr("/Cliente/BuscarC/?id=" + obtenerId(location.href))
+    .then(d => {
+        llenarForm(document.forms[0], d)
+    })
+    .catch(error => alert(error))
 
-            crearTabla("#tablaNegocio", JSON.stringify(data.Negocio), "",
-                new Parametros("NombreEmpresa", "NombreEmpresa", true),
-                new Parametros("CedJuridica", "CedJuridica", true),
-                new Parametros("Direccion", "Direccion", true),
-                new Parametros("TelEmpresa", "TelEmpresa", true)
-            ).then(x => {
-                x[3].push({
-                    "defaultContent": "<a type='button' class='edit'><span class='fa fa-edit '></span></a>\
-                                                   <a type='button' class='delete '><span class='fa fa-trash '></span></a>\
-                                                   <a type='button' class='show'><i class= 'fa fa-eye'></i></a>",
-                });
-                sessionStorage.j = x[1]
-                table = $(x[0]).DataTable({
-                    "lengthChange": false,
-                    "searching": false,
-                    "data": JSON.parse(x[1]),
-                    "columns": x[3]
-                });
-                rowSelect(x[0] + " tbody", table, "#negocioModal");
-            })
+
+document.forms[0].addEventListener("submit", (e) => {
+    e.preventDefault()
+
+    xhr("/Cliente/Edit", {
+        method: "POST",
+        headers: {
+            "Content-Type":"application/json"
+        },
+        body: JSON.stringify(Object.fromEntries(new FormData(document.forms[0])))
+    })
+        .then(res => {
+            if (res == "1") {
+                //enviar mensaje al div
+            }
         })
-
-}
+        .catch(error => alert(error))
+})

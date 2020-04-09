@@ -44,7 +44,6 @@ namespace Sistema_Taller.Models.ViewModels
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         [DataType(DataType.Date)]
         public Nullable<System.DateTime> FechaDespacho { get; set; }
-
         public ArticuloViewModel Articulo { get; set; }
 
     }

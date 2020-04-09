@@ -12,6 +12,7 @@ using System.Linq.Dynamic;
 using System.Net;
 using System.Data.Entity;
 using Sistema_Taller.Models.Request;
+using Sistema_Taller.Models.Response;
 
 namespace Sistema_Taller.Controllers
 {
@@ -31,7 +32,54 @@ namespace Sistema_Taller.Controllers
             return View();
         }
 
+        #region Prueba
+        [HttpPost]
+        public ActionResult LClientes()
+        {
 
+            List<ClienteResponse> clientes = null;
+
+            draw = Request.Form.GetValues("draw").FirstOrDefault();
+            start = Request.Form.GetValues("start").FirstOrDefault();
+            length = Request.Form.GetValues("length").FirstOrDefault();
+            sortColumn = Request.Form.GetValues("columns[" + Request.Form.GetValues("order[0][column]").FirstOrDefault() + "][name]").FirstOrDefault();
+            sortColumnDir = Request.Form.GetValues("order[0][dir]").FirstOrDefault();
+            searchValue = Request.Form.GetValues("search[value]").FirstOrDefault();
+
+            pageSize = length != null ? Convert.ToInt32(length) : 0;
+            skip = start != null ? Convert.ToInt32(start) : 0;
+            recordsTotal = 0;
+
+            using (Taller_SysEntities db = new Taller_SysEntities())
+            {
+                IQueryable<ClienteResponse> query = from d in db.Cliente
+                                                    select new ClienteResponse
+                                                    {
+                                                        IdCliente =d.idCliente,
+                                                        Nombre= d.nombre,
+                                                        Apellidos = d.apellidos,
+                                                        Cedula = d.cedula,
+                                                        Telefono = d.telefono,
+                                                        Correo = d.correo
+                                                    }; 
+
+                if (searchValue.Length > 0)
+                {
+                    query = query.Where(x => x.Nombre.Contains(searchValue) || x.Apellidos.Contains(searchValue)
+                    || x.Cedula.ToString().Contains(searchValue) || x.Correo.Contains(searchValue));
+                }
+                if (!(string.IsNullOrEmpty(sortColumn) && string.IsNullOrEmpty(sortColumnDir)))
+                {
+                    query = query.OrderBy(sortColumn + " " + sortColumnDir);
+                }
+                recordsTotal = query.Count();
+
+                clientes = query.Skip(skip).Take(pageSize).ToList();
+            }
+            return Json(new { draw, recordsFiltered = recordsTotal, recordsTotal, data = clientes });
+
+        }
+        #endregion
 
         [HttpPost]
         public ActionResult ListaClientes()
@@ -138,6 +186,29 @@ namespace Sistema_Taller.Controllers
 
             return View();
         }
+        #region testEditar
+        [HttpPost]
+        public ActionResult Edit(ClienteResponse model)
+        {
+            if (ModelState.IsValid)
+            {
+                using (Taller_SysEntities db = new Taller_SysEntities())
+                {
+                    var oCliente = db.Cliente.Find(model.IdCliente);
+                    oCliente.nombre = model.Nombre;
+                    oCliente.apellidos = model.Apellidos;
+                    oCliente.telefono = model.Telefono;
+                    oCliente.correo = model.Correo;
+                    db.Entry(oCliente).State = EntityState.Modified;
+                    db.SaveChanges();
+                }
+                return Content("1");
+            }
+            return Content("0");
+        }
+        #endregion
+
+        #region editar
         [HttpPost]
         public ActionResult Editar(ClienteRequest model)
         {
@@ -192,7 +263,8 @@ namespace Sistema_Taller.Controllers
             }
             return Content("0");
         }
-
+        #endregion
+        #region buscarcliente
         [HttpGet]
         public ActionResult BuscarCliente(int? id)
         {
@@ -204,10 +276,8 @@ namespace Sistema_Taller.Controllers
                 {
                     return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
                 }
-
                 var oEmpresa = db.Empresa.Where(i => i.idCliente == id).ToList();
                 var oCliente = db.Cliente.Find(id);
-                cliente.IdCliente = oCliente.idCliente;
                 cliente.Nombre = oCliente.nombre;
                 cliente.Apellidos = oCliente.apellidos;
                 cliente.Cedula = oCliente.cedula;
@@ -217,13 +287,15 @@ namespace Sistema_Taller.Controllers
 
                 foreach (var i in oEmpresa)
                 {
-                    EmpresaViewModel emp = new EmpresaViewModel();
-                    emp.IdEmpresa = i.idEmpresa;
-                    emp.NombreEmpresa = i.nombre;
-                    emp.CedJuridica = i.cedJuridica;
-                    emp.Direccion = i.direccion;
-                    emp.TelEmpresa = i.telefono;
-                    emp.IdCliente = i.idCliente;
+                    EmpresaViewModel emp = new EmpresaViewModel()
+                    {
+                        IdEmpresa = i.idEmpresa,
+                        NombreEmpresa = i.nombre,
+                        CedJuridica = i.cedJuridica,
+                        Direccion = i.direccion,
+                        TelEmpresa = i.telefono,
+                        IdCliente = i.idCliente
+                    };
                     cliente.Negocio.Add(emp);
                 }
 
@@ -231,40 +303,41 @@ namespace Sistema_Taller.Controllers
 
             return Json(cliente,JsonRequestBehavior.AllowGet);
         }
- 
 
-        [HttpPost]
-        // [ValidateAntiForgeryToken]
-        public ActionResult Update(ClienteViewModel model)
+        #endregion
+
+        #region buscarPrueba
+        [HttpGet]
+        public ActionResult BuscarC(int? id)
         {
-            try
+
+            if (id == null)
             {
-                if (ModelState.IsValid)
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            using (Taller_SysEntities db = new Taller_SysEntities())
+            {
+                var oCliente = db.Cliente.Find(id);
+
+                if (oCliente == null)
                 {
-                    using (Taller_SysEntities db = new Taller_SysEntities())
-                    {
-
-                        var oCliente = db.Cliente.Find(model.IdCliente);
-                        //cliente.idCliente = model.IdCliente;
-                        oCliente.nombre = model.Nombre;
-                        oCliente.apellidos = model.Apellidos;
-                        oCliente.cedula = model.Cedula;
-                        oCliente.telefono = model.Telefono;
-                        oCliente.correo = model.Correo;
-
-                        db.Entry(oCliente).State = System.Data.Entity.EntityState.Modified;
-                        db.SaveChanges();
-                    }
-                    return Content("1");
+                    return HttpNotFound();
                 }
-
+                ClienteResponse cr = new ClienteResponse()
+                {
+                    IdCliente = oCliente.idCliente,
+                    Nombre = oCliente.nombre,
+                    Apellidos = oCliente.apellidos,
+                    Cedula = oCliente.cedula,
+                    Telefono = oCliente.telefono,
+                    Correo = oCliente.correo
+                };
+                return Json(cr, JsonRequestBehavior.AllowGet);
             }
-            catch (Exception e)
-            {
-                return Content(e.Message);
-            }
-            return View(model);
+            
         }
+        #endregion
+
         [HttpGet]
         public ActionResult Eliminar(int? id)
         {

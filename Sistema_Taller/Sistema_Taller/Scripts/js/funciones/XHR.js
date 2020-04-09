@@ -1,9 +1,9 @@
 ﻿
-export const xhr = async (url, options, callback) => {
+export const xhr = async (url, options) => {
     let request = await fetch(url, options)
     if (request.ok) {
         let data = await request.json()
-        await callback(data)
+        return data;
     } else{
         throw new Error("Error de conexion")
     }

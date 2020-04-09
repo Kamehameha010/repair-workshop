@@ -1,5 +1,5 @@
 ﻿import { xhr, objRequest } from "../funciones/XHR.js"
-import { agregarFila, datosFila, rowSelect } from "../funciones/table.js"
+import { agregarFila, datosFila, dataEdit } from "../funciones/table.js"
 import { limpiar, llenarForm } from "../funciones/actionScripts.js"
 window.onload = () => {
     sessionStorage.clear()
@@ -14,7 +14,7 @@ var table = $("#tablaNegocio").DataTable({
         { "data": "Direccion" },
         { "data": "TelEmpresa" },
         {
-            "defaultContent": "<a type='button' class='show'><span class='fa fa-edit '></span></a>\
+            "defaultContent": "<a type='button' class='edit'><span class='fa fa-edit '></span></a>\
                                                    <a type='button' class='delete '><span class='fa fa-trash '></span></a>"
         }
     ]
@@ -37,11 +37,11 @@ $('#tablaNegocio tbody').on("click", ".edit", function () {
 
 document.getElementById("modal").addEventListener("click", () => {
     document.getElementById("btnAdd").removeEventListener("click", dataEdit, false)
-
 })
 
 document.forms[1].addEventListener("submit", function (e) {
     e.preventDefault();
+    
     agregarFila(new FormData(document.forms[1]))
         .then(data => {
             
@@ -51,6 +51,7 @@ document.forms[1].addEventListener("submit", function (e) {
                 Direccion: data["Empresa.Direccion"],
                 TelEmpresa: data["Empresa.TelEmpresa"]
             }
+            console.log(obj)
             datosFila(obj)
             
             table.row.add(obj).draw()
@@ -84,8 +85,3 @@ document.forms[0].addEventListener("submit", (e) => {
 //validacion de cedula y cedula jurica
 
 //pasar a modulo
-function dataEdit(data = null) { 
-    let s = JSON.parse(sessionStorage.j)
-    let nd = s.filter(x => JSON.stringify(x) !== JSON.stringify(data))
-    sessionStorage.j = JSON.stringify(nd)
-}

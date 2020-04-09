@@ -23,35 +23,11 @@ export function crearTabla(idTabla = null, url = null, redirect = null, ...param
     })
 
 }
-export function Parametros(data = null, name = null, autoWidth = false, callback = () => null) {
+export function Parametros(data = null, autoWidth = false, callback = () => null) {
     this.data = data || null;
-    this.name = name || "";
+    this.name = data || null;
     this.autoWidth = autoWidth || false;
     this.render = callback(data) || null;
-
-}
-export function rowSelect(tbody, table, modal) {
-
-    $(tbody).on("click", ".show", function () {
-        let data = table.row($(this).parents("tr")).data();
-        $(modal).modal();
-        for (let i in data) {            
-            $("#" + i).val(data[i])
-        }
-    });
-}
-export function rowSelectEdit(tbody, table, url) {
-    $(tbody).on("click", ".edit", function () {
-        let data = table.row($(this).parents("tr")).data();
-        location.href = url + "Editar/?id=" + Object.values(data)[0];
-    });
-}
-export function rowSelectDelete(tbody, table, url, modal, form) {
-    $(tbody).on("click", ".delete", function () {
-        let data = table.row($(this).parents("tr")).data();
-        $(modal).modal();
-        form.elements[0].value = Object.values(data)[0];
-    });
 
 }
 export function agregarFila(formElements){
@@ -73,4 +49,15 @@ export const datosFila = async (x) => {
 }
 export const dataTable = (table, options) => {
     $(table).DataTable(options);
+}
+export const rowEvent = (tbody, table, identifier, callback) => {
+    $(tbody).on("click", identifier, function () {
+        let data = table.row($(this).parents("tr")).data();
+        callback(data)
+    });
+}
+export function dataEdit(data = null) {
+    let s = JSON.parse(sessionStorage.j)
+    let nd = s.filter(x => JSON.stringify(x) !== JSON.stringify(data))
+    sessionStorage.j = JSON.stringify(nd)
 }

@@ -84,8 +84,10 @@ namespace Sistema_Taller.Controllers
 
         public ActionResult Crear()
         {
-            RepuestoViewModel repuesto = new RepuestoViewModel();
-            repuesto.Repuestos = new InventarioRepuesto();
+            RepuestoViewModel repuesto = new RepuestoViewModel()
+            {
+                Repuestos = new InventarioRepuesto()
+            };
             return View(repuesto);
         }
         [HttpPost]
@@ -130,7 +132,7 @@ namespace Sistema_Taller.Controllers
                 }
                 return View(model);
             }
-            catch (Exception e)
+            catch (Exception)
             {
 
                 return Json("0");
@@ -215,7 +217,7 @@ namespace Sistema_Taller.Controllers
                 return Json("1");
             }catch(Exception e)
             {
-                return Json("Error");
+                return Json(e.Message);
             }
         }
 

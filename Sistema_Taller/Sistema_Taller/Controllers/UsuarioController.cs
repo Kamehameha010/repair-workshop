@@ -228,7 +228,7 @@ namespace Sistema_Taller.Controllers
                 }
                 return Json("1");
             }
-            catch ( Exception e)
+            catch ( Exception)
             {
                 return Json("0");
             }
