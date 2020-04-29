@@ -1,4 +1,4 @@
-﻿import { xhr } from "./XHR.js";
+﻿import { xhr } from "./XHR.js"; 
 
 const cantidad = (formElements) => {
     var count = 0;
@@ -11,7 +11,7 @@ const cantidad = (formElements) => {
 }
 export function crearTabla(idTabla = null, url = null, redirect = null, ...parametros ) {
     return new Promise((resolve, reject) => {
-
+        
         if (idTabla != null && url != null && redirect != null && parametros.length != 0) {
             if (typeof idTabla == "string" && typeof url == "string" && typeof redirect == "string" &&
                 typeof parametros == "object") {
@@ -23,12 +23,11 @@ export function crearTabla(idTabla = null, url = null, redirect = null, ...param
     })
 
 }
-export function Parametros(data = null, autoWidth = false, callback = () => null) {
+export function Parametros(data = null, autoWidth = false, callback) {
     this.data = data || null;
     this.name = data || null;
     this.autoWidth = autoWidth || false;
-    this.render = callback(data) || null;
-
+    this.render = typeof callback === "function" ? callback : null;
 }
 export function agregarFila(formElements){
     return new Promise((resolve, reject) => {
@@ -50,14 +49,14 @@ export const datosFila = async (x) => {
 export const dataTable = (table, options) => {
     $(table).DataTable(options);
 }
-export const rowEvent = (tbody, table, identifier, callback) => {
-    $(tbody).on("click", identifier, function () {
-        let data = table.row($(this).parents("tr")).data();
-        callback(data)
+export const rowEvent = (tbody, table, selector, callback) => {
+    $(tbody).on("click", selector, function () {
+        let row = table.row($(this).parents("tr"));
+        callback(row)
     });
 }
 export function dataEdit(data = null) {
-    let s = JSON.parse(sessionStorage.j)
+    let s = JSON.parse(sessionStorage.j) 
     let nd = s.filter(x => JSON.stringify(x) !== JSON.stringify(data))
     sessionStorage.j = JSON.stringify(nd)
 }

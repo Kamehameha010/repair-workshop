@@ -15,7 +15,7 @@
     <div class="row">
         <a href="~/Repuesto/Crear" class="btn btn-primary" style="text-align:justify">Crear</a>
     </div>
-    <div class="table table-responsive-md">
+    <div class="table table-responsive-xl">
         <table class="table table-hover table-bordered" id="tableInventario">
             <thead>
                 <tr>
@@ -23,7 +23,7 @@
                     <th>Descripción</th>
                     <th>Stock</th>
                     <th>Proveedor</th>
-                    <th>Accion</th>
+                    <th></th>
                 </tr>
             </thead>
             <tbody>
@@ -38,19 +38,19 @@
                     <h4><span class="fa fa-eye"> Parte</span></h4>
                     <a data-dismiss="modal"><span class="btn btn-danger close">&times;</span></a>
                 </div>
-            
+
                 <div class="modal-body">
                     <div class="form-group col-sm-6">
                         @Html.HiddenFor(m => m.id)
-                        
+
                     </div>
                     <div class="form-group col-sm-6">
-                        
+
                         <label class="col-form-label col-md-2" for="Codigo">Código</label>
                         <div class="col-md-10">
                             <label id="codigo"></label>
                         </div>
-                        
+
                     </div>
                     <div class="form-group col-sm-6">
                         <label for="Descripcion">Descripcion</label>
@@ -71,9 +71,9 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <input type="button" data-dismiss="modal" class="btn btn-secondary" value="Cerrar"/>
+                    <input type="button" data-dismiss="modal" class="btn btn-secondary" value="Cerrar" />
                 </div>
-             </div>
+            </div>
         </div>
     </div>
 
@@ -84,133 +84,134 @@
                     <h4><span class="fa fa-trash"> Repuesto</span></h4>
                     <button class="close" data-dismiss="modal">&times;</button>
                 </div>
-                <div class="modal-body">
-                    <form>
+                <form>
+                    <div class="modal-body">
                         <input type="hidden" id="id" />
                         <h4>Desea eliminar este elemento?</h4>
-                    </form>
-                    
-                </div>
-                <div class="modal-footer">
-                    <input type="button" class="btn btn-secondary" data-dismiss="modal" value="Cerrar" />
-                    <input type="button" class="btn btn-danger" id="delete" value="Eliminar" />
-                </div>
+                    </div>
+                    <div class="modal-footer">
+                        <input type="button" class="btn btn-secondary" data-dismiss="modal" value="Cerrar" />
+                        <input type="button" class="btn btn-danger" id="delete" value="Eliminar" />
+                    </div>
+                </form>
             </div>
         </div>
     </div>
+
 </body>
 </html>
 
 
 @section Scripts{
-    <script>
-        var p;
-        function crear(idTabla, url, urlServer, ...parametros) {
-            return new Promise((resolve, reject) => {
+    <script type="module" src="~/Scripts/js/Repuestojs/index.js"></script>
+    @*<script>
+           var p;
+            function crear(idTabla, url, urlServer, ...parametros) {
+                return new Promise((resolve, reject) => {
 
-                if ((url != "" && parametros.length > 0)) {
-                    resolve([idTabla, url, urlServer, parametros]);
-                }
-                else if (url == "" || parametros.length == 0) {
-                    reject("Se debe pasar parametros")
-                }
-            })
-        }
+                    if ((url != "" && parametros.length > 0)) {
+                        resolve([idTabla, url, urlServer, parametros]);
+                    }
+                    else if (url == "" || parametros.length == 0) {
+                        reject("Se debe pasar parametros")
+                    }
+                })
+            }
 
-        crear("#tableInventario", "/Repuesto/Stock","/Repuesto/",
-            new Parametros("codigo", "codigo", true),
-            new Parametros("descripcion", "descripcion", true),
-            new Parametros("cantidad", "cantidad", true),
-            new Parametros("Proveedor", "Proveedor", true)
-        ).then(data => {
-            p = data
-            data[3].push({ 
-                "defaultContent": "<a type='button' class='edit'><span class='fa fa-edit '></span></a>\
-                                                   <a type='button' class='delete '><span class='fa fa-trash '></span></a>\
-                                                   <a type='button' class='show '><i class= 'fa fa-eye'></i></a>",
-
-            });
-            let table = $(data[0]).DataTable({
-                "processing": true,
-                "serverSide": true,
-                "ajax": {
-                    "url": data[1],
-                    "type": "POST",
-                    "datatype": "json"
-                },
-                "cache": true,
-                "pageLength": 10,
-                "filter": true,
-                "responsivePriority": 1,
-                "data": null,
-                "columns": data[3]
-
-
-            });
-            
-            rowSelect(data[0] + " tbody", table, "#visualizar");
-            rowSelectDelete(data[0] + " tbody", table, data[2], "#Eliminar");
-            rowSelectEdit(data[0] + " tbody", table, data[2])
-        });
-
-
-        function Parametros(data=null, name=null, autoWidth=false, callback = () => null) {
-            this.data = data || null;
-            this.name = name || "";
-            this.autoWidth = autoWidth || false;
-            this.render = callback(data) || null;
-
-        }
-
-        function rowSelect(tbody, table, modal) {
-            
-            $(tbody).on("click", ".show", function () {
-                let data = table.row($(this).parents("tr")).data();
-                p=data
-                $(modal).modal();
-                for (let i in data) {
-                    $("#" + i).html(data[i])
-                }
-            });
-        }
-        function rowSelectDelete(tbody, table, url, modal) {
-            $(tbody).on("click", ".delete", function () {
-                let data = table.row($(this).parents("tr")).data();
-                
-                
-                $(modal).modal();
-                document.forms[0].elements[0].value = Object.values(data)[0];
-
-                $("#delete").click(function () {
-                    fetch(url+"Eliminar/", {
-                        method: 'POST',
-                        headers: {
-                            'Accept': 'application/json',
-                            'Content-Type': 'application/json'
-                        },
-                        body: JSON.stringify({ id: document.forms[0].elements[0].value })
-                    }).then(response => response.json())
-                        .then(data => {
-                            if (data != "1") {
-                                alert("No se pudo eLiminar")
-                            } else {
-                                location.href = "/Repuesto/Inventario";
-                            }
-                        })
-                        .catch(error => console.error(error))
+            crear("#tableInventario", "/Repuesto/Stock","/Repuesto/",
+                new Parametros("codigo", "codigo", true),
+                new Parametros("descripcion", "descripcion", true),
+                new Parametros("cantidad", "cantidad", true),
+                new Parametros("Proveedor", "Proveedor", true)
+            ).then(data => {
+                p = data
+                data[3].push({
+                    "defaultContent": "<a type='button' class='edit'><span class='fa fa-edit '></span></a>\
+                                                       <a type='button' class='delete '><span class='fa fa-trash '></span></a>\
+                                                       <a type='button' class='show '><i class= 'fa fa-eye'></i></a>",
 
                 });
+                let table = $(data[0]).DataTable({
+                    "processing": true,
+                    "serverSide": true,
+                    "ajax": {
+                        "url": data[1],
+                        "type": "POST",
+                        "datatype": "json"
+                    },
+                    "cache": true,
+                    "pageLength": 10,
+                    "filter": true,
+                    "responsivePriority": 1,
+                    "data": null,
+                    "columns": data[3]
+
+
+                });
+
+                rowSelect(data[0] + " tbody", table, "#visualizar");
+                rowSelectDelete(data[0] + " tbody", table, data[2], "#Eliminar");
+                rowSelectEdit(data[0] + " tbody", table, data[2])
             });
 
-        }
-        function rowSelectEdit(tbody, table, url) {
-            $(tbody).on("click", ".edit", function () {
-                let data = table.row($(this).parents("tr")).data();
-                location.href = url + "Editar/?id=" + Object.values(data)[0];
-            });
-        }
-        
 
-        
-    </script>
+            function Parametros(data=null, name=null, autoWidth=false, callback = () => null) {
+                this.data = data || null;
+                this.name = name || "";
+                this.autoWidth = autoWidth || false;
+                this.render = callback(data) || null;
+
+            }
+
+            function rowSelect(tbody, table, modal) {
+
+                $(tbody).on("click", ".show", function () {
+                    let data = table.row($(this).parents("tr")).data();
+                    p=data
+                    $(modal).modal();
+                    for (let i in data) {
+                        $("#" + i).html(data[i])
+                    }
+                });
+            }
+            function rowSelectDelete(tbody, table, url, modal) {
+                $(tbody).on("click", ".delete", function () {
+                    let data = table.row($(this).parents("tr")).data();
+
+
+                    $(modal).modal();
+                    document.forms[0].elements[0].value = Object.values(data)[0];
+
+                    $("#delete").click(function () {
+                        fetch(url+"Eliminar/", {
+                            method: 'POST',
+                            headers: {
+                                'Accept': 'application/json',
+                                'Content-Type': 'application/json'
+                            },
+                            body: JSON.stringify({ id: document.forms[0].elements[0].value })
+                        }).then(response => response.json())
+                            .then(data => {
+                                if (data != "1") {
+                                    alert("No se pudo eLiminar")
+                                } else {
+                                    location.href = "/Repuesto/Inventario";
+                                }
+                            })
+                            .catch(error => console.error(error))
+
+                    });
+                });
+
+            }
+            function rowSelectEdit(tbody, table, url) {
+                $(tbody).on("click", ".edit", function () {
+                    let data = table.row($(this).parents("tr")).data();
+                    location.href = url + "Editar/?id=" + Object.values(data)[0];
+                });
+            }
+
+
+
+        </script>*@
 }

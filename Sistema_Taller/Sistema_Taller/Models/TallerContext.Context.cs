@@ -37,10 +37,6 @@ public partial class Taller_SysEntities : DbContext
 
     public virtual DbSet<Articulo> Articulo { get; set; }
 
-    public virtual DbSet<Caso> Caso { get; set; }
-
-    public virtual DbSet<CasoDetalle> CasoDetalle { get; set; }
-
     public virtual DbSet<Categoria> Categoria { get; set; }
 
     public virtual DbSet<Estado> Estado { get; set; }
@@ -59,8 +55,6 @@ public partial class Taller_SysEntities : DbContext
 
     public virtual DbSet<Operacion> Operacion { get; set; }
 
-    public virtual DbSet<ProveedorRepuesto> ProveedorRepuesto { get; set; }
-
     public virtual DbSet<RepuestoUsado> RepuestoUsado { get; set; }
 
     public virtual DbSet<Rol> Rol { get; set; }
@@ -68,8 +62,6 @@ public partial class Taller_SysEntities : DbContext
     public virtual DbSet<Rol_Operacion> Rol_Operacion { get; set; }
 
     public virtual DbSet<Usuario> Usuario { get; set; }
-
-    public virtual DbSet<View_Caso> View_Caso { get; set; }
 
     public virtual DbSet<View_Repuesto> View_Repuesto { get; set; }
 
@@ -80,6 +72,14 @@ public partial class Taller_SysEntities : DbContext
     public virtual DbSet<Empresa> Empresa { get; set; }
 
     public virtual DbSet<View_Cliente> View_Cliente { get; set; }
+
+    public virtual DbSet<View_Caso> View_Caso { get; set; }
+
+    public virtual DbSet<Caso> Caso { get; set; }
+
+    public virtual DbSet<CasoDetalle> CasoDetalle { get; set; }
+
+    public virtual DbSet<ProveedorRepuesto> ProveedorRepuesto { get; set; }
 
 
     public virtual int Sp_AddCaso(Nullable<int> numeroCaso, Nullable<int> idUsuario, Nullable<int> idCliente)
@@ -170,6 +170,32 @@ public partial class Taller_SysEntities : DbContext
 
 
         return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("sp_ActCliente", idClienteParameter, nombreParameter, apellidosParameter, cedulaParameter, telefonoParameter, correoParameter);
+    }
+
+
+    [DbFunction("Taller_SysEntities", "fnCasoDetalle")]
+    public virtual IQueryable<fnCasoDetalle_Result> fnCasoDetalle(Nullable<int> id)
+    {
+
+        var idParameter = id.HasValue ?
+            new ObjectParameter("id", id) :
+            new ObjectParameter("id", typeof(int));
+
+
+        return ((IObjectContextAdapter)this).ObjectContext.CreateQuery<fnCasoDetalle_Result>("[Taller_SysEntities].[fnCasoDetalle](@id)", idParameter);
+    }
+
+
+    [DbFunction("Taller_SysEntities", "fnCaso")]
+    public virtual IQueryable<fnCaso_Result> fnCaso(Nullable<int> id)
+    {
+
+        var idParameter = id.HasValue ?
+            new ObjectParameter("id", id) :
+            new ObjectParameter("id", typeof(int));
+
+
+        return ((IObjectContextAdapter)this).ObjectContext.CreateQuery<fnCaso_Result>("[Taller_SysEntities].[fnCaso](@id)", idParameter);
     }
 
 }

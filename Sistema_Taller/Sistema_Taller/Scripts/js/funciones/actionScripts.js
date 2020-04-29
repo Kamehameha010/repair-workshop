@@ -1,4 +1,4 @@
-﻿ export const crearUsername = (nombre, apellidos, nid) => {
+﻿export const crearUsername = (nombre, apellidos, nid) => {
     return (nombre.substr(nombre, 1) + apellidos.substr(apellidos, 3) + nid.substring(nid.length, nid.length - 2));
 }
 export const obtenerId = (url) => {
@@ -23,7 +23,12 @@ export const llenarForm = (form, data) => {
                 if (i.type !== "button" && i.type !== "password" && i.type !== "submit") {
                     for (let j in data) {
                         if (j == i.id) {
-                            i.value = data[j]
+                            if (i.type == "date") {
+                                i.value = convertirFecha(data[j])
+                            }
+                            else {
+                                i.value = data[j]
+                            }
                         }
                     }
                 }
@@ -37,4 +42,13 @@ export const limpiar = (form) => {
             i.value = "";
         }
     }
+}
+export function convertirFecha(valor) {
+
+    let ms = parseFloat(/\d+/.exec(valor));
+    let format  = new Date(ms);
+    return format.getFullYear() + "-" + (format.getMonth() < 9 ? `0${format.getMonth() + 1}` : format.getMonth() + 1) + "-" +
+        (format.getDate() < 10 ? `0${format.getDate()}` : format.getDate());
+
+
 }

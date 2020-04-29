@@ -18,29 +18,17 @@ using System;
 public partial class View_Caso
 {
 
-    public int id { get; set; }
+    public int Id { get; set; }
 
-    public Nullable<System.DateTime> fecha_ingreso { get; set; }
+    public Nullable<System.DateTime> FechaIngreso { get; set; }
 
-    public Nullable<int> numero_caso { get; set; }
+    public Nullable<int> Numerocaso { get; set; }
 
     public string Usuario { get; set; }
 
     public string Cliente { get; set; }
 
-    public string Articulo { get; set; }
-
-    public string modelo { get; set; }
-
-    public string serie { get; set; }
-
-    public string Marca { get; set; }
-
-    public string detalle { get; set; }
-
-    public string diagnostico { get; set; }
-
-    public Nullable<System.DateTime> fecha_despacho { get; set; }
+    public string Estado { get; set; }
 
 }
 

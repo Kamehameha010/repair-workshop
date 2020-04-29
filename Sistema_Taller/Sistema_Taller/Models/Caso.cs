@@ -37,15 +37,21 @@ public partial class Caso
 
     public Nullable<int> idCliente { get; set; }
 
+    public Nullable<int> idEstadoCaso { get; set; }
 
+    public Nullable<System.DateTime> fecha_despacho { get; set; }
+
+
+
+    public virtual Cliente Cliente { get; set; }
+
+    public virtual EstadoCaso EstadoCaso { get; set; }
 
     public virtual Usuario Usuario { get; set; }
 
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
 
     public virtual ICollection<CasoDetalle> CasoDetalle { get; set; }
-
-    public virtual Cliente Cliente { get; set; }
 
 }
 

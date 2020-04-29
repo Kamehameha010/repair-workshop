@@ -8,23 +8,31 @@ namespace Sistema_Taller.Models.ViewModels
 {
     public class CasoViewModel
     {
-
         public int IdCaso { get; set; }
         [Display(Name = "Fecha ingreso")]
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         [DataType(DataType.Date)]
-        [Required]
+        
         public Nullable<System.DateTime> FechaIngreso { get; set; }
 
         [Display(Name = "Numero caso")]
         [Index(IsUnique = true)]
         public Nullable<int> NumeroCaso { get; set; }
         [Display(Name = "Usuario")]
+        [Required]
         public Nullable<int> IdUsuario { get; set; }
         [Display(Name = "Cliente")]
+        [Required]
         public Nullable<int> IdCliente { get; set; }
+        [Display(Name = "Estado")]
+        [Required]
+        public Nullable<int> IdEstadoCaso { get; set; }
 
-        public List<CasoDetalleViewModel> Detalles{ get; set; }
+        [Display(Name = "Fecha Despacho")]
+        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
+        [DataType(DataType.Date)]
+        public Nullable<System.DateTime> FechaDespacho { get; set; }
+        public List<CasoDetalleViewModel> CasoDetalle{ get; set; }
 
     }
 
@@ -37,13 +45,6 @@ namespace Sistema_Taller.Models.ViewModels
         [Display(Name = "Diagnostico")]
         [StringLength(200)]
         public string Diagnostico { get; set; }
-        [Display(Name = "Estado")]
-        public Nullable<int> IdEstadoCaso { get; set; }
-
-        [Display(Name = "Fec. Despacho")]
-        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
-        [DataType(DataType.Date)]
-        public Nullable<System.DateTime> FechaDespacho { get; set; }
         public ArticuloViewModel Articulo { get; set; }
 
     }

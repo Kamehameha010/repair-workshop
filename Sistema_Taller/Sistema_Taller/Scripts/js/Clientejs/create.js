@@ -1,67 +1,80 @@
 ﻿import { xhr, objRequest } from "../funciones/XHR.js"
-import { agregarFila, datosFila, dataEdit } from "../funciones/table.js"
-import { limpiar, llenarForm } from "../funciones/actionScripts.js"
+
+import { agregarFila, datosFila, dataEdit, crearTabla, Parametros, rowEvent } from "../funciones/table.js"
+
+import { llenarForm } from "../funciones/actionScripts.js"
+
 window.onload = () => {
     sessionStorage.clear()
 }
-var table = $("#tablaNegocio").DataTable({
-    "lengthChange": false,
-    "searching": false,
-    "data": null,
-    "columns": [
-        { "data": "NombreEmpresa" },
-        { "data": "CedJuridica" },
-        { "data": "Direccion" },
-        { "data": "TelEmpresa" },
-        {
+
+
+crearTabla("#tablaNegocio", "", "",
+    new Parametros("NombreEmpresa", true),
+    new Parametros("CedJuridica", true),
+    new Parametros("Direccion", true),
+    new Parametros("TelEmpresa", true)
+)
+    .then(d=> {
+        d[3].push({
             "defaultContent": "<a type='button' class='edit'><span class='fa fa-edit '></span></a>\
                                                    <a type='button' class='delete '><span class='fa fa-trash '></span></a>"
-        }
-    ]
-});
+        });
 
-$('#tablaNegocio tbody').on('click', '.delete', function () {
+        var table = $(d[0]).DataTable({
+            "lengthChange": false,
+            "searching": false,
+            "data": d[1] === "" ? null:d[1],
+            "columns": d[3]
+        });
 
-    let data = table.row($(this).parents("tr")).data();
-    dataEdit(data)
-    table.row($(this).parents('tr')).remove().draw();
-}); 
-
-$('#tablaNegocio tbody').on("click", ".edit", function () {
-    let data = table.row($(this).parents("tr")).data();
-    $("#negocioModal").modal()
-    llenarForm(document.forms[1], data)
-    document.getElementById("btnAdd").addEventListener("click", dataEdit(data), false)
-    table.row($(this).parents('tr')).remove().draw();
-});
-
-document.getElementById("modal").addEventListener("click", () => {
-    document.getElementById("btnAdd").removeEventListener("click", dataEdit, false)
-})
-
-document.forms[1].addEventListener("submit", function (e) {
-    e.preventDefault();
-    
-    agregarFila(new FormData(document.forms[1]))
-        .then(data => {
-            
-            let obj = {
-                NombreEmpresa: data["Empresa.NombreEmpresa"],
-                CedJuridica: data["Empresa.CedJuridica"],
-                Direccion: data["Empresa.Direccion"],
-                TelEmpresa: data["Empresa.TelEmpresa"]
-            }
-            console.log(obj)
-            datosFila(obj)
-            
-            table.row.add(obj).draw()
-            limpiar(document.forms[1])
+        //edit
+        rowEvent(d[0] + " tbody", table, ".edit", x => {
+            $("#negocioModal").modal()
+            llenarForm(document.forms[1], x.data())
+            document.getElementById("btnAdd").addEventListener("click", () =>
+            {
+                dataEdit(x.data())
+                x.remove().draw();
+            }, false)
+           
         })
-        .catch(error => {
+
+        //delete
+        rowEvent(d[0] + " tbody", table, ".delete", x => {
+            dataEdit(x.data())
+            x.remove().draw()
+        })
+
+
+        document.getElementById("modal").addEventListener("click", () => {
+            document.getElementById("btnAdd").removeEventListener("click", () => { dataEdit(null);
+            }, false)
+        })
+
+        document.forms[1].addEventListener("submit", function (e) {
             e.preventDefault();
-            alert(error)
+
+            agregarFila(new FormData(document.forms[1]))
+                .then(data => {
+                    let obj = {
+                        NombreEmpresa: data["Empresa.NombreEmpresa"],
+                        CedJuridica: data["Empresa.CedJuridica"],
+                        Direccion: data["Empresa.Direccion"],
+                        TelEmpresa: data["Empresa.TelEmpresa"]
+                    };
+                    datosFila(obj);
+
+                    table.row.add(obj).draw();
+                    document.forms[1].reset();
+                })
+                .catch(error => {
+                    alert(error)
+                });
         })
-})
+
+
+    })
 
 document.forms[0].addEventListener("submit", (e) => {
     e.preventDefault()
@@ -75,12 +88,13 @@ document.forms[0].addEventListener("submit", (e) => {
         },
         body: JSON.stringify(newObj)
     }, data => {
-            if (data == "1") {
-                limpiar(document.forms[0])
-                sessionStorage.clear()
-            }
+        if (data == "1") {
+            document.forms[0].reset()
+            sessionStorage.clear()
+        }
     })
 })
+
 
 //validacion de cedula y cedula jurica
 

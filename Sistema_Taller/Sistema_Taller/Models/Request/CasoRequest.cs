@@ -9,12 +9,14 @@ namespace Sistema_Taller.Models.Request
     public class CasoRequest
     {
         public int IdCaso { get; set; }
-        public List<CasoDetalleRequest> Detalles { get; set; }
+        public int? IdEstadoCaso{ get; set;  }
+        public List<CasoDetalleRequest> CasoDetalle { get; set; }
     }
 
     public class CasoDetalleRequest
     {
         public int IdCasoDetalle { get; set; }
+        public int IdCaso { get; set; }
         public int IdArticulo { get; set; }
         [Display(Name = "Detalle")]
         [StringLength(200)]
@@ -22,8 +24,5 @@ namespace Sistema_Taller.Models.Request
         [Display(Name = "Diagnostico")]
         [StringLength(200)]
         public string Diagnostico { get; set; }
-        [Display(Name = "Estado")]
-        public Nullable<int> IdEstadoCaso { get; set; }
-
     }
 }

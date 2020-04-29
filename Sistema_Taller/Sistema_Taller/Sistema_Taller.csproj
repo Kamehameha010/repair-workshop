@@ -142,6 +142,7 @@
     <Compile Include="Controllers\CategoriaController.cs" />
     <Compile Include="Controllers\ClienteController.cs" />
     <Compile Include="Controllers\EmpresaController.cs" />
+    <Compile Include="Controllers\FacturaController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\AccessController.cs" />
     <Compile Include="Controllers\MarcaController.cs" />
@@ -184,7 +185,12 @@
     <Compile Include="Models\Factura_Detalle.cs">
       <DependentUpon>TallerContext.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\FormViewModel\FormCasoViewModel.cs" />
+    <Compile Include="Models\fnCasoDetalle_Result.cs">
+      <DependentUpon>TallerContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\fnCaso_Result.cs">
+      <DependentUpon>TallerContext.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\InventarioRepuesto.cs">
       <DependentUpon>TallerContext.tt</DependentUpon>
     </Compile>
@@ -212,6 +218,8 @@
     <Compile Include="Models\Request\RespuestoRequest.cs" />
     <Compile Include="Models\Request\RolRequest.cs" />
     <Compile Include="Models\Request\UsuarioRequest.cs" />
+    <Compile Include="Models\Response\CasoDetalleResponse.cs" />
+    <Compile Include="Models\Response\CasoResponse.cs" />
     <Compile Include="Models\Response\ClienteResponse.cs" />
     <Compile Include="Models\Response\EmpresaResponse.cs" />
     <Compile Include="Models\Response\RepuestoResponse.cs" />
@@ -249,7 +257,7 @@
     <Compile Include="Models\ViewModels\FacturaViewModel.cs" />
     <Compile Include="Models\ViewModels\ListaComboBox.cs" />
     <Compile Include="Models\ViewModels\ListaUsuarios.cs" />
-    <Compile Include="Models\ViewModels\PruebaV.cs" />
+    <Compile Include="Models\ViewModels\ProveedorViewModel.cs" />
     <Compile Include="Models\ViewModels\RepuestoViewModel.cs" />
     <Compile Include="Models\ViewModels\RolViewModel.cs" />
     <Compile Include="Models\ViewModels\UsuarioViewModel.cs" />
@@ -366,12 +374,21 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\js\Access\jsAccess.js" />
     <Content Include="Scripts\js\Casojs\create.js" />
+    <Content Include="Scripts\js\Casojs\edit.js" />
+    <Content Include="Scripts\js\Casojs\index.js" />
+    <Content Include="Scripts\js\Class\Class.js" />
     <Content Include="Scripts\js\Clientejs\create.js" />
     <Content Include="Scripts\js\Clientejs\edit.js" />
     <Content Include="Scripts\js\Clientejs\index.js" />
     <Content Include="Scripts\js\Empresajs\edit.js" />
     <Content Include="Scripts\js\funciones\actionScripts.js" />
     <Content Include="Scripts\js\funciones\table.js" />
+    <Content Include="Scripts\js\Proveedorjs\create.js" />
+    <Content Include="Scripts\js\Proveedorjs\edit.js" />
+    <Content Include="Scripts\js\Proveedorjs\index.js" />
+    <Content Include="Scripts\js\Repuestojs\create.js" />
+    <Content Include="Scripts\js\Repuestojs\edit.js" />
+    <Content Include="Scripts\js\Repuestojs\index.js" />
     <Content Include="Scripts\js\Usuariojs\create.js" />
     <Content Include="Scripts\js\Usuariojs\Edit.js" />
     <Content Include="Scripts\js\funciones\XHR.js" />
@@ -495,12 +512,15 @@
     <Content Include="Views\Access\Login.cshtml" />
     <Content Include="Views\Empresa\Index.cshtml" />
     <Content Include="Views\Empresa\Editar.cshtml" />
+    <Content Include="Views\Proveedor\Crear.cshtml" />
+    <Content Include="Views\Proveedor\Index.cshtml" />
+    <Content Include="Views\Proveedor\Editar.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Views\Categoría\" />
+    <Folder Include="Views\Factura\" />
     <Folder Include="Views\Marca\" />
-    <Folder Include="Views\Proveedor\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

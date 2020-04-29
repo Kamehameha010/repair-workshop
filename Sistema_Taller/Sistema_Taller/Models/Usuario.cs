@@ -22,9 +22,9 @@ public partial class Usuario
     public Usuario()
     {
 
-        this.Caso = new HashSet<Caso>();
-
         this.Factura = new HashSet<Factura>();
+
+        this.Caso = new HashSet<Caso>();
 
     }
 
@@ -51,10 +51,6 @@ public partial class Usuario
 
 
 
-    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-
-    public virtual ICollection<Caso> Caso { get; set; }
-
     public virtual Estado Estado { get; set; }
 
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
@@ -62,6 +58,10 @@ public partial class Usuario
     public virtual ICollection<Factura> Factura { get; set; }
 
     public virtual Rol Rol { get; set; }
+
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+
+    public virtual ICollection<Caso> Caso { get; set; }
 
 }
 

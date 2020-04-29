@@ -17,6 +17,7 @@ onload = crearTabla("#tablaUsuario", "/Usuario/ListaUsuarios", "/usuario/",
                                                    <a type='button' class='delete '><span class='fa fa-trash '></span></a>\
                                                    <a type='button' class='show '><i class= 'fa fa-eye'></i></a>",
         });
+        console.log(data)
         let table = $(data[0]).DataTable({
             "processing": true,
             "serverSide": true,
@@ -36,18 +37,18 @@ onload = crearTabla("#tablaUsuario", "/Usuario/ListaUsuarios", "/usuario/",
         rowEvent(data[0] + " tbody", table, ".show", (s) => {
             
             $("#visualizar").modal()
-            for (let i in s) {
-                $("#" + i).val(s[i])
+            for (let i in s.data()) {
+                $("#" + i).val(s.data()[i])
             }
         })
         //edit
         rowEvent(data[0] + " tbody", table, ".edit", (s) => {
-            location.href ="/Usuario/Editar/?id=" + Object.values(s)[0];
+            location.href ="/Usuario/Editar/?id=" + Object.values(s.data())[0];
         })
         //delete
         rowEvent(data[0] + " tbody", table, ".delete", (s) => {
             $("#Eliminar").modal();
-            document.forms[0].elements[0].value = Object.values(s)[0];
+            document.forms[0].elements[0].value = Object.values(s.data())[0];
 
         })
     }).catch(error => alert(error));

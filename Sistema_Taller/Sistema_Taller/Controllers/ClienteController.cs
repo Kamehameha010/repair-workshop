@@ -408,5 +408,27 @@ namespace Sistema_Taller.Controllers
             return Json(c);
         }
 
+        [HttpPost]
+        public ActionResult Buscar(string term) {
+            try
+            {
+                using (Taller_SysEntities db = new Taller_SysEntities())
+                {
+                    var oCliente = db.Cliente.Where(x => x.nombre.Contains(term)
+                    || x.cedula.ToString().Contains(term)).Select(d => new
+                    {
+                        label = d.nombre,
+                        id= d.idCliente
+                        //cedula = d.cedula
+                    }).Take(2).ToList();
+
+                    return Json(oCliente);
+                }
+            }
+            catch (Exception) {
+                return Json("0");
+            }
+        }
+
     }
 }

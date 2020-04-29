@@ -13,24 +13,27 @@ namespace Sistema_Taller.Models
 {
 
 using System;
-    using System.Collections.Generic;
     
-public partial class RepuestoUsado
+public partial class fnCaso_Result
 {
 
-    public int idRepuesto { get; set; }
+    public int idCaso { get; set; }
 
-    public Nullable<int> idCasoDetalle { get; set; }
+    public Nullable<System.DateTime> fecha_ingreso { get; set; }
 
-    public Nullable<int> idInvRep { get; set; }
+    public int idCliente { get; set; }
 
-    public Nullable<int> cantidad { get; set; }
+    public Nullable<int> numero_caso { get; set; }
 
+    public string nombre { get; set; }
 
+    public int idUsuario { get; set; }
 
-    public virtual InventarioRepuesto InventarioRepuesto { get; set; }
+    public string username { get; set; }
 
-    public virtual CasoDetalle CasoDetalle { get; set; }
+    public int idEstadoCaso { get; set; }
+
+    public Nullable<System.DateTime> fecha_despacho { get; set; }
 
 }
 

@@ -4,106 +4,102 @@
     ViewBag.Title = "Index";
 }
 
-<h2>Index</h2>
 
+<!DOCTYPE html>
 
-<div class="form-row">
-    <a id="lstCliente" class="btn btn-outline-primary" href="#">Cliente</a>
-    <a id="lstEmpresa" class="btn btn-outline-warning" href="#">Empresa</a>
-</div>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Index</title>
+</head>
+<body>
 
-<div class="table-responsive" id="lista">
+    <div class="form-row" >
+        <a id="lstCliente" class="btn btn-outline-primary" href="#">Cliente</a>
+        <a id="lstEmpresa" class="btn btn-outline-warning" href="#">Empresa</a>
+    </div>
+    <div>
+        <div class="table-responsive" id="lista" > 
 
-        <table class="table table-bordered table-hover" id="tablaCliente">
-            <thead>
-                <tr>
-                    <th>Nombre</th>
-                    <th>Apellidos</th>
-                    <th>Cédula</th>
-                    <th>Teléfono</th>
-                    <th>Correo</th>
-                    <th></th>
-                </tr>
-            </thead>
+        </div>
 
-        </table>
-    
-</div>
+        <div class="modal fade" id="visualizar" role="dialog">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header" style="padding:40px 50px;">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4><span class="glyphicon glyphicon-floppy-save"></span> Cliente</h4>
+                    </div>
+                    <div class="modal-body" style="padding: 40px 50px">
+                        <form id="form" role="form">
+                            <div class="form-group">
+                                <label for="Nombre"> Nombre:</label>
+                                <input type="text" id="Nombre" name="Nombre" class="form-control" readonly />
+                            </div>
+                            <div class="form-group">
+                                <label for="Apellidos"> Apellidos:</label>
+                                <input type="text" id="Apellidos" name="caso" class="form-control" readonly />
+                            </div>
+                            <div class="form-group">
+                                <label for="Cedula"> Cédula:</label>
+                                <input type="text" id="Cedula" name="Cedula" class="form-control" readonly />
+                            </div>
+                            <div class="form-group">
+                                <label for="Correo"> Correo:</label>
+                                <input type="text" id="Correo" name="Correo" class="form-control" readonly />
+                            </div>
+                            <div class="form-group">
+                                <label for="Empresa"> Empresa:</label>
+                                <input type="text" id="Empresa" name="Empresa" class="form-control" readonly />
+                            </div>
+                            <div class="form-group">
+                                <label for="CedJuridica"> Ced.Juridica:</label>
+                                <input type="text" id="cedJuridica" name="CedJuridica" class="form-control" readonly />
+                            </div>
+                            <div class="form-group">
+                                <label for="Direccion"> Direccion:</label>
+                                <input type="text" id="Direccion" name="Direccion" class="form-control" readonly />
+                            </div>
 
-<div class="modal fade" id="visualizar" role="dialog">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header" style="padding:40px 50px;">
-                <button type="button" class="close" data-dismiss="modal">&times;</button>
-                <h4><span class="glyphicon glyphicon-floppy-save"></span> Cliente</h4>
-            </div>
-            <div class="modal-body" style="padding: 40px 50px">
-                <form id="form" role="form">
-                    <div class="form-group">
-                        <label for="Nombre"> Nombre:</label>
-                        <input type="text" id="Nombre" name="Nombre" class="form-control" readonly />
-                    </div>
-                    <div class="form-group">
-                        <label for="Apellidos"> Apellidos:</label>
-                        <input type="text" id="Apellidos" name="caso" class="form-control" readonly />
-                    </div>
-                    <div class="form-group">
-                        <label for="Cedula"> Cédula:</label>
-                        <input type="text" id="Cedula" name="Cedula" class="form-control" readonly />
-                    </div>
-                    <div class="form-group">
-                        <label for="Correo"> Correo:</label>
-                        <input type="text" id="Correo" name="Correo" class="form-control" readonly />
-                    </div>
-                    <div class="form-group">
-                        <label for="Empresa"> Empresa:</label>
-                        <input type="text" id="Empresa" name="Empresa" class="form-control" readonly />
-                    </div>
-                    <div class="form-group">
-                        <label for="CedJuridica"> Ced.Juridica:</label>
-                        <input type="text" id="cedJuridica" name="CedJuridica" class="form-control" readonly />
-                    </div>
-                    <div class="form-group">
-                        <label for="Direccion"> Direccion:</label>
-                        <input type="text" id="Direccion" name="Direccion" class="form-control" readonly />
-                    </div>
+                            <div class="modal-footer">
+                                <input type="button" data-dismiss="modal" value="Agregar" id="btnAdd" />
+                                <input type="button" data-dismiss="modal" value="Agregar2" id="btnAdd2" />
+                            </div>
+                        </form>
 
-                    <div class="modal-footer">
-                        <input type="button" data-dismiss="modal" value="Agregar" id="btnAdd" />
-                        <input type="button" data-dismiss="modal" value="Agregar2" id="btnAdd2" />
                     </div>
-                </form>
-
+                </div>
             </div>
         </div>
-    </div>
-</div>
-<div class="modal fade" id="Eliminar" role="dialog">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header" style="padding:40px 50px;">
-                <button type="button" class="close" data-dismiss="modal">&times;</button>
-                <h4><span class="glyphicon glyphicon-floppy-remove"></span> Desea eliminar este cliente?</h4>
-            </div>
-            <div class="modal-body" style="padding: 40px 50px">
-                <form id="form1" role="form">
-                    <div class="form-group">
-                        <input type="hidden" id="id" name="id" class="form-control" />
+        <div class="modal fade" id="Eliminar" role="dialog">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header" style="padding:40px 50px;">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4><span class="glyphicon glyphicon-floppy-remove"></span> Desea eliminar este cliente?</h4>
                     </div>
-                    <div class="form-group">
-                        <<input type="button" class="btn btn-danger" data-dismiss="modal" value="Eliminar" id="Eliminar" />
-                        <input type="button" data-dismiss="modal" value="Cancel" onclose="close" />
+                    <div class="modal-body" style="padding: 40px 50px">
+                        <form id="form1" role="form">
+                            <div class="form-group">
+                                <input type="hidden" id="id" name="id" class="form-control" />
+                            </div>
+                            <div class="form-group">
+                                <input type="button" class="btn btn-danger" value="Eliminar" id="btnDelete" />
+                                <input type="button" data-dismiss="modal" value="Cancel" onclose="close" />
+                            </div>
+
+                        </form>
+
                     </div>
-
-                </form>
-
+                </div>
             </div>
         </div>
+
     </div>
-</div>
 
 
-
+</body>
+</html>
 @section Scripts {
     <script type="module" src="~/Scripts/js/Clientejs/index.js"></script>
 

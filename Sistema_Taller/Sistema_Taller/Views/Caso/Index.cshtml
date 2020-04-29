@@ -4,28 +4,22 @@
 }
 
 <h2>Casos</h2>
-
+<input type="button" value="press" id="dd" class="btn btn-danger" />
 <div class="table-responsive">
-    <table id="dt-casos" class="table table-bordered table-hover" cellspacing="0" width="100%">
+    <table id="tablaCaso" class="table table-bordered table-hover" cellspacing="0" width="100%">
         <thead>
             <tr>
                 <th>Fec.Ingreso</th>
                 <th>Caso</th>
                 <th>Usuario</th>
                 <th>Cliente</th>
-                <th>Articulo</th>
-                <th>Modelo</th>
-                <th>Marca</th>
-                <th>Serie</th>
+                <th>Estado</th>
                 <th>Acción</th>
             </tr>
         </thead>
         <tbody>
         </tbody>
     </table>
-    <button type="button" style="border:none; font-size:medium" ><span class="fa fa-edit alert-success"></span></button><br />
-    <button type="button" style="border:none; font-size:medium" ><span class="fa fa-trash  alert-danger"></span></button>
-
 </div>
 
 <div class="modal fade" id="MostrarModal" role="dialog">
@@ -39,7 +33,7 @@
                 <form id="form2" role="form">
                     <div class="form-group">
                         <label for="Ingreso"> Fec.Ingreso:</label>
-                        <input type="date" id="ingreso" name="ingreso" class="form-control" readonly/>
+                        <input type="date" id="ingreso" name="ingreso" class="form-control" readonly />
                     </div>
                     <div class="form-group">
                         <label for="Caso"> #Caso</label>
@@ -75,89 +69,139 @@
         </div>
     </div>
 </div>
+<div class="modal fade" id="Eliminar" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header" style="padding:40px 50px;">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4><span class="glyphicon glyphicon-floppy-save"></span> Empresa</h4>
+            </div>
+            <div class="modal-body" style="padding: 40px 50px">
+                <form role="form">
+                    <input type="hidden" id="Id" name="Id"/>
+                    <h4>Desea eliminar cerrar este caso?</h4>
 
+                    <div class="modal-footer">
+                        <input type="submit" value="Agregar" id="send"/>   
+                    </div>
+                </form>
+
+            </div>
+        </div>
+    </div>
+</div>
 @section scripts{
+    <script src="~/Scripts/js/Casojs/index.js" type="module"></script>
 
-    <script>
-        $(document).ready(function () {
-            listar();
+            <script>
+              /*  
+                function crearTabla(idTabla = null, url = null, redirect = null, ...parametros) {
+                    return new Promise((resolve, reject) => {
 
-        });
+                        if (idTabla != null && url != null && redirect != null && parametros.length != 0) {
+                            if (typeof idTabla == "string" && typeof url == "string" && typeof redirect == "string" &&
+                                typeof parametros == "object") {
+                                resolve([idTabla, url, redirect, parametros]);
+                            }
+                            reject("Parametros no corresponde a los tipos esperados")
+                        }
+                        reject("Debe completar los parametros")
+                    })
 
+                }
+                function Parametros(data = null, autoWidth = false, callback) {
+                    this.data = data || null;
+                    this.name = data || null;
+                    this.autoWidth = autoWidth || false;
+                    this.render = callback;
+                }
+                function convertirFecha(valor) {
 
-        
-        function convertirFecha(valor) {
+                    let pattern = /Date\(([^)]+)/;
+                    let ms = parseFloat(/\d+/.exec(valor));
+                    let fecha = new Date(ms);
+                    let mes = fecha.getMonth() < 9 ? "0" + (fecha.getMonth() + 1) : fecha.getMonth();
+                    let dia = fecha.getDate() < 10 ? "0" + fecha.getDate() : fecha.getDate();
 
-            let pattern = /Date\(([^)]+)/;
-            let ms = pattern.exec(valor);
-            let fecha = new Date(parseFloat(ms[1]));
-            let mes = fecha.getMonth() < 9 ? "0" + (fecha.getMonth() + 1) : fecha.getMonth();
-            let dia = fecha.getDate() < 10 ? "0" + fecha.getDate() : fecha.getDate();
+                    return fecha.getFullYear() + "-" + mes + "-" + dia;
+                }
 
-            return fecha.getFullYear() + "-" + mes + "-" + dia;
-
-
-        }
-
-
-        
-
-        function listar() {
-            var table = $("#dt-casos").DataTable({
-                "processing": true,
-                "serverSide": true,
-                "ajax": {
-                    "url": "/Caso/Casos",
-                    "type": "POST",
-                    "datatype": "json"
-                },
-                "pageLength": 10,
-                "filter": true,
-                "responsivePriority": 1,
-                "data": null,
-                "columns": [
-                    {
-                        "data": "fecha_ingreso", "render": data => convertirFecha(data), "name": "fecha_ingreso"
-                    },
-                    { "data": "numero_caso", "name": "numero_caso" },
-
-                    { "data": "Usuario", "name": "Usuario"  },
-                    { "data": "Cliente", "name": "Cliente" },
-                    { "data": "Articulo", "name": "Articulo" },
-                    { "data": "modelo", "name": "modelo" },
-                    { "data": "Marca", "name": "Marca" },
-                    { "data": "serie", "name": "serie" },
-                    {
-                        "defaultContent": "<a type='button' class='edit'><span class='fa fa-edit '></span></a>\
-                                           <a type='button' class='delete '><span class='fa fa-trash '></span></a>\
-                                           <a type='button' class='show '><i class= 'fa fa-eye'></i></a>",
-                        "autoWidth": true
-                        
+                crearTabla("#tablaCaso", "/Caso/Casos", "/Caso/",
+                    new Parametros("FechaIngreso", true, x => convertirFecha(x)),
+                    new Parametros("Numerocaso", true),
+                    new Parametros("Usuario", true),
+                    new Parametros("Cliente", true),
+                    new Parametros("Estado", true))
+                    .then(d => {
+                        console.log(d)
+                        var table = $("#tablaCaso").DataTable({
+                            "processing": true,
+                            "serverSide": true,
+                            "ajax": {
+                                "url":d[1],
+                                "type": "POST",
+                                "datatype": "jsonp"
+                            },
+                            "pageLength": 10,
+                            "filter": true,
+                            "responsivePriority": 1,
+                            "data": null,
+                            "columns": d[3]
+                        });
                     }
-                ]
-            });
-            datos("#dt-casos tbody", table);
+                    ).catch(error => alert(error))*/
+                    /*function listar() {
+                        var table = $("#tablaCaso").DataTable({
+                            "processing": true,
+                            "serverSide": true,
+                            "ajax": {
+                                "url": "/Caso/Casos",
+                                "type": "POST",
+                                "datatype": "jsonp"
+                            },
+                            "pageLength": 10,
+                            "filter": true,
+                            "responsivePriority": 1,
+                            "data": null,
+                            "columns": [
+                                {
+                                    "data": "FechaIngreso", "render": data => convertirFecha(data), "name": "FechaIngreso"
+                                },
+                                { "data": "Numerocaso", "name": "Numerocaso" },
+                                { "data": "Usuario", "name": "Usuario" },
+                                { "data": "Cliente", "name": "Cliente" },
+                                { "data": "Estado", "name": "Estado" },
+                                {
+                                    "defaultContent": "<a type='button' class='edit'><span class='fa fa-edit '></span></a>\
+                                                       <a type='button' class='delete '><span class='fa fa-trash '></span></a>\
+                                                       <a type='button' class='show '><i class= 'fa fa-eye'></i></a>",
+                                    "autoWidth": true
+
+                                }
+                            ]
+                        });
+                        datos("#dt-casos tbody", table);
+                    }
+                    */
+                    function datos(tbody, table) {
+
+                        $(tbody).on('click', ".show", function () {
+
+                            var data = table.row($(this).parents("tr")).data();
+                            $("#MostrarModal").modal(
+                                $("#ingreso").val(convertirFecha(data.fecha_ingreso)),
+                                $("#caso").val(data.numero_caso),
+                                $("#usuario").val(data.Usuario),
+                                $("#cliente").val(data.Cliente),
+                                $("#articulo").val(data.Articulo),
+                                $("#modelo").val(data.modelo),
+                                $("#marca").val(data.Marca)
+
+                            );
+
+
+                        });
+                    }
+
+                </script>
         }
-
-        function datos(tbody, table) {
-            
-            $(tbody).on('click', ".show", function () {
-                
-                var data = table.row($(this).parents("tr")).data();
-                $("#MostrarModal").modal(
-                    $("#ingreso").val(convertirFecha(data.fecha_ingreso)),
-                    $("#caso").val(data.numero_caso),
-                    $("#usuario").val(data.Usuario),
-                    $("#cliente").val(data.Cliente),
-                    $("#articulo").val(data.Articulo),
-                    $("#modelo").val(data.modelo),
-                    $("#marca").val(data.Marca)
-                    
-                );
-
-               
-            });
-        }
-
-    </script>
- }

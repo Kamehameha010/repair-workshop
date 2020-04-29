@@ -1,0 +1,97 @@
+﻿@model Sistema_Taller.Models.ViewModels.ProveedorViewModel
+@{
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Index</title>
+</head>
+<body>
+    <div>
+       <div class="table table-responsive">
+           <table class="table table-hover table-bordered" id="tablaProveedor">
+               <thead>
+                   <tr>
+                       <th>Nombre</th>
+                       <th>Correo</th>
+                       <th>Teléfono</th>
+                       <th>Dirección</th>
+                       <th></th>
+                   </tr>
+               </thead>
+               <tbody></tbody>
+               
+           </table>
+       </div>
+
+        <div class="modal fade" id="ProveedorModal" role="dialog">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4>Proveedor</h4>
+                        <span class="btn-danger close">&times;</span>v
+                    </div>
+                    <div class="modal-body">
+                        <dl class="dl-horizontal">
+                            <dt>
+                                @Html.DisplayNameFor(model => model.Nombre)
+                            </dt>
+
+                            <dd>
+                                @Html.DisplayFor(model => model.Nombre)
+                            </dd>
+
+                            <dt>
+                                @Html.DisplayNameFor(model => model.Correo)
+                            </dt>
+
+                            <dd>
+                                @Html.DisplayFor(model => model.Correo)
+                            </dd>
+
+                            <dt>
+                                @Html.DisplayNameFor(model => model.Telefono)
+                            </dt>
+
+                            <dd>
+                                @Html.DisplayFor(model => model.Telefono)
+
+                            <dt>
+                                @Html.DisplayNameFor(model => model.Direccion)
+                            </dt>
+
+                            <dd>
+                                @Html.DisplayFor(model => model.Direccion)
+                            </dd>                           
+                        </dl>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal fade" id="Eliminar" role="dialog">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4>Proveedor</h4>
+                        <span class="btn-danger close" data-dismiss="modal">&times;</span>
+                    </div>
+                    <div class="modal-body">
+                        @using (Html.BeginForm())
+                        {
+                            @Html.HiddenFor(m=>m.IdProveedor)
+                            <h5>Desea eliminar este proveedor</h5>
+
+                            <input type="submit" class="btn btn-danger offset-10" />
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="~/Scripts/js/Proveedorjs/index.js" type="module"></script>
+</body>
+</html>

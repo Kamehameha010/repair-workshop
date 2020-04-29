@@ -13,29 +13,29 @@ namespace Sistema_Taller.Models
 {
 
 using System;
-    using System.Collections.Generic;
     
-public partial class EstadoCaso
+public partial class fnCasoDetalle_Result
 {
 
-    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-    public EstadoCaso()
-    {
+    public int idCasoDetalle { get; set; }
 
-        this.Caso = new HashSet<Caso>();
+    public int idArticulo { get; set; }
 
-    }
+    public string nombre { get; set; }
 
+    public string codigo { get; set; }
 
-    public int idEstadoCaso { get; set; }
+    public Nullable<int> idMarca { get; set; }
 
-    public string descripcion { get; set; }
+    public Nullable<int> idCategoria { get; set; }
 
+    public string serie { get; set; }
 
+    public string modelo { get; set; }
 
-    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+    public string detalle { get; set; }
 
-    public virtual ICollection<Caso> Caso { get; set; }
+    public string diagnostico { get; set; }
 
 }
 

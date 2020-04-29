@@ -39,17 +39,11 @@ public partial class CasoDetalle
 
     public string diagnostico { get; set; }
 
-    public Nullable<System.DateTime> fecha_despacho { get; set; }
-
-    public Nullable<int> idEstadoCaso { get; set; }
-
 
 
     public virtual Articulo Articulo { get; set; }
 
     public virtual Caso Caso { get; set; }
-
-    public virtual EstadoCaso EstadoCaso { get; set; }
 
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
 

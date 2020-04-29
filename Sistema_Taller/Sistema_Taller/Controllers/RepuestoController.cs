@@ -84,14 +84,10 @@ namespace Sistema_Taller.Controllers
 
         public ActionResult Crear()
         {
-            RepuestoViewModel repuesto = new RepuestoViewModel()
-            {
-                Repuestos = new InventarioRepuesto()
-            };
-            return View(repuesto);
+            return View(new RepuestoViewModel());
         }
         [HttpPost]
-        public ActionResult Crear(RespuestoRequest model)
+        public ActionResult Crear(List<RespuestoRequest> model)
         {
             try
             {
@@ -108,9 +104,11 @@ namespace Sistema_Taller.Controllers
                         dt.Columns.Add("cantidad", typeof(int));
 
                         int fila = 0;
-                        foreach (var oRepuesto in model.Repuesto)
+                        foreach (var oRepuesto in model)
                         {
-                            dt.Rows.Add(fila, model.idProveedor, oRepuesto.codigo, oRepuesto.descripcion, oRepuesto.precio, oRepuesto.cantidad);
+                            
+                            dt.Rows.Add(fila, oRepuesto.IdProveedor, oRepuesto.Codigo, oRepuesto.Descripcion, oRepuesto.Precio, oRepuesto.Cantidad);
+                            fila++;
                         }
 
                         var parametros = new SqlParameter("@repuesto", SqlDbType.Structured)
@@ -119,11 +117,7 @@ namespace Sistema_Taller.Controllers
                             TypeName = "dbo.typ_repuesto"
                         };
 
-                        db.Database.ExecuteSqlCommand("exec Sp_AddRepuesto @id, @proveedor, @telefono, @direccion, @repuesto",
-                            new SqlParameter("@id", model.idProveedor),
-                            new SqlParameter("@proveedor", model.nombre),
-                            new SqlParameter("@telefono", model.telefono),
-                            new SqlParameter("@direccion", model.direccion),
+                        db.Database.ExecuteSqlCommand("exec Sp_AddRepuesto @repuesto",
                             parametros
                             );
 
@@ -155,16 +149,24 @@ namespace Sistema_Taller.Controllers
             }
             return View();
         }
-
+        [HttpPost]
         public ActionResult Editar(RepuestoViewModel model)
         {
             
             using (Taller_SysEntities db = new Taller_SysEntities())
             {
-                var oEncontrar = db.InventarioRepuesto.Find(model.Repuestos.idInvRep);
-                
+                var oRep = db.InventarioRepuesto.Find(model.IdInvRep);
+
+                oRep.codigo = model.Codigo;
+                oRep.descripcion = model.Descripcion;
+                oRep.precio = model.Precio;
+                oRep.cantidad = model.Cantidad;
+
+                db.Entry(oRep).State = System.Data.Entity.EntityState.Modified;
+                db.SaveChanges();
+
             }
-            return View();
+            return Json("1");
         }
 
         [HttpGet]

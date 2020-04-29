@@ -1,85 +1,94 @@
 ﻿import { xhr } from "../funciones/XHR.js"
-import { dataEdit, agregarFila, datosFila } from "../funciones/table.js"
-import { llenarForm, limpiar } from "../funciones/actionScripts.js"
+import { dataEdit, agregarFila, datosFila, crearTabla, Parametros, rowEvent } from "../funciones/table.js"
+import { llenarForm } from "../funciones/actionScripts.js"
+import { CasoDetalle, Articulo, Caso } from "../Class/Class.js";
 
+window.onload = () => {
+    sessionStorage.clear()
 
-onload = obtenerFecha();
-onload = () => { sessionStorage.j }
-onload = setTimeout(NumeroCaso, 5000);
-var table = $("#tablaCaso").DataTable({
-    "lengthChange": false,
-    "searching": false,
-    "data": null,
-    "columns": [
-        { "data": "Articulo" },
-        { "data": "Modelo" },
-        { "data": "Serie" },
-        { "data": "Observacion" },
-        { "data": "Estado" },
-        {
+    obtenerFecha();
+
+    setTimeout(NumeroCaso, 5000);
+}
+
+crearTabla("#tablaCaso", "", "",
+    new Parametros("Articulo", true),
+    new Parametros("Codigo", true),
+    new Parametros("Modelo", true),
+    new Parametros("Serie", true),
+    new Parametros("Observacion", true)
+    
+)
+    .then(x => {
+        x[3].push({
             "defaultContent": "<a type='button' class='edit'><span class='fa fa-edit '></span></a>\
                                                    <a type='button' class='delete '><span class='fa fa-trash '></span></a>"
-        }
-    ]
-});
+        });
+        var table = $(x[0]).DataTable({
+            "lengthChange": false,
+            "searching": false,
+            "data": x[1] == "" ? null : d[1],
+            "columns": x[3]
+        });
 
-$('#tablaCaso tbody').on('click', '.delete', function () {
+        //delete
+        rowEvent(x[0] + " tbody", table, ".delete", x => {
+            dataEdit(obj(x.data()));
+            x.remove().draw();
+        });
 
-    let data = table.row($(this).parents("tr")).data();
-    dataEdit(data)
-    table.row($(this).parents('tr')).remove().draw();
-});
+        //edit
+        rowEvent(x[0] + " tbody", table, ".edit", x => {
+            $("#ArticuloModal").modal();
+            llenarForm(document.forms[1], x.data())
+            document.getElementById("btnAdd").addEventListener("click", () => {
+                dataEdit(obj(x.data()))
+                x.remove().draw();
+            }, false)
+        });
 
-$('#tablaCaso tbody').on("click", ".edit", function () {
-    let data = table.row($(this).parents("tr")).data();
-    $("#ArticuloModal").modal()
-    llenarForm(document.forms[1], data)
-    document.getElementById("btnAdd").addEventListener("click", dataEdit(data), false)
-    table.row($(this).parents('tr')).remove().draw();
-});
-
-
-document.getElementById("ArticuloModal").addEventListener("click", () => {
-    document.getElementById("btnAdd").removeEventListener("click", dataEdit, false)
-})
-
-document.forms[1].addEventListener("submit", e => {
-    e.preventDefault();
-    agregarFila(new FormData(document.forms[1]))
-        .then(x => {
-            let obj = {
-                Detalle:x.Observacion,
-                IdEstado: x.Estado,
-                Articulo: {
-                    Nombre: x.Articulo,
-                    Codigo: x.Codigo,
-                    Modelo: x.Modelo,
-                    IdMarca: x.Marca,
-                    IdCategoria: x.Categoria,
-                    Serie: x.Serie
-                
-                }
-            }
-            datosFila(obj);
-            table.row.add({
-                Articulo: x.Articulo,
-                Modelo: x.Modelo,
-                Serie: x.Serie,
-                Observacion: x.Observacion,
-                Estado: x.Estado
-            }).draw()
-            limpiar(document.forms[1])
-
+        document.getElementById("ArticuloModal").addEventListener("click", () => {
+            document.getElementById("btnAdd").removeEventListener("click", () => { dataEdit(obj(null)) }, false)
         })
-        .catch(error => {
+
+        document.forms[1].addEventListener("submit", e => {
             e.preventDefault();
-            alert(error)
+            agregarFila(new FormData(document.forms[1]))
+                .then(x => {
+                    datosFila(obj(x));
+                    table.row.add(x).draw()
+                    document.forms[1].reset();
+                    $("#ArticuloModal").modal("toggle")
+                })
+                .catch(error => {
+                    e.preventDefault();
+                    alert(error)
+                })
+        })
+        document.forms[0].addEventListener("submit", e => {
+            e.preventDefault();
+            let b = Object.fromEntries(new FormData(document.forms[0]))
+            let n = new Caso(0, b.IdUsuario, b.IdCliente, b.NumeroCaso, b.IdEstadoCaso, JSON.parse(sessionStorage.j))
+            xhr("/Caso/Crear", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(n)
+            }).then(res => {
+
+                if (res == 1) {
+                    document.forms[0].reset();
+                    obtenerFecha();
+                    NumeroCaso();
+                    table.clear().draw();
+                    sessionStorage.clear()
+                }
+            }).catch(error => { alert(error) })
+            
         })
 
-})
-document.forms[0].addEventListener("submit", e => {
-    e.preventDefault();
-})
+    })
 
 function obtenerFecha() {
     fetch("/Caso/Fecha")
@@ -94,3 +103,41 @@ function NumeroCaso() {
         })
         .catch(error => alert(error))
 }
+function obj(x) {
+    let cd = new CasoDetalle();
+    cd.Observacion = x.Observacion.trim();
+    let at = new Articulo();
+    at.Nombre_ = x.Articulo.trim();
+    at.Codigo_ = x.Codigo.trim();
+    at.Modelo_ = x.Modelo.trim();
+    at.Marca = x.Marca.trim();
+    at.Categoria = x.Categoria.trim();
+    at.Serie_ = x.Serie.trim();
+    cd.ObjArticulo = at
+    return cd;
+}
+
+$(document).ready(function () {
+    $("#NCliente").autocomplete({
+        source: function (request, response) {
+            $.ajax({
+                url: "/Cliente/Buscar",
+                type: "POST",
+                dataType: "json",
+                data: { term: request.term },
+                success: function (data) {
+                    response($.map(data, function (item) {
+                        return item;
+                    }))
+
+                }
+            })
+        },
+        select: function (event, ui) {
+            //set tagids to save
+            $("#IdCliente").val(ui.item.id);
+        }
+    });
+})
+
+

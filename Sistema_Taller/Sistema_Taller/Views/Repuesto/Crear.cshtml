@@ -13,45 +13,48 @@
     <div class="dl-horizontal">
         @using (Html.BeginForm())
         {
-            @Html.AntiForgeryToken()
-            @Html.ValidationSummary(true)
 
-            @Html.HiddenFor(m => m.idProveedor)
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+            @Html.HiddenFor(m => m.IdProveedor)
             <div class="form-group">
-                @Html.LabelFor(m => m.nombre, htmlAttributes: new { @class = "control-label col-md-2" })
+                @Html.LabelFor(m => m.Nombre, htmlAttributes: new { @class = "control-label col-md-2" })
 
                 <div class="col-md-10">
-                    @Html.EditorFor(m => m.nombre, new { htmlAttributes = new { @class = "form-control" } })
-                    @Html.ValidationMessageFor(m => m.nombre, "", new { @class = "text-danger" })
+                    @Html.EditorFor(m => m.Nombre, new { htmlAttributes = new { @class = "form-control", @readonly=true } })
+                    @Html.ValidationMessageFor(m => m.Nombre, "", new { @class = "text-danger" })
+                    <button type="button" id="ff" data-toggle="modal"
+                   data-target="#ProveedorModal"><span>+</span></button>
+                </div>
+
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(m => m.Telefono, new { @class = "control-label col-md-2" })
+
+                <div class="col-md-10">
+                    @Html.EditorFor(m => m.Telefono, new { htmlAttributes = new { @class = "form-control", @readonly = true } })
+                    @Html.ValidationMessageFor(m => m.Telefono, "", new { @class = "text-danger" })
                 </div>
             </div>
             <div class="form-group">
-                @Html.LabelFor(m => m.telefono, new { @class = "control-label col-md-2" })
+                @Html.LabelFor(m => m.Direccion, new { @class = "control-label col-md-2" })
 
                 <div class="col-md-10">
-                    @Html.EditorFor(m => m.telefono, new { htmlAttributes = new { @class = "form-control" } })
-                    @Html.ValidationMessageFor(m => m.telefono, "", new { @class = "text-danger" })
-                </div>
-            </div>
-            <div class="form-group">
-                @Html.LabelFor(m => m.direccion, new { @class = "control-label col-md-2" })
-
-                <div class="col-md-10">
-                    @Html.EditorFor(m => m.direccion, new { htmlAttributes = new { @class = "form-control" } })
-                    @Html.ValidationMessageFor(m => m.direccion, "", new { @class = "text-danger" })
+                    @Html.EditorFor(m => m.Direccion, new { htmlAttributes = new { @class = "form-control", @readonly = true } })
+                    @Html.ValidationMessageFor(m => m.Direccion, "", new { @class = "text-danger" })
                 </div>
             </div>
             <div class="form-group">
                 <a class="btn btn-default" data-toggle="modal"
                    data-target="#RepuestoModal">Agregar Repuesto</a>
             </div>
-            <input type="button" class="btn btn-primary" value="Guardar" id="save" />
+            <input type="submit" class="btn btn-primary" value="Guardar" id="save" />
 
 
         }
 
     </div>
-    <div class="table-responsive-sm">
+    <div class=" table table-responsive-sm">
         <table class="table table-hover table-bordered " id="TablaRepuesto">
             <thead>
                 <tr>
@@ -77,38 +80,38 @@
                 </div>
                 <div class="modal-body" style="padding: 40px 50px">
                     <form id="form2" role="form">
-                        @Html.HiddenFor(m => m.Repuestos.idInvRep)
+                        @Html.HiddenFor(m => m.IdInvRep)
                         <div class="form-group">
-                            @Html.LabelFor(m => m.Repuestos.codigo, htmlAttributes: new { @class = "control-label col-md-2" })
+                            @Html.LabelFor(m => m.Codigo, htmlAttributes: new { @class = "control-label col-md-2" })
                             <div class="col-md-10">
-                                @Html.EditorFor(m => m.Repuestos.codigo, new { htmlAttributes = new { @class = "form-control" } })
-                                @Html.ValidationMessageFor(m => m.Repuestos.codigo, "", new { @class = "text-danger" })
+                                @Html.EditorFor(m => m.Codigo, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(m => m.Codigo, "", new { @class = "text-danger" })
                             </div>
                         </div>
                         <div class="form-group">
-                            @Html.LabelFor(m => m.Repuestos.descripcion, htmlAttributes: new { @class = "control-label col-md-2" })
+                            @Html.LabelFor(m => m.Descripcion, htmlAttributes: new { @class = "control-label col-md-2" })
                             <div class="col-md-10">
-                                @Html.EditorFor(m => m.Repuestos.descripcion, new { htmlAttributes = new { @class = "form-control" } })
-                                @Html.ValidationMessageFor(m => m.Repuestos.descripcion, "", new { @class = "text-danger" })
+                                @Html.EditorFor(m => m.Descripcion, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(m => m.Descripcion, "", new { @class = "text-danger" })
                             </div>
                         </div>
                         <div class="form-group">
-                            @Html.LabelFor(m => m.Repuestos.precio, htmlAttributes: new { @class = "control-label col-md-2" })
+                            @Html.LabelFor(m => m.Precio, htmlAttributes: new { @class = "control-label col-md-2" })
                             <div class="col-md-10">
-                                @Html.EditorFor(m => m.Repuestos.precio, new { htmlAttributes = new { @class = "form-control" } })
-                                @Html.ValidationMessageFor(m => m.Repuestos.precio, "", new { @class = "text-danger" })
+                                @Html.EditorFor(m => m.Precio, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(m => m.Precio, "", new { @class = "text-danger" })
                             </div>
                         </div>
                         <div class="form-group">
-                            @Html.LabelFor(m => m.Repuestos.cantidad, htmlAttributes: new { @class = "control-label col-md-2" })
+                            @Html.LabelFor(m => m.Cantidad, htmlAttributes: new { @class = "control-label col-md-2" })
                             <div class="col-md-10">
-                                @Html.EditorFor(m => m.Repuestos.cantidad, new { htmlAttributes = new { @class = "form-control" } })
-                                @Html.ValidationMessageFor(m => m.Repuestos.cantidad, "", new { @class = "text-danger" })
+                                @Html.EditorFor(m => m.Cantidad, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(m => m.Cantidad, "", new { @class = "text-danger" })
                             </div>
                         </div>
 
                         <div class="modal-footer">
-                            <input type="button" data-dismiss="modal" value="Guardar" id="add" />
+                            <input type="submit" value="Guardar" id="btnAdd" />
 
                         </div>
                     </form>
@@ -117,7 +120,34 @@
         </div>
     </div>
 
+    <div class="modal fade" id="ProveedorModal" role="dialog" >
+        <div class="modal-dialog">
+            <div class="modal-content alert-danger" >
+                <div class="modal-header" style="padding:40px 50px;">
+                    <h4><span class="fa fa-save"></span> Parte</h4>
+                    <button type="button" class="btn btn-danger close" data-dismiss="modal">&times;</button>
+                </div>
+                <div class="modal-body" style="padding: 40px 50px">
+                    <div class="table-responsive">
+                        <table class="table table-hover table-bordered" id="tablaBuscar">
+                            <thead>
+                                <tr>
+                                    <th></th>
+                                    <th>Nombre</th>
+                                    <th>Correo</th>
+                                    <th>Teléfono</th>
+                                    <th>Dirección</th>
 
+                                </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+ 
 </body>
 </html>
 
@@ -125,63 +155,10 @@
     @Scripts.Render("~/bundles/jqueryval")
 
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-    <script>
-        
+    <script src="~/Scripts/js/Repuestojs/create.js" type="module"></script>
+
+   @*<script>
        
-    </script>
-
-   <script>
-       var repuestos = []
-       var items
-       class Repuesto {
-
-           constructor(id, codigo, descripcion, precio, cantidad) {
-               this.id = id || 0;
-               this.codigo = codigo;
-               this.descripcion = descripcion;
-               this.precio = precio || 0.0;
-               this.cantidad = cantidad;
-           }
-           
-           set Id(id) {
-               this.id = id;
-           }
-           get Id() {
-               return this.id;
-           }
-           set Codigo(codigo) {
-               this.codigo = codigo;
-           }
-           get Codigo() {
-               return this.codigo;
-           }         
-           set Descripcion(descripcion) {
-               this.descripcion = descripcion;
-           }
-           get Descripcion() {
-               return this.codigo
-           }
-           set Precio(precio) {
-               this.precio = precio;
-           }
-           get Precio() {
-               return this.precio;
-           }
-           set Cantidad(cantidad) {
-               this.cantidad = cantidad;
-           }
-           get Cantidad() {
-               return this.cantidad;
-           }
-
-           llenarConArreglo(...x) {
-               this.Id = x[0][0];
-               this.Codigo = x[0][1];
-               this.Descripcion = x[0][2];
-               this.Precio = x[0][3];
-               this.Cantidad = x[0][4];
-           }
-       }
 
 
        document.getElementById("save").addEventListener("click", save);
@@ -210,29 +187,7 @@
        })
        
 
-       function save() {
-           let obj = {
-               idProveedor: $("#idProveedor").val(),
-               nombre: $("#nombre").val(),
-               telefono: $("#telefono").val(),
-               direccion: $("#direccion").val(),
-               repuesto: repuestos
-           }
-
-           fetch("/Repuesto/Crear", {
-               method: 'POST',
-               headers: {
-                   'Content-Type': 'application/json'
-               },
-               body: JSON.stringify(obj)
-           }).then(response => response.json())
-               .then(data => {
-                   if (data != "1") {
-                       location.href = "/Repuesto/";
-                   }
-               })
-               .catch(error => alert(error))
-       }
-    </script>
+      
+    </script>*@
 }
  

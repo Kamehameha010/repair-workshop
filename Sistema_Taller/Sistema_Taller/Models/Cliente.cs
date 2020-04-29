@@ -22,11 +22,11 @@ public partial class Cliente
     public Cliente()
     {
 
-        this.Caso = new HashSet<Caso>();
-
         this.Empresa = new HashSet<Empresa>();
 
         this.Factura = new HashSet<Factura>();
+
+        this.Caso = new HashSet<Caso>();
 
     }
 
@@ -47,15 +47,15 @@ public partial class Cliente
 
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
 
-    public virtual ICollection<Caso> Caso { get; set; }
-
-    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-
     public virtual ICollection<Empresa> Empresa { get; set; }
 
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
 
     public virtual ICollection<Factura> Factura { get; set; }
+
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+
+    public virtual ICollection<Caso> Caso { get; set; }
 
 }
 

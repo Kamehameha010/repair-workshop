@@ -12,9 +12,8 @@ document.forms[0].addEventListener("submit", (e) => {
         },
         body: JSON.stringify(Object.fromEntries(new FormData(document.forms[0])))
     }, data => {
-        console.log(data)
-        if (data == "1") {
-            limpiar(document.forms[0]);
+            if (data == "1") {
+                document.forms[0].reset;
         }
     })
 });

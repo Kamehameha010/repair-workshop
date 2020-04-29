@@ -41,11 +41,11 @@ public partial class InventarioRepuesto
 
 
 
-    public virtual ProveedorRepuesto ProveedorRepuesto { get; set; }
-
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
 
     public virtual ICollection<RepuestoUsado> RepuestoUsado { get; set; }
+
+    public virtual ProveedorRepuesto ProveedorRepuesto { get; set; }
 
 }
 

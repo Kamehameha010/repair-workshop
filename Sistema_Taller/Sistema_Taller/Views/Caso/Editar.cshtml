@@ -1,6 +1,6 @@
 ﻿@model Sistema_Taller.Models.ViewModels.CasoViewModel
 @{
-   
+
 }
 
 <!DOCTYPE html>
@@ -11,13 +11,12 @@
     <title>Editar</title>
 </head>
 <body>
+    
     <div class="dl-horizontal">
+
         @using (Html.BeginForm())
         {
-            <div class="form-group>
-                @Html.HiddenFor(model => model.IdCaso)
-
-            </div>
+            @Html.HiddenFor(m=>m.IdCaso)
             <div class="form-group">
                 @Html.LabelFor(model => model.FechaIngreso, htmlAttributes: new { @class = "control-label col-md-2" })
                 <div class="col-md-10">
@@ -31,7 +30,7 @@
                     @Html.EditorFor(model => model.NumeroCaso, new { htmlAttributes = new { @class = "form-control", @readonly = "true" } })
                     @Html.ValidationMessageFor(model => model.NumeroCaso, "", new { @class = "text-danger" })
                 </div>
-            </div>
+            </div> 
 
             <div class="form-group">
                 @Html.LabelFor(model => model.IdUsuario, htmlAttributes: new { @class = "control-label col-md-2" })
@@ -44,32 +43,31 @@
             <div class="form-group">
                 @Html.LabelFor(model => model.IdCliente, htmlAttributes: new { @class = "control-label col-md-2" })
                 <div class="col-md-10">
-                    @Html.EditorFor(model => model.IdCliente, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.HiddenFor(model => model.IdCliente)
+                    @Html.Editor("Cliente", new { htmlAttributes = new { @class = "form-control", @readonly = "true" } })
+                    @Html.ValidationMessageFor(model => model.IdCliente, "", new { @class = "text-danger", @readonly = "true" })
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.IdEstadoCaso, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+
+                    @Html.DropDownList("IdEstadoCaso", ViewBag.estados as IEnumerable<SelectListItem>, new { @class = "form-control"  })
                     @Html.ValidationMessageFor(model => model.IdCliente, "", new { @class = "text-danger" })
                 </div>
-
             </div>
-            <div class="table-responsive">
-                <table class="table table-bordered table-hover table-dark" id="tablaCaso">
-                    <thead >
-                        <tr>
-                            <th>Articulo</th>
-                            <th>Modelo</th>
-                            <th>Serie</th>
-                            <th>Observacion</th>
-                            <th>Diagnostico</th>
-                            <th></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                    </tbody>
-                </table>
+            <div class="form-group">
+                @Html.LabelFor(model => model.FechaDespacho, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
 
+                    @Html.EditorFor(m=>m.FechaDespacho, new { htmlAttributes= new {@class="form-control" }})
+                    @Html.ValidationMessageFor(model => model.IdCliente, "", new { @class = "text-danger" })
+                </div>
             </div>
 
             <div class="form-group">
                 <div class="col-md-offset-0 col-md-10">
-                    <input type="button" value="Create" class="btn btn-default" id="create" />
+                    <input type="submit" value="Create" class="btn btn-default" id="create" />
                 </div>
             </div>
             <div>
@@ -77,6 +75,25 @@
             </div>
 
         }
+    </div>
+        <div class="table-responsive">
+            <table class="table table-bordered table-hover" id="tablaCaso">
+                <thead>
+                    <tr>
+                        <th>Articulo</th>
+                        <th>Modelo</th>
+                        <th>Serie</th>
+                        <th>Observacion</th>
+                        <th>Diagnostico</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+
+        </div>
+
 
         <div class="modal fade" id="ArticuloModal" role="dialog">
             <div class="modal-dialog">
@@ -87,8 +104,10 @@
                     </div>
                     <div class="modal-body" style="padding: 40px 50px">
                         <form id="form2" role="form">
+                            <input id="IdCasoDetalle" name="IdCasoDetalle" type="hidden" />
+                            <input id="IdCaso" name="IdCaso" type="hidden" />
                             <div class="form-group">
-                                <input type="hidden" id="idArticulo" />
+                                <input type="hidden" id="IdArticulo" name="IdArticulo" />
                                 <label for="Articulo"> Articulo:</label>
                                 <input type="text" id="Articulo" name="Articulo" class="form-control" />
                             </div>
@@ -113,7 +132,6 @@
                                 <input type="text" id="Serie" name="Serie" class="form-control" />
                             </div>
                             <div class="form-group">
-                                <input id="idCasoDetalle" type="hidden"/>
                                 <label for="Observacion"> Observacion</label>
                                 <textarea id="Observacion" name="Observacion" class="form-control"></textarea>
                             </div>
@@ -121,13 +139,9 @@
                                 <label for="Diagnostico"> Diagnostico</label>
                                 <textarea id="Diagnostico" name="Diagnostico" class="form-control"></textarea>
                             </div>
-                            <div class="form-group">
-                                <label for="Estado"> Estado</label>
-                                @Html.DropDownList("Estado", ViewBag.estados as IEnumerable<SelectListItem>, new { @class = "control-form" })
-                            </div>
                             <div class="modal-footer">
-                                <input type="button" data-dismiss="modal" value="Guardar" id="save" />
-                                
+                                <input type="submit" value="Guardar" id="save" />
+
                             </div>
                         </form>
 
@@ -135,157 +149,168 @@
                 </div>
             </div>
         </div>
-    </div>
 
-    </body>
+    
+</body>
 </html>
 
 @section Scripts{
-    <script>
-        var datos = [];
-        var obj;
-        $("#create").click(function () {
+    <script src="~/Scripts/js/Casojs/edit.js" type="module"></script>
+    @*<script>
+            var datos = [];
+            var obj;
+            $("#create").click(function () {
 
-            update();
-        })
-        var datas;
-
-        obtenerDatos();
-
-        function CasoDetalle(id, detalle, diagnostico, idestado, idArticulo) {            this.IdCasoDetalle = id || 0;            this.Detalle = detalle;            this.Diagnostico = diagnostico ||"";            this.IdEstadoCaso = idestado;            this.IdArticulo = idArticulo;        }
-        function obtenerDatos() {
-
-            let id = parseInt(/\d+$/.exec(location.href));
-            console.log(id);
-
-            fetch("/Caso/BuscarCaso/?id="+id)
-                .then(response => response.json())
-                .then(data => {
-                    $("#IdCaso").val(data.IdCaso);
-                    $("#FechaIngreso").val(dateFormat(data.FechaIngreso));
-                    $("#NumeroCaso").val(data.NumeroCaso);
-                    $("#IdUsuario").val(parseInt(data.IdUsuario));
-                    $("#IdCliente").val(data.IdCliente);   
-                    datas = data;
-                    let tbody = document.querySelector("#tablaCaso tbody");
-                    let detalles = data.Detalles;
-                    
-                    for (let i = 0; i < data.Detalles.length; i++) {
-                        datos.push(new CasoDetalle(detalles[i].IdCasoDetalle, detalles[i].Detalle,
-                            detalles[i].Diagnostico, detalles[i].IdEstadoCaso, detalles[i].Articulo.IdArticulo));
-                        let tr = document.createElement("tr");
-                         obj = nObj(data.Detalles[i]["Articulo"], data.Detalles[i]);
-                        for (let j in obj) {
-                            let td = document.createElement("td");
-
-                            if (j == "Nombre" || j == "Modelo" || j == "Serie" || j == "Detalle" || j == "Diagnostico") {
-                                td.textContent = obj[j];
-                            } else {
-                                td.hidden = true;
-                                td.textContent = obj[j];
-                            }
-                            tr.appendChild(td);
-                        }
-                        tr.innerHTML += "<td><button type='button' class='edit alert-success'><span class='fa fa-edit'></span></button></td>"
-                        tbody.appendChild(tr);
-                    }
-                    eventos();
-                    
-                })
-                .catch(error => alert(error));
-        }
-
-        function dateFormat(data) {
-
-            let format = new Date(parseFloat(/\d+/.exec(data)));
-            return format.getFullYear() + "-" + (format.getMonth() < 9 ? `0${format.getMonth() + 1}` : format.getMonth() + 1) + "-" +
-                (format.getDate() < 10 ? `0${format.getDate()}` : format.getDate());
-        }
-
-        function nObj({ IdArticulo, Nombre, Codigo, Modelo, IdMarca, IdCategoria, Serie },
-            { IdCasoDetalle, Detalle, Diagnostico, IdEstadoCaso }) {
-            return ({
-                IdArticulo: IdArticulo,
-                Nombre: Nombre,
-                Codigo: Codigo,
-                Modelo: Modelo,
-                IdMarca: IdMarca,
-                IdCategoria: IdCategoria,
-                Serie: Serie,
-                IdCasoDetalle: IdCasoDetalle,
-                Detalle: Detalle,
-                Diagnostico: Diagnostico,
-                IdEstadoCaso: IdEstadoCaso
-
-            });
-
-        }
-
-        function update() {
-            fetch("/Caso/Editar", {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                    IdCaso: $("#IdCaso").val(),
-                    Detalles: datos
-                })
+                update();
             })
-                .then(response => response.text())
-                .then(data => {
-                    if (data == "1") {
-                        location.href = "/Caso/";
-                    }
+            var datas;
+
+            obtenerDatos();
+
+            function CasoDetalle(id, detalle, diagnostico, idestado, idArticulo) {
+                this.IdCasoDetalle = id || 0;
+                this.Detalle = detalle;
+                this.Diagnostico = diagnostico ||"";
+                this.IdEstadoCaso = idestado;
+                this.IdArticulo = idArticulo;
+
+
+            }
+            function obtenerDatos() {
+
+                let id = parseInt(/\d+$/.exec(location.href));
+                console.log(id);
+
+                fetch("/Caso/BuscarCaso/?id="+id)
+                    .then(response => response.json())
+                    .then(data => {
+                        $("#IdCaso").val(data.IdCaso);
+                        $("#FechaIngreso").val(dateFormat(data.FechaIngreso));
+                        $("#NumeroCaso").val(data.NumeroCaso);
+                        $("#IdUsuario").val(parseInt(data.IdUsuario));
+                        $("#IdCliente").val(data.IdCliente);
+                        datas = data;
+                        let tbody = document.querySelector("#tablaCaso tbody");
+                        let detalles = data.Detalles;
+
+                        for (let i = 0; i < data.Detalles.length; i++) {
+                            datos.push(new CasoDetalle(detalles[i].IdCasoDetalle, detalles[i].Detalle,
+                                detalles[i].Diagnostico, detalles[i].IdEstadoCaso, detalles[i].Articulo.IdArticulo));
+                            let tr = document.createElement("tr");
+                             obj = nObj(data.Detalles[i]["Articulo"], data.Detalles[i]);
+                            for (let j in obj) {
+                                let td = document.createElement("td");
+
+                                if (j == "Nombre" || j == "Modelo" || j == "Serie" || j == "Detalle" || j == "Diagnostico") {
+                                    td.textContent = obj[j];
+                                } else {
+                                    td.hidden = true;
+                                    td.textContent = obj[j];
+                                }
+                                tr.appendChild(td);
+                            }
+                            tr.innerHTML += "<td><button type='button' class='edit alert-success'><span class='fa fa-edit'></span></button></td>"
+                            tbody.appendChild(tr);
+                        }
+                        eventos();
+
+                    })
+                    .catch(error => alert(error));
+            }
+
+            function dateFormat(data) {
+
+                let format = new Date(parseFloat(/\d+/.exec(data)));
+                return format.getFullYear() + "-" + (format.getMonth() < 9 ? `0${format.getMonth() + 1}` : format.getMonth() + 1) + "-" +
+                    (format.getDate() < 10 ? `0${format.getDate()}` : format.getDate());
+            }
+
+            function nObj({ IdArticulo, Nombre, Codigo, Modelo, IdMarca, IdCategoria, Serie },
+                { IdCasoDetalle, Detalle, Diagnostico, IdEstadoCaso }) {
+                return ({
+                    IdArticulo: IdArticulo,
+                    Nombre: Nombre,
+                    Codigo: Codigo,
+                    Modelo: Modelo,
+                    IdMarca: IdMarca,
+                    IdCategoria: IdCategoria,
+                    Serie: Serie,
+                    IdCasoDetalle: IdCasoDetalle,
+                    Detalle: Detalle,
+                    Diagnostico: Diagnostico,
+                    IdEstadoCaso: IdEstadoCaso
+
+                });
+
+            }
+
+            function update() {
+                fetch("/Caso/Editar", {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        IdCaso: $("#IdCaso").val(),
+                        Detalles: datos
+                    })
                 })
-                .catch(error => console.error(error));
-        }
-
-        function eventos() {
-            let btnEdit = document.getElementsByClassName("edit");            
-            for (let i = 0; i < btnEdit.length; i++) {
-                btnEdit[i].addEventListener("click", SelectRowEdit);
-                console.log(9);
-            }
-        }
-        function SelectRowEdit(e) {
-
-            let data = e.target.parentElement.parentElement.parentElement.getElementsByTagName("td");
-
-            let row = this.parentElement.parentElement;
-            console.log(row[0]);
-            console.log(data)
-            $("#ArticuloModal").modal();
-            $("#idArticulo").val(data[0].innerText);
-            $("#Articulo").val(data[1].innerText);
-            $("#Codigo").val(data[2].innerText);
-            $("#Modelo").val(data[3].innerText);
-            $("#Marca").val(data[4].innerText);
-            $("#Categoria").val(data[5].innerText);
-            $("#Serie").val(data[6].innerText);
-            $("#idCasoDetalle").val(data[7].innerText);
-            $("#Observacion").val(data[8].innerText);
-            $("#Diagnostico").val(data[9].innerText);
-            $("#Estado").val(data[10].innerText);
-
-
-            $("#save").click(function () {
-                editRow(event, row);
-            });
-        }
-
-        function editRow(evt, row) {
-            
-            let detail = datos.find(x => x.IdCasoDetalle == $("#idCasoDetalle").val());
-            detail.Detalle = $("#Observacion").val();            detail.Diagnostico = $("#Diagnostico").val();            detail.IdEstadoCaso = $("#Estado").val();
-            detail.IdArticulo = $("#idArticulo").val();
-            console.log(detail);
-            let elements = [$("#Observacion").val(), $("#Diagnostico").val(), $("#Estado").val()];
-            for (let i = 0; i < elements.length; i++) {
-                row.cells[i+8].innerHTML = elements[i];
+                    .then(response => response.text())
+                    .then(data => {
+                        if (data == "1") {
+                            location.href = "/Caso/";
+                        }
+                    })
+                    .catch(error => console.error(error));
             }
 
-        }
-    </script>    
-    
+            function eventos() {
+                let btnEdit = document.getElementsByClassName("edit");
+                for (let i = 0; i < btnEdit.length; i++) {
+                    btnEdit[i].addEventListener("click", SelectRowEdit);
+                    console.log(9);
+                }
+            }
+            function SelectRowEdit(e) {
+
+                let data = e.target.parentElement.parentElement.parentElement.getElementsByTagName("td");
+
+                let row = this.parentElement.parentElement;
+                console.log(row[0]);
+                console.log(data)
+                $("#ArticuloModal").modal();
+                $("#idArticulo").val(data[0].innerText);
+                $("#Articulo").val(data[1].innerText);
+                $("#Codigo").val(data[2].innerText);
+                $("#Modelo").val(data[3].innerText);
+                $("#Marca").val(data[4].innerText);
+                $("#Categoria").val(data[5].innerText);
+                $("#Serie").val(data[6].innerText);
+                $("#idCasoDetalle").val(data[7].innerText);
+                $("#Observacion").val(data[8].innerText);
+                $("#Diagnostico").val(data[9].innerText);
+                $("#Estado").val(data[10].innerText);
+
+
+                $("#save").click(function () {
+                    editRow(event, row);
+                });
+            }
+
+            function editRow(evt, row) {
+
+                let detail = datos.find(x => x.IdCasoDetalle == $("#idCasoDetalle").val());
+                detail.Detalle = $("#Observacion").val();
+                detail.Diagnostico = $("#Diagnostico").val();
+                detail.IdEstadoCaso = $("#Estado").val();
+                detail.IdArticulo = $("#idArticulo").val();
+                console.log(detail);
+                let elements = [$("#Observacion").val(), $("#Diagnostico").val(), $("#Estado").val()];
+                for (let i = 0; i < elements.length; i++) {
+                    row.cells[i+8].innerHTML = elements[i];
+                }
+
+            }
+        </script>
+    *@
 }

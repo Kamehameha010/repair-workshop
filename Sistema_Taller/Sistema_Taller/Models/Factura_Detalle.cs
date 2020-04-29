@@ -32,9 +32,9 @@ public partial class Factura_Detalle
 
 
 
-    public virtual CasoDetalle CasoDetalle { get; set; }
-
     public virtual Factura Factura { get; set; }
+
+    public virtual CasoDetalle CasoDetalle { get; set; }
 
 }
 

@@ -1,17 +1,16 @@
-﻿using Sistema_Taller.Models;
+﻿using Microsoft.Ajax.Utilities;
+using Sistema_Taller.Models;
+using Sistema_Taller.Models.Request;
+using Sistema_Taller.Models.Response;
 using Sistema_Taller.Models.ViewModels;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.Mvc;
 using System.Data;
 using System.Data.SqlClient;
-using System.Threading.Tasks;
-using System.Linq.Expressions;
+using System.Linq;
 using System.Linq.Dynamic;
 using System.Net;
-using Sistema_Taller.Models.Request;
+using System.Web.Mvc;
 
 namespace Sistema_Taller.Controllers
 {
@@ -52,7 +51,7 @@ namespace Sistema_Taller.Controllers
 
                 if (searchValue.Length > 0)
                 {
-                    query = query.Where(x => x.numero_caso.ToString().Contains(searchValue) || x.Articulo.Contains(searchValue) || x.Cliente.Contains(searchValue));
+                    query = query.Where(x => x.Numerocaso.ToString().Contains(searchValue) || x.Usuario.Contains(searchValue) || x.Cliente.Contains(searchValue));
                 }
                 if (!(string.IsNullOrEmpty(sortColumn) && string.IsNullOrEmpty(sortColumnDir)))
                 {
@@ -85,55 +84,66 @@ namespace Sistema_Taller.Controllers
         {
             try
             {
-                using (Taller_SysEntities db = new Taller_SysEntities())
+                using(Taller_SysEntities db = new Taller_SysEntities())
                 {
-                    var dt = new DataTable();
-                    dt.Columns.Add("id", typeof(int));
-                    dt.Columns.Add("idCaso", typeof(int));
-                    dt.Columns.Add("idArticulo", typeof(int));
-                    dt.Columns.Add("detalle", typeof(string));
-                    dt.Columns.Add("diagnostico", typeof(string));
-                    dt.Columns.Add("fechaSalida");
-                    dt.Columns.Add("idEstado", typeof(int));
-
-                    var dtArt = new DataTable();
-                    dtArt.Columns.Add("idArticulo", typeof(int));
-                    dtArt.Columns.Add("nombre", typeof(string));
-                    dtArt.Columns.Add("codigo", typeof(string));
-                    dtArt.Columns.Add("modelo", typeof(string));
-                    dtArt.Columns.Add("idMarca", typeof(int));
-                    dtArt.Columns.Add("idCategoria", typeof(int));
-                    dtArt.Columns.Add("serie", typeof(string));
-
-                    int i = 0;
-
-                    foreach (var oDetalle in model.Detalles)
-                    {
-                        dt.Rows.Add(i, i, i, oDetalle.Detalle, null, null, oDetalle.IdEstadoCaso);
-                        dtArt.Rows.Add(i, oDetalle.Articulo.Nombre, oDetalle.Articulo.Codigo, oDetalle.Articulo.Modelo,
-                            oDetalle.Articulo.IdMarca, oDetalle.Articulo.IdCategoria, oDetalle.Articulo.Serie);
-                        i++;
-                    }
-
-                    var paramsDet = new SqlParameter("@Detalles", SqlDbType.Structured)
-                    {
-                        Value = dt,
-                        TypeName = "dbo.typ_casodet"
-                    };
-                    var paramsArt = new SqlParameter("@articulo", SqlDbType.Structured)
-                    {
-                        Value = dtArt,
-                        TypeName = "dbo.typ_articulo"
-                    };
-
-                    db.Database.ExecuteSqlCommand("exec Sp_AddCaso @numeroCaso, @idUsuario,@idCliente, @Detalles, @articulo"
-                                  , new SqlParameter("@numeroCaso", model.NumeroCaso),
-                                  new SqlParameter("@idUsuario", model.IdUsuario),
-                                  new SqlParameter("@idCliente", model.IdCliente),
-                                  paramsDet, paramsArt);
-
+                    ViewBag.estados = new SelectList(db.EstadoCaso.ToList(), "idEstadoCaso", "descripcion");
+                    ViewBag.marcas = new SelectList(db.Marca.ToList(), "idMarca", "nombre");
+                    ViewBag.categoria = new SelectList(db.Categoria.ToList(), "idCategoria", "nombre");
                 }
-                return Json("1");
+
+                if (ModelState.IsValid)
+                {
+                    using (Taller_SysEntities db = new Taller_SysEntities())
+                    {
+                        var dt = new DataTable();
+                        dt.Columns.Add("id", typeof(int));
+                        dt.Columns.Add("idCaso", typeof(int));
+                        dt.Columns.Add("idArticulo", typeof(int));
+                        dt.Columns.Add("detalle", typeof(string));
+                        dt.Columns.Add("diagnostico", typeof(string));
+
+
+                        var dtArt = new DataTable();
+                        dtArt.Columns.Add("idArticulo", typeof(int));
+                        dtArt.Columns.Add("nombre", typeof(string));
+                        dtArt.Columns.Add("codigo", typeof(string));
+                        dtArt.Columns.Add("modelo", typeof(string));
+                        dtArt.Columns.Add("idMarca", typeof(int));
+                        dtArt.Columns.Add("idCategoria", typeof(int));
+                        dtArt.Columns.Add("serie", typeof(string));
+
+                        int i = 0;
+
+                        foreach (var oDetalle in model.CasoDetalle)
+                        {
+                            dt.Rows.Add(i, i, i, oDetalle.Detalle, null);
+                            dtArt.Rows.Add(i, oDetalle.Articulo.Nombre, oDetalle.Articulo.Codigo, oDetalle.Articulo.Modelo,
+                                oDetalle.Articulo.IdMarca, oDetalle.Articulo.IdCategoria, oDetalle.Articulo.Serie);
+                            i++;
+                        }
+
+                        var paramsDet = new SqlParameter("@Detalles", SqlDbType.Structured)
+                        {
+                            Value = dt,
+                            TypeName = "dbo.typ_casodet"
+                        };
+                        var paramsArt = new SqlParameter("@articulo", SqlDbType.Structured)
+                        {
+                            Value = dtArt,
+                            TypeName = "dbo.typ_articulo"
+                        };
+
+                        db.Database.ExecuteSqlCommand("exec Sp_AddCaso @numeroCaso, @idUsuario,@idCliente,@idEstado,  @Detalles, @articulo"
+                                      , new SqlParameter("@numeroCaso", model.NumeroCaso),
+                                      new SqlParameter("@idUsuario", model.IdUsuario),
+                                      new SqlParameter("@idCliente", model.IdCliente),
+                                      new SqlParameter("@idEstado", model.IdEstadoCaso),
+                                      paramsDet, paramsArt);
+
+                    }
+                    return Json("1");
+                }
+                return View(model);
             }catch(Exception e)
             {
                 return Content(e.Message);
@@ -168,6 +178,7 @@ namespace Sistema_Taller.Controllers
         {
             try
             {
+
                 using (Taller_SysEntities db = new Taller_SysEntities())
                 {
                     
@@ -177,16 +188,12 @@ namespace Sistema_Taller.Controllers
                     dt.Columns.Add("idArticulo", typeof(int));
                     dt.Columns.Add("detalle", typeof(string));
                     dt.Columns.Add("diagnostico", typeof(string));
-                    dt.Columns.Add("fechaSalida");
-                    dt.Columns.Add("idEstado", typeof(int));
-
-                    int i = 0;
-
-                    foreach (var oElement in model.Detalles)
+                    
+                    foreach (var oElement in model.CasoDetalle)
                     {
                         dt.Rows.Add(oElement.IdCasoDetalle,model.IdCaso,oElement.IdArticulo, oElement.Detalle,
-                            oElement.Diagnostico, null, oElement.IdEstadoCaso);
-                        
+                            oElement.Diagnostico);
+                       
                     }
 
                     var paramsDet = new SqlParameter("@Detalles", SqlDbType.Structured)
@@ -195,8 +202,11 @@ namespace Sistema_Taller.Controllers
                         TypeName = "dbo.typ_casodet"
                     };
 
-                    db.Database.ExecuteSqlCommand("exec Sp_ActCaso @Detalles", paramsDet);
-
+                    db.Database.ExecuteSqlCommand("exec Sp_ActCaso @IdCaso, @IdEstadoCaso, @Detalles",
+                        new SqlParameter("@IdCaso", model.IdCaso),
+                        new SqlParameter("@IdEstadoCaso", model.IdEstadoCaso),
+                        paramsDet);
+                    
                 }
                 return Json("1");
             }
@@ -211,49 +221,45 @@ namespace Sistema_Taller.Controllers
         [HttpGet]
         public ActionResult BuscarCaso(int? id)
         {
-            CasoViewModel caso = new CasoViewModel();
+            if (id == null)
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             using (Taller_SysEntities db = new Taller_SysEntities())
             {
+                if (db.fnCaso(id).ToList().Count == 0)
+                    return HttpNotFound();
 
-                if (id == null)
-                {
-                    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-                }
+                var oCaso = db.fnCaso(id)
+                    .Select(x => new CasoResponse
+                    {
+                        IdCaso = x.idCaso,
+                        FechaIngreso = x.fecha_ingreso,
+                        NumeroCaso = x.numero_caso,
+                        IdUsuario = x.idUsuario,
+                        Username = x.username,
+                        IdCliente = x.idCliente,
+                        Cliente = x.nombre,
+                        IdEstadoCaso = x.idEstadoCaso,
+                        FechaDespacho = x.fecha_despacho
+                    }).FirstOrDefault();
 
-                var oCasoDetalle = db.CasoDetalle.Where(i => i.idCaso == id).ToList();
-                var oCaso = db.Caso.Find(id);
+                oCaso.CasoDetalle = db.fnCasoDetalle(id)
+                    .Select(x => new CasoDetalleResponse
+                    {
+                        IdCasoDetalle = x.idCasoDetalle,
+                        IdCaso = oCaso.IdCaso,
+                        IdArticulo = x.idArticulo,
+                        Articulo = x.nombre,
+                        Codigo = x.codigo,
+                        Marca = x.idMarca,
+                        Categoria = x.idCategoria,
+                        Modelo = x.modelo,
+                        Serie = x.serie,
+                        Observacion = x.detalle,
+                        Diagnostico = x.diagnostico
+                    }).ToList();
 
-                caso.IdCaso = oCaso.idCaso;
-                caso.NumeroCaso = oCaso.numero_caso;
-                caso.FechaIngreso = oCaso.fecha_ingreso;
-                caso.IdUsuario = oCaso.idUsuario;
-                caso.IdCliente = oCaso.idCliente;
-                caso.Detalles = new List<CasoDetalleViewModel>();
-
-                foreach (var i in oCasoDetalle)
-                {
-                    CasoDetalleViewModel cd = new CasoDetalleViewModel();
-                    cd.IdCasoDetalle = i.idCasoDetalle;
-                    cd.Detalle = i.detalle;
-                    cd.Diagnostico = i.diagnostico;
-                    cd.FechaDespacho = i.fecha_despacho;
-                    cd.IdEstadoCaso = i.idEstadoCaso;
-                    cd.Articulo = new ArticuloViewModel();
-                    var oArticulo = db.Articulo.Where(a => a.idArticulo == i.idArticulo).SingleOrDefault();
-                    cd.Articulo.Nombre = oArticulo.nombre;
-                    cd.Articulo.Codigo = oArticulo.codigo;
-                    cd.Articulo.Modelo = oArticulo.modelo;
-                    cd.Articulo.IdMarca = oArticulo.idMarca;
-                    cd.Articulo.IdCategoria = oArticulo.idCategoria;
-                    cd.Articulo.Serie = oArticulo.serie;
-                    cd.Articulo.IdArticulo = oArticulo.idArticulo;
-                    caso.Detalles.Add(cd);
-
-                }
-
+                return Json(oCaso, JsonRequestBehavior.AllowGet);
             }
-
-            return Json(caso, JsonRequestBehavior.AllowGet);
         }
 
 
@@ -277,6 +283,27 @@ namespace Sistema_Taller.Controllers
                     db.Database.SqlQuery<Int64>("SELECT current_value FROM sys.sequences WHERE name = 'CasoNumber'").SingleOrDefault();
             }
             return Content(numCaso.ToString());
+        }
+        [HttpPost]
+        public JsonResult Cerrar(int id)
+        {
+            try
+            {
+                using (Taller_SysEntities db = new Taller_SysEntities())
+                {
+
+                    var oCaso = db.Caso.Find(id);
+                    oCaso.idEstadoCaso = 3;
+                    db.Entry(oCaso).State = System.Data.Entity.EntityState.Modified;
+                    db.SaveChanges();
+                    return Json("1");
+
+                }
+            }
+            catch (Exception)
+            {
+                return Json("0");
+            }
         }
     }
 }
